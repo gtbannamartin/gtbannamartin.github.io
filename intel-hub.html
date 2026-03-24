@@ -42,7 +42,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content
 
 /* ── TICKER ── */
 .ai-ticker-wrap{width:100%;background:#050c1a;border-bottom:1px solid rgba(232,160,32,0.18);overflow:hidden;position:fixed;top:60px;left:0;right:0;z-index:900;box-shadow:0 2px 12px rgba(0,0,0,0.4);}
-.ai-ticker-spacer{height:70px;display:block;}
+.ai-ticker-spacer{height:100px;display:block;}
 .ai-ticker-inner{display:flex;align-items:stretch;}
 .ai-ticker-label{flex-shrink:0;background:var(--gold);color:#050c1a;font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0 1.1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;}
 .ai-ticker-label::before{content:'';width:6px;height:6px;background:#050c1a;border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;}
@@ -772,7 +772,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
             <li>Priority access to new grants</li>
           </ul>
           <div style="font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.1em;color:rgba(155,114,207,0.5);text-transform:uppercase;margin-top:0.5rem;line-height:1.6;">Everything in Subscriber · plus strategy access</div>
-          <a href="mailto:info@djmpinstitute.org" class="price-cta" style="background:var(--purple);color:#fff;display:block;width:100%;margin-top:1.5rem;padding:0.75rem 1rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:all 0.2s;">Go Pro →</a>
+          <a href="/cdn-cgi/l/email-protection#89e0e7efe6c9ede3e4f9e0e7fafde0fdfcfdeca7e6fbee" class="price-cta" style="background:var(--purple);color:#fff;display:block;width:100%;margin-top:1.5rem;padding:0.75rem 1rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:all 0.2s;">Go Pro →</a>
         </div>
 
         <div class="price-card partner">
@@ -1397,7 +1397,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var VALID_CODE = 'DJMPGRANT2026';
 
 // ── SEARCH ──
@@ -1568,12 +1568,23 @@ function selectPillar(pillar) {
 function handleProfileUpload(input, labelId) {
   var label = document.getElementById(labelId);
   if (input.files && input.files[0]) {
-    if (label) { label.textContent = '✓ ' + input.files[0].name; label.style.display = 'inline'; }
+    if (label) { label.textContent = input.files[0].name; }
   }
 }
 
-// ── SWITCH PATH ──
-function switchPath(path) {
+// ── REVEAL ON SCROLL ──
+function observeReveals() {
+  var els = document.querySelectorAll('.reveal');
+  if (!window.IntersectionObserver) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); } });
+  }, {threshold:0.12});
+  els.forEach(function(el){ obs.observe(el); });
+}
+observeReveals();
 </script>
 </body>
 </html>
