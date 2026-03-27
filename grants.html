@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grant Intelligence — DJMP Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--black:#080d1a;--off:#ffffff;--gold:#e8a020;--gold2:#f0b840;--teal:#2a6b8a;--teal2:#4a9fd4;--rust:#e05c2e;--gray:#0d1525;--gray2:#132030;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--off);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3.5rem;background:rgba(8,13,26,0.97);border-bottom:1px solid rgba(200,168,75,0.12);backdrop-filter:blur(8px);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.55);transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold);}
+.nav-links a.active-page{color:var(--gold);}
+
+/* SEARCH */
+.srch-wrap{position:relative;margin-left:1.2rem;}
+.srch-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.6);padding:0.3rem;display:flex;align-items:center;transition:color 0.2s;}
+.srch-btn:hover{color:#e8a020;}
+.srch-box{position:absolute;right:0;top:calc(100% + 0.8rem);width:280px;background:#0d1525;border:1px solid rgba(232,160,32,0.22);display:none;z-index:9999;}
+.srch-box.open{display:flex;}
+.srch-box input{flex:1;background:none;border:none;padding:0.65rem 0.9rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;}
+.srch-box input::placeholder{color:rgba(255,255,255,0.28);}
+.srch-box button{background:#e8a020;border:none;padding:0.65rem 0.9rem;cursor:pointer;color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.7rem;white-space:nowrap;}
+.srch-box button:hover{background:#f0b840;}
+
+/* HAMBURGER */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;z-index:1001;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--gold);border-radius:2px;transition:all 0.3s;}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(8,13,26,0.98);z-index:1000;flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:rgba(244,241,234,0.75);letter-spacing:0.08em;text-transform:uppercase;}
+.mobile-menu a:hover{color:var(--gold);}
+.mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.8rem;color:var(--gold);cursor:pointer;background:none;border:none;}
+
+/* TICKER */
+.ai-ticker-wrap{width:100%;background:#050c1a;border-bottom:1px solid rgba(232,160,32,0.18);overflow:hidden;position:fixed;top:60px;left:0;right:0;z-index:900;padding:0;box-shadow:0 2px 12px rgba(0,0,0,0.4);}
+.ai-ticker-spacer{height:34px;display:block;}
+.ai-ticker-inner{display:flex;align-items:stretch;}
+.ai-ticker-label{flex-shrink:0;background:var(--gold);color:#050c1a;font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0 1.1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;z-index:2;}
+.ai-ticker-label::before{content:'';width:6px;height:6px;background:#050c1a;border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+.ai-ticker-track{overflow:hidden;flex:1;position:relative;}
+.ai-ticker-track::before,.ai-ticker-track::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none;}
+.ai-ticker-track::before{left:0;background:linear-gradient(to right,#050c1a,transparent);}
+.ai-ticker-track::after{right:0;background:linear-gradient(to left,#050c1a,transparent);}
+.ai-ticker-scroll{display:flex;align-items:center;animation:ticker-move 55s linear infinite;white-space:nowrap;padding:0.45rem 0;}
+.ai-ticker-scroll:hover{animation-play-state:paused;}
+.ai-ticker-item{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:0.59rem;letter-spacing:0.06em;color:rgba(244,241,234,0.72);padding:0 2rem;border-right:1px solid rgba(232,160,32,0.12);}
+.ai-ticker-item a{color:inherit;text-decoration:none;}
+.ai-ticker-item a:hover{color:var(--gold);}
+.ai-ticker-cat{font-size:0.52rem;letter-spacing:0.14em;margin-right:0.6rem;padding:0.1rem 0.45rem;border:1px solid;border-radius:1px;font-weight:700;text-transform:uppercase;}
+.cat-gold{color:var(--gold);border-color:rgba(232,160,32,0.35);}
+.cat-teal{color:#4a9fd4;border-color:rgba(74,159,212,0.35);}
+.cat-purple{color:#9b72cf;border-color:rgba(155,114,207,0.35);}
+.ai-ticker-sep{color:rgba(232,160,32,0.3);padding:0 1rem;font-size:0.6rem;}
+@keyframes ticker-move{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+
+/* PAGE HERO */
+.ph{padding:9rem 3.5rem 5rem;background:linear-gradient(135deg,#060a14,#080d1a,#0a0e08);position:relative;overflow:hidden;}
+.ph::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 70% 50%,rgba(232,160,32,0.07) 0%,transparent 70%);pointer-events:none;}
+.ph-tag{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.7rem;position:relative;z-index:1;}
+.ph h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,5.5vw,5rem);line-height:1;position:relative;z-index:1;}
+.ph h1 em{font-style:normal;color:var(--gold);}
+.ph p{font-size:1rem;line-height:1.85;color:rgba(244,241,234,0.6);max-width:620px;margin-top:1.2rem;position:relative;z-index:1;}
+.ph-meta{margin-top:1.5rem;font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;color:rgba(244,241,234,0.35);position:relative;z-index:1;}
+
+/* MAIN CONTENT */
+.gc{max-width:1100px;margin:0 auto;padding:5rem 3.5rem;}
+
+/* SECTION LABELS */
+.sec-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:0.6rem;}
+
+/* FREE PREVIEW CARD */
+.free-card{background:linear-gradient(135deg,#0a1525,#0d1a05);border:1px solid rgba(232,160,32,0.25);border-top:3px solid var(--gold);padding:2.5rem;margin-bottom:3rem;position:relative;}
+.free-badge{display:inline-flex;align-items:center;gap:0.5rem;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(232,160,32,0.35);padding:0.25rem 0.7rem;margin-bottom:1.2rem;}
+.free-card h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.1rem,2vw,1.45rem);line-height:1.25;margin-bottom:1rem;}
+.free-card p{font-size:0.9rem;line-height:1.8;color:rgba(244,241,234,0.65);margin-bottom:1.2rem;}
+.eligibility-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin:1.2rem 0;}
+.eligibility-list li{font-size:0.88rem;color:rgba(244,241,234,0.7);display:flex;align-items:flex-start;gap:0.6rem;line-height:1.5;}
+.eligibility-list li::before{content:'✓';color:var(--gold);font-family:'Space Mono',monospace;font-size:0.75rem;flex-shrink:0;margin-top:0.15rem;}
+.tip-box{background:rgba(74,159,212,0.07);border-left:2px solid var(--teal2);padding:1rem 1.2rem;margin:1.4rem 0;font-size:0.88rem;line-height:1.75;color:rgba(244,241,234,0.7);}
+.tip-box strong{color:var(--teal2);}
+.grant-meta-row{display:flex;gap:2rem;flex-wrap:wrap;margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,0.06);}
+.grant-meta-item{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;}
+.grant-meta-item span{display:block;color:rgba(244,241,234,0.3);margin-bottom:0.3rem;}
+.grant-meta-item strong{color:rgba(244,241,234,0.85);font-size:0.7rem;}
+
+/* LOCKED SECTION */
+.lock-wall{background:linear-gradient(180deg,#060810 0%,#08100a 100%);border:1px solid rgba(232,160,32,0.15);padding:4rem 3rem;text-align:center;position:relative;overflow:hidden;margin-bottom:2px;}
+.lock-wall::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 40%,rgba(232,160,32,0.05) 0%,transparent 70%);pointer-events:none;}
+.lock-icon{font-size:2.8rem;opacity:0.55;margin-bottom:1.2rem;}
+.lock-eyebrow{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:0.8rem;}
+.lock-wall h2{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.6rem,3.5vw,2.4rem);line-height:1.1;margin-bottom:0.8rem;}
+.lock-wall h2 em{font-style:normal;color:var(--gold);}
+.lock-wall .sub{font-size:0.92rem;line-height:1.8;color:rgba(244,241,234,0.5);max-width:580px;margin:0 auto 2.5rem;}
+
+/* BLURRED PREVIEW LISTINGS */
+.blurred-listings{display:flex;flex-direction:column;gap:2px;margin:2rem 0;position:relative;}
+.blurred-listings::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 0%,rgba(6,8,16,0.75) 50%,rgba(6,8,16,0.97) 100%);pointer-events:none;z-index:2;}
+.blur-card{background:var(--gray);padding:1.5rem 2rem;filter:blur(3.5px);user-select:none;pointer-events:none;}
+.blur-card-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:rgba(244,241,234,0.9);margin-bottom:0.4rem;}
+.blur-card-meta{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:rgba(244,241,234,0.4);}
+
+/* PRICING GRID */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(232,160,32,0.08);max-width:860px;margin:0 auto 2.5rem;}
+.price-card{background:#06080f;padding:2rem 1.8rem;border-top:2px solid rgba(232,160,32,0.25);text-align:left;position:relative;}
+.price-card.featured{background:#090f00;border-top-color:var(--gold);}
+.price-card.partner{border-top-color:var(--teal2);}
+.price-tier-label{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:0.7rem;}
+.price-card .tier-report .price-tier-label{color:rgba(244,241,234,0.4);}
+.price-card.featured .price-tier-label{color:var(--gold);}
+.price-card.partner .price-tier-label{color:var(--teal2);}
+.popular-badge{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);background:var(--gold);color:#000;font-family:'Space Mono',monospace;font-size:0.48rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.65rem;white-space:nowrap;}
+.price-amount{font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;margin-bottom:0.2rem;}
+.price-card.featured .price-amount{color:var(--gold);}
+.price-cadence{font-family:'Space Mono',monospace;font-size:0.55rem;color:rgba(244,241,234,0.32);margin-bottom:1.2rem;}
+.price-features{list-style:none;font-size:0.82rem;line-height:2;color:rgba(244,241,234,0.55);}
+.price-features li::before{content:'✓ ';color:rgba(232,160,32,0.6);}
+.price-card.featured .price-features{color:rgba(244,241,234,0.72);}
+.price-cta{display:block;width:100%;margin-top:1.5rem;padding:0.75rem 1rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;}
+.price-cta-outline{background:transparent;border:1px solid rgba(232,160,32,0.3);color:rgba(244,241,234,0.6);}
+.price-cta-outline:hover{border-color:var(--gold);color:var(--gold);}
+.price-cta-gold{background:var(--gold);color:#000;}
+.price-cta-gold:hover{background:var(--gold2);}
+.price-cta-teal{background:transparent;border:1px solid rgba(74,159,212,0.35);color:var(--teal2);}
+.price-cta-teal:hover{background:rgba(74,159,212,0.1);}
+
+/* PASSCODE */
+.passcode-section{margin-top:2.5rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.05);}
+.passcode-label{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;color:rgba(244,241,234,0.3);text-transform:uppercase;margin-bottom:0.8rem;}
+.passcode-row{display:inline-flex;gap:0;max-width:380px;width:100%;}
+.passcode-row input{flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(232,160,32,0.2);border-right:none;padding:0.75rem 1rem;color:#fff;font-family:'Space Mono',monospace;font-size:0.82rem;outline:none;}
+.passcode-row input::placeholder{color:rgba(255,255,255,0.22);}
+.passcode-row button{background:var(--gold);border:none;padding:0.75rem 1.4rem;cursor:pointer;color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;white-space:nowrap;transition:background 0.2s;}
+.passcode-row button:hover{background:var(--gold2);}
+#code-msg{font-family:'Space Mono',monospace;font-size:0.6rem;margin-top:0.5rem;min-height:1rem;}
+
+/* VALUE PROP */
+.value-section{background:var(--gray);padding:4rem 3.5rem;border-top:1px solid rgba(232,160,32,0.08);}
+.value-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--gray2);max-width:1100px;margin:2rem auto 0;}
+.value-item{background:var(--black);padding:2.2rem;border-top:2px solid transparent;}
+.value-item.gold{border-top-color:var(--gold);}
+.value-item.teal{border-top-color:var(--teal2);}
+.value-item.purple{border-top-color:#9b72cf;}
+.value-item h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.6rem;}
+.value-item p{font-size:0.85rem;line-height:1.75;color:rgba(244,241,234,0.5);}
+
+/* HOW IT WORKS */
+.how-section{max-width:1100px;margin:0 auto;padding:5rem 3.5rem;}
+.how-steps{display:flex;flex-direction:column;gap:2px;margin-top:2rem;}
+.how-step{background:var(--gray);padding:1.8rem 2rem;display:flex;gap:1.5rem;align-items:flex-start;}
+.how-num{min-width:36px;height:36px;background:rgba(232,160,32,0.1);border:1px solid rgba(232,160,32,0.25);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--gold);flex-shrink:0;}
+.how-step h3{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.4rem;}
+.how-step p{font-size:0.87rem;line-height:1.7;color:rgba(244,241,234,0.55);}
+
+/* FOOTER */
+footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3rem 3.5rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;margin-top:5rem;}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.4rem;}
+.footer-copy{font-size:0.78rem;color:rgba(244,241,234,0.3);}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:flex-end;}
+.footer-links a{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.3);transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.2rem;}
+  .nav-links{display:none !important;}
+  .hamburger{display:flex;}
+  .ph{padding:7rem 1.5rem 3rem;}
+  .gc{padding:3rem 1.5rem;}
+  .pricing-grid{grid-template-columns:1fr;}
+  .value-grid{grid-template-columns:1fr;}
+  .how-section{padding:3rem 1.5rem;}
+  .value-section{padding:3rem 1.5rem;}
+  footer{grid-template-columns:1fr;padding:2rem 1.5rem;}
+  .footer-links{justify-content:flex-start;}
+  .grant-meta-row{gap:1rem;}
+}
+@media(max-width:480px){
+  .ph{padding:6rem 1.2rem 2.5rem;}
+  .lock-wall{padding:3rem 1.5rem;}
+  .free-card{padding:1.8rem 1.5rem;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="/index.html">DJMP Institute</a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/mission.html">Mission</a></li>
+    <li><a href="/programs.html">Programs</a></li>
+    <li><a href="/pathwayai.html">PathwayAI</a></li>
+    <li><a href="/who-we-are.html">Team</a></li>
+    <li><a href="/board.html">Board</a></li>
+    <li><a href="/newsroom.html">Newsroom</a></li>
+    <li><a href="/grants.html" class="active-page" style="color:var(--gold);display:inline-flex;align-items:center;gap:0.4rem;"><span style="width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>Grant Intel</a></li>
+    <li><a href="/donate.html">Donate</a></li>
+    <li><a href="/contact.html">Contact</a></li>
+  </ul>
+  <div class="srch-wrap">
+    <button class="srch-btn" onclick="srchToggle()" aria-label="Search">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <div class="srch-box" id="srchBox">
+      <input type="text" id="srchInput" placeholder="Search DJMP Institute..." onkeydown="if(event.key==='Enter')srchGo()"/>
+      <button onclick="srchGo()">Go</button>
+    </div>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">&times;</button>
+  <a href="/index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+  <a href="/mission.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Mission</a>
+  <a href="/programs.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Programs</a>
+  <a href="/pathwayai.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">PathwayAI</a>
+  <a href="/who-we-are.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Team</a>
+  <a href="/board.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Board</a>
+  <a href="/newsroom.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Newsroom</a>
+  <a href="/grants.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--gold);">Grant Intel</a>
+  <a href="/donate.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Donate</a>
+  <a href="/contact.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Contact</a>
+</div>
+
+<!-- ═══ AI INTELLIGENCE TICKER ═══ -->
+<div class="ai-ticker-wrap" role="marquee" aria-label="DJMP Institute AI Intelligence Feed">
+  <div class="ai-ticker-inner">
+    <div class="ai-ticker-label"><span>AI Intel</span></div>
+    <div class="ai-ticker-track">
+      <div class="ai-ticker-scroll">
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Submitted Mar 15, 2026 · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/grants.html">Active nonprofit AI grants tracked weekly — subscribe for deadline alerts &amp; eligibility tips</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">GPT-5.4 · Claude Sonnet 4.6 · Gemini 3.1 Pro — 2026 marks the shift from demos to deployment</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">DJMP Institute's autonomous AI agents connect Bronzeville residents to federal workforce funding</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">Fortinet</span><a href="/programs.html">Official Academic Partner · Training Chicago's next cybersecurity workforce</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <!-- DUPLICATE for seamless loop -->
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Submitted Mar 15, 2026 · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/grants.html">Active nonprofit AI grants tracked weekly — subscribe for deadline alerts &amp; eligibility tips</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">GPT-5.4 · Claude Sonnet 4.6 · Gemini 3.1 Pro — 2026 marks the shift from demos to deployment</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">DJMP Institute's autonomous AI agents connect Bronzeville residents to federal workforce funding</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">Fortinet</span><a href="/programs.html">Official Academic Partner · Training Chicago's next cybersecurity workforce</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ═══ END TICKER ═══ -->
+<div class="ai-ticker-spacer"></div>
+
+<!-- PAGE HERO -->
+<div class="ph">
+  <div class="ph-tag">
+    <span style="width:7px;height:7px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;display:inline-block;"></span>
+    Grant Intelligence · Members Feed
+  </div>
+  <h1>The Grants Are Out There.<br><em>We Find Them for You.</em></h1>
+  <p>DJMP Institute's research team monitors federal databases, private foundations, and AI workforce programs every week — filtering every opportunity through our mission and flagging what's relevant, urgent, and actionable for nonprofits doing equity-centered AI work.</p>
+  <div class="ph-meta">Updated weekly · Federal · Foundation · Corporate · AI Workforce · Deadline alerts included</div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="gc">
+
+  <!-- FREE PREVIEW -->
+  <div class="sec-label">Free Preview · This Week's Featured Grant</div>
+
+  <div class="free-card">
+    <div class="free-badge">🔓 Free Access · No Subscription Required</div>
+    <h2>LinkedIn Future of Work Fund 2026 — $200,000–$300,000</h2>
+    <p>LinkedIn's Future of Work Fund provides financial grants and in-kind support for nonprofits preparing young adults for AI-driven careers through AI literacy, job access, workforce success, and system-level innovation. The fund specifically prioritizes organizations supporting career starters overcoming barriers to economic opportunity.</p>
+
+    <div style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin:1.4rem 0 0.6rem;">Eligibility Checklist</div>
+    <ul class="eligibility-list">
+      <li>501(c)(3) nonprofit status — required</li>
+      <li>Focus on AI literacy, workforce access, or system-level workforce innovation</li>
+      <li>Direct service to young adults facing systemic barriers to economic opportunity</li>
+      <li>Demonstrated program track record — not concept-stage organizations</li>
+      <li>U.S.-based operations (global applicants considered for international programs)</li>
+    </ul>
+
+    <div class="tip-box">
+      <strong>Application Tip:</strong> Lead with your autonomous AI system or measurable community outcome — not your mission statement. LinkedIn's reviewers are looking for nonprofits already doing the work, not planning to. If you have a working AI tool, a corporate partnership, or a specific outcome metric, put it in your first paragraph.
+    </div>
+
+    <div class="grant-meta-row">
+      <div class="grant-meta-item"><span>Amount</span><strong>$200K – $300K</strong></div>
+      <div class="grant-meta-item"><span>Type</span><strong>Grant + In-Kind Support</strong></div>
+      <div class="grant-meta-item"><span>Status</span><strong style="color:var(--teal2);">✓ DJMP Applied · Mar 15, 2026 · Results 60–90 days</strong></div>
+      <div class="grant-meta-item"><span>Results</span><strong>60–90 Days</strong></div>
+    </div>
+    <div style="margin-top:1.5rem;">
+      <a href="https://grantedai.com/grants/future-of-work-fund-2026-global-ai-workforce-grant-linkedin-893cba18" target="_blank" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid rgba(232,160,32,0.35);color:var(--gold);display:inline-block;transition:all 0.2s;" onmouseover="this.style.background='rgba(232,160,32,0.1)'" onmouseout="this.style.background='transparent'">Fund Details →</a>
+    </div>
+  </div>
+
+  <!-- LOCKED SECTION -->
+  <div class="lock-wall">
+    <div style="position:relative;z-index:1;">
+      <div class="lock-icon">🔒</div>
+      <div class="lock-eyebrow">Grant Intelligence Feed · Members Only</div>
+      <h2>7 More Active Grants.<br><em>Researched. Flagged. Ready.</em></h2>
+      <p class="sub">Every week DJMP Institute's research team scans Grants.gov, NSF, NIH, SAMHSA, DOL, Candid, Ford Foundation, Gates Foundation, AWS Nonprofits, Google.org, Salesforce.org, and LinkedIn — and filters everything through the DJMP mission. You get deadline alerts, eligibility checklists, and application tips for every listing.</p>
+
+      <!-- Blurred preview of locked listings -->
+      <div class="blurred-listings">
+        <div class="blur-card">
+          <div class="blur-card-title">Google.org Impact Challenge: AI for Government Innovation — $1M–$3M</div>
+          <div class="blur-card-meta">Agentic AI for public services · Nonprofits, social enterprises, academic institutions · Deadline: Open now · PathwayAI aligns directly</div>
+        </div>
+        <div class="blur-card">
+          <div class="blur-card-title">AWS Imagine Grant 2026–2027 — Up to $100K + Cloud Credits</div>
+          <div class="blur-card-meta">AI for nonprofit mission delivery · 501(c)(3) required · Applications open spring 2026 · 87% of applicants exploring AI</div>
+        </div>
+        <div class="blur-card">
+          <div class="blur-card-title">NSF CyberAICorps Scholarship for Service — Up to $2.5M</div>
+          <div class="blur-card-meta">AI + cybersecurity workforce development · Institutions of higher education · FY2026 target date: April 3, 2026</div>
+        </div>
+        <div class="blur-card">
+          <div class="blur-card-title">Google.org Accelerator: Generative AI — Share of $30M</div>
+          <div class="blur-card-meta">Nonprofits using gen AI for social impact · 6-month accelerator + Google Cloud credits + pro bono Google AI support</div>
+        </div>
+        <div class="blur-card">
+          <div class="blur-card-title">DOL WIOA Industry-Driven Skills Training Fund — $7M+ Available</div>
+          <div class="blur-card-meta">AI + advanced manufacturing workforce · Nonprofits and workforce boards eligible · State-level programs opening spring 2026</div>
+        </div>
+        <div class="blur-card">
+          <div class="blur-card-title">Google.org AI Opportunity Fund — Local Community Foundation Grants</div>
+          <div class="blur-card-meta">AI skills for nonprofit staff · Tailored technical assistance + in-person sessions · Chicago-area community foundations eligible</div>
+        </div>
+      </div>
+
+      <!-- Pricing tiers -->
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier-label" style="color:rgba(244,241,234,0.4);">Report</div>
+          <div class="price-amount">$9.99</div>
+          <div class="price-cadence">one-time · single week's listings</div>
+          <ul class="price-features">
+            <li>Full weekly grant list</li>
+            <li>Deadline flags</li>
+            <li>Eligibility notes</li>
+          </ul>
+          <a href="https://buy.stripe.com/00w8wQ9Om27k3cddIx87K01" target="_blank" class="price-cta price-cta-outline">Get This Week →</a>
+        </div>
+        <div class="price-card featured">
+          <div class="popular-badge">Most Popular</div>
+          <div class="price-tier-label">Subscriber</div>
+          <div class="price-amount">$14.99</div>
+          <div class="price-cadence">per month · cancel anytime</div>
+          <ul class="price-features">
+            <li>Weekly grant feed</li>
+            <li>Deadline alerts by email</li>
+            <li>Eligibility checklists</li>
+            <li>Application tips &amp; framing</li>
+            <li>Full archive access</li>
+          </ul>
+          <a href="https://buy.stripe.com/eVq8wQ2lUdQ2289fQF87K02" target="_blank" class="price-cta price-cta-gold">Subscribe →</a>
+        </div>
+        <div class="price-card partner">
+          <div class="price-tier-label" style="color:var(--teal2);">Partner</div>
+          <div class="price-amount" style="color:var(--off);">Custom</div>
+          <div class="price-cadence">nonprofits · workforce boards · consultants</div>
+          <ul class="price-features">
+            <li>White-label grant feed</li>
+            <li>Co-branded research reports</li>
+            <li>Early access before public release</li>
+            <li>Joint grant application support</li>
+            <li>Custom mission filters</li>
+            <li>Direct research team access</li>
+          </ul>
+          <a href="mailto:mpieters@djmpinstitute.org?subject=Grant Intelligence Partner Inquiry" class="price-cta price-cta-teal">Start a Conversation →</a>
+        </div>
+      </div>
+
+      <!-- Passcode entry -->
+      <div class="passcode-section">
+        <div class="passcode-label">Already a subscriber? Enter your access code</div>
+        <div class="passcode-row">
+          <input type="password" id="grant-code" placeholder="Enter access code" onkeydown="if(event.key==='Enter')checkCode()"/>
+          <button onclick="checkCode()">Unlock</button>
+        </div>
+        <div id="code-msg"></div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- VALUE PROP SECTION -->
+<div class="value-section">
+  <div style="max-width:1100px;margin:0 auto;text-align:center;">
+    <div class="sec-label" style="text-align:center;">Why Subscribe</div>
+    <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:0.5rem;">We Do the Research.<br>You Do the Work That Matters.</h2>
+    <p style="font-size:0.92rem;color:rgba(244,241,234,0.5);max-width:560px;margin:0 auto;">Every week DJMP Institute's team combs through the sources most grant-seekers never have time to check — so you don't have to.</p>
+  </div>
+  <div class="value-grid">
+    <div class="value-item gold">
+      <h3>Federal Databases</h3>
+      <p>Grants.gov, NSF, NIH, SAMHSA, DOL, and WIOA formula grant programs — monitored weekly for AI workforce and civic tech opportunities.</p>
+    </div>
+    <div class="value-item teal">
+      <h3>Private Foundations</h3>
+      <p>Ford, Gates, Kellogg, MacArthur, and Candid/GuideStar — filtered for nonprofits doing AI equity, workforce development, and community technology work.</p>
+    </div>
+    <div class="value-item purple">
+      <h3>Corporate Programs</h3>
+      <p>AWS Nonprofits, Google.org, Salesforce.org, LinkedIn, and Microsoft Philanthropies — tech sector grants aligned to DJMP's mission and community focus.</p>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how-section">
+  <div class="sec-label">How It Works</div>
+  <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.6rem,3vw,2.2rem);margin-bottom:0.5rem;">From Research to Your Inbox</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <div class="how-num">01</div>
+      <div>
+        <h3>Subscribe or Purchase</h3>
+        <p>Pay via Stripe — secure, instant. Subscribers receive weekly emails. Report buyers receive the current week's PDF immediately.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="how-num">02</div>
+      <div>
+        <h3>Receive Your Access Code</h3>
+        <p>Within 24 hours you'll receive an access code by email. Enter it above — or on the Newsroom Grant Intelligence tab — to unlock the full feed.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="how-num">03</div>
+      <div>
+        <h3>Access the Live Feed</h3>
+        <p>Every active grant listing includes the amount, deadline, eligibility checklist, and a DJMP-written application tip framed for AI equity nonprofits.</p>
+      </div>
+    </div>
+    <div class="how-step">
+      <div class="how-num">04</div>
+      <div>
+        <h3>Get Deadline Alerts</h3>
+        <p>Subscribers receive automated email alerts when a grant deadline is within 30, 14, and 7 days — so nothing slips through.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PARTNER SECTION -->
+<div style="background:linear-gradient(135deg,#06080f,#061410);border-top:1px solid rgba(74,159,212,0.15);border-bottom:1px solid rgba(74,159,212,0.1);padding:5rem 3.5rem;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;" class="partner-grid">
+      <div>
+        <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.28em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.8rem;">For Organizations</div>
+        <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.6rem,3vw,2.2rem);line-height:1.1;margin-bottom:1.2rem;">Your Organization Does the Work.<br><em style="font-style:normal;color:var(--teal2);">We'll Find the Funding.</em></h2>
+        <p style="font-size:0.95rem;line-height:1.85;color:rgba(244,241,234,0.65);margin-bottom:1rem;">DJMP Institute's Grant Intelligence research can be white-labeled for your organization — giving your team, board, and constituents access to a curated, deadline-flagged grant feed branded to your mission, without building the research infrastructure yourself.</p>
+        <p style="font-size:0.95rem;line-height:1.85;color:rgba(244,241,234,0.65);margin-bottom:2rem;">We're also open to joint grant applications where our PathwayAI infrastructure and your community relationships create a stronger proposal than either organization could submit alone. If your work overlaps with AI equity, workforce development, or civic technology — there may be a grant out there with both our names on it.</p>
+        <a href="mailto:mpieters@djmpinstitute.org?subject=Grant Intelligence Partner Inquiry" style="display:inline-flex;align-items:center;gap:0.6rem;padding:0.9rem 2rem;border:1px solid rgba(74,159,212,0.4);color:var(--teal2);font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(74,159,212,0.1)';this.style.borderColor='var(--teal2)'" onmouseout="this.style.background='transparent';this.style.borderColor='rgba(74,159,212,0.4)'">Start a Conversation →</a>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:2px;">
+        <div style="background:rgba(13,21,37,0.8);border:1px solid rgba(74,159,212,0.12);padding:1.8rem 2rem;">
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.6rem;">White-Label Feed</div>
+          <p style="font-size:0.88rem;line-height:1.7;color:rgba(244,241,234,0.6);margin:0;">Your organization's name on the grant listings. Your audience gets the intelligence, branded to your mission — not ours.</p>
+        </div>
+        <div style="background:rgba(13,21,37,0.8);border:1px solid rgba(74,159,212,0.12);padding:1.8rem 2rem;">
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.6rem;">Co-Branded Research Reports</div>
+          <p style="font-size:0.88rem;line-height:1.7;color:rgba(244,241,234,0.6);margin:0;">Monthly grant landscape reports published jointly — giving both organizations credibility as research intelligence sources in the AI equity space.</p>
+        </div>
+        <div style="background:rgba(13,21,37,0.8);border:1px solid rgba(74,159,212,0.12);padding:1.8rem 2rem;">
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.6rem;">Joint Grant Applications</div>
+          <p style="font-size:0.88rem;line-height:1.7;color:rgba(244,241,234,0.6);margin:0;">PathwayAI's autonomous agent infrastructure combined with your community relationships creates proposals that neither organization could submit alone. Let's find the overlap.</p>
+        </div>
+        <div style="background:rgba(13,21,37,0.8);border:1px solid rgba(74,159,212,0.12);padding:1.8rem 2rem;">
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.6rem;">Early Access</div>
+          <p style="font-size:0.88rem;line-height:1.7;color:rgba(244,241,234,0.6);margin:0;">Partners receive grant listings before public release — giving your team maximum runway to prepare strong applications before deadlines compress.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+@media(max-width:900px){.partner-grid{grid-template-columns:1fr !important;gap:2.5rem !important;}}
+</style>
+
+<footer>
+  <div>
+    <div class="footer-logo">DJMP Institute</div>
+    <div class="footer-copy">© 2026 DJMP Institute · 501(c)(3) Nonprofit · djmpinstitute.org</div>
+  </div>
+  <div class="footer-links">
+    <a href="/index.html">Home</a>
+    <a href="/mission.html">Mission</a>
+    <a href="/newsroom.html">Newsroom</a>
+    <a href="/grants.html">Grant Intel</a>
+    <a href="/pathwayai.html">PathwayAI</a>
+    <a href="/donate.html">Donate</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+</footer>
+
+<script>
+var VALID_CODE = 'DJMPGRANT2026'; // Change this when you update subscriber passcode
+
+function checkCode(){
+  var v = document.getElementById('grant-code').value.trim();
+  var msg = document.getElementById('code-msg');
+  if(v.toUpperCase() === VALID_CODE){
+    msg.style.color = '#4a9fd4';
+    msg.textContent = 'Access granted. Loading full feed...';
+    setTimeout(function(){
+      document.querySelector('.lock-wall').style.display = 'none';
+      document.getElementById('unlocked-feed').style.display = 'block';
+    }, 900);
+  } else {
+    msg.style.color = '#e05c2e';
+    msg.textContent = 'Invalid access code. Subscribe above to receive yours.';
+  }
+}
+
+function srchToggle(){
+  var b = document.getElementById('srchBox');
+  b.classList.toggle('open');
+  if(b.classList.contains('open')) document.getElementById('srchInput').focus();
+}
+function srchGo(){
+  var q = document.getElementById('srchInput').value.trim();
+  if(q) window.open('https://www.google.com/search?q=site:djmpinstitute.org+'+encodeURIComponent(q),'_blank');
+}
+document.addEventListener('click',function(e){
+  var wrap = document.querySelector('.srch-wrap');
+  if(wrap && !wrap.contains(e.target)){
+    var box = document.getElementById('srchBox');
+    if(box) box.classList.remove('open');
+  }
+});
+
+// Auto-unlock if redirected from newsroom with ?access=granted
+if(window.location.search.indexOf('access=granted') > -1){
+  var lw = document.querySelector('.lock-wall');
+  if(lw) lw.style.display = 'none';
+}
+</script>
+
+</body>
+</html>

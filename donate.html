@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Donate — DJMP Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--black:#080d1a;--off:#f4f1ea;--gold:#e8a020;--gold2:#f0b840;--teal:#2a6b8a;--teal2:#4a9fd4;--rust:#e05c2e;--rust2:#e86b40;--gray:#0d1525;--gray2:#132030;--purple:#9b72cf;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--off);font-family:'DM Sans',sans-serif;font-weight:400;overflow-x:hidden;font-size:1.1rem;}
+a{text-decoration:none;color:inherit;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3.5rem;background:rgba(8,13,26,0.97);border-bottom:1px solid rgba(200,168,75,0.12);backdrop-filter:blur(8px);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(244,241,234,0.65);transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--gold);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--gold);border-radius:2px;}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(8,13,26,0.98);z-index:1000;flex-direction:column;align-items:flex-start;justify-content:center;padding:3rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Syne',sans-serif;font-weight:700;font-size:1.3rem;color:rgba(244,241,234,0.75);letter-spacing:0.08em;text-transform:uppercase;padding:0.5rem 0;}
+.mobile-menu a:hover{color:var(--gold);}
+.mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.8rem;color:var(--gold);cursor:pointer;background:none;border:none;}
+
+/* TICKER */
+.ai-ticker-wrap{width:100%;background:#050c1a;border-bottom:1px solid rgba(232,160,32,0.18);overflow:hidden;position:fixed;top:60px;left:0;right:0;z-index:900;}
+.ai-ticker-inner{display:flex;align-items:stretch;}
+.ai-ticker-label{flex-shrink:0;background:var(--gold);color:#050c1a;font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0 1.1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;}
+.ai-ticker-label::before{content:'';width:6px;height:6px;background:#050c1a;border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;}
+.ai-ticker-track{overflow:hidden;flex:1;position:relative;}
+.ai-ticker-track::before,.ai-ticker-track::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none;}
+.ai-ticker-track::before{left:0;background:linear-gradient(to right,#050c1a,transparent);}
+.ai-ticker-track::after{right:0;background:linear-gradient(to left,#050c1a,transparent);}
+.ai-ticker-scroll{display:flex;align-items:center;animation:ticker-move 55s linear infinite;white-space:nowrap;padding:0.45rem 0;}
+.ai-ticker-item{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:0.59rem;letter-spacing:0.06em;color:rgba(244,241,234,0.72);padding:0 2rem;border-right:1px solid rgba(232,160,32,0.12);}
+.ai-ticker-item a{color:inherit;}
+.ai-ticker-cat{font-size:0.52rem;letter-spacing:0.14em;margin-right:0.6rem;padding:0.1rem 0.45rem;border:1px solid;border-radius:1px;font-weight:700;text-transform:uppercase;}
+.cat-gold{color:var(--gold);border-color:rgba(232,160,32,0.35);}
+.cat-teal{color:#4a9fd4;border-color:rgba(74,159,212,0.35);}
+.cat-rust{color:#c04a2a;border-color:rgba(192,74,42,0.35);}
+.ai-ticker-sep{color:rgba(232,160,32,0.3);padding:0 1rem;}
+@keyframes ticker-move{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ai-ticker-spacer{height:34px;display:block;}
+
+/* URGENCY STRIP */
+.urgency-strip{background:var(--gold);border-bottom:2px solid var(--gold2);}
+.urgency-inner{max-width:1200px;margin:0 auto;padding:0.9rem 3.5rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+.urgency-statement{font-family:'Syne',sans-serif;font-weight:800;font-size:0.85rem;color:var(--black);line-height:1.25;}
+.urgency-statement span{display:block;font-family:'Space Mono',monospace;font-weight:400;font-size:0.58rem;letter-spacing:0.08em;color:rgba(8,13,26,0.65);margin-top:0.2rem;}
+.urgency-programs{display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;}
+.urgency-btn-donate{background:var(--black);color:var(--gold);font-family:'Syne',sans-serif;font-weight:700;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.55rem 1.2rem;text-decoration:none;white-space:nowrap;transition:background 0.2s;}
+.urgency-btn-donate:hover{background:#0d1525;}
+.urgency-btn-fund{background:transparent;border:1px solid rgba(8,13,26,0.3);color:var(--black);font-family:'Syne',sans-serif;font-weight:700;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.55rem 1.2rem;text-decoration:none;white-space:nowrap;transition:all 0.2s;}
+.urgency-btn-fund:hover{background:rgba(8,13,26,0.08);}
+.scroll-cue{display:flex;flex-direction:column;align-items:flex-start;gap:0.4rem;cursor:pointer;opacity:0.45;transition:opacity 0.2s;margin-top:2rem;position:relative;z-index:1;}
+.scroll-cue:hover{opacity:0.85;}
+.scroll-cue span{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
+.scroll-arrow{width:18px;height:18px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(45deg);animation:bounce-down 1.6s ease-in-out infinite;}
+@keyframes bounce-down{0%,100%{transform:rotate(45deg) translateY(0);}50%{transform:rotate(45deg) translateY(5px);}}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.urgency-pill{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:1px;font-weight:700;}
+.urgency-pill.summer{background:var(--rust);color:#fff;}
+.urgency-pill.cyber{background:var(--black);color:var(--gold);}
+.urgency-pill.pathway{background:var(--teal2);color:#fff;}
+
+/* GLOBALS */
+.sec-label{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:0.8rem;}
+.sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3rem);line-height:1.05;margin-bottom:1.5rem;}
+.sec-title em{font-style:normal;color:var(--gold);}
+.body-text{font-size:1.1rem;line-height:1.9;color:rgba(244,241,234,0.82);margin-bottom:1.3rem;}
+.pc{max-width:1200px;margin:0 auto;padding:5rem 3.5rem;}
+
+/* HERO */
+.ph{padding:8rem 3.5rem 5rem;background:linear-gradient(160deg,#06080f 0%,#080d1a 70%,#06080f 100%);position:relative;overflow:hidden;}
+.ph::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 30% 50%,rgba(232,160,32,0.06) 0%,transparent 70%);pointer-events:none;}
+.ph-tag{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:1.2rem;display:inline-flex;align-items:center;gap:0.6rem;position:relative;z-index:1;}
+.ph-tag::before{content:'';width:7px;height:7px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;}
+.ph h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,5.5vw,5rem);line-height:0.95;max-width:860px;margin-bottom:1.4rem;position:relative;z-index:1;}
+.ph h1 em{font-style:normal;color:var(--gold);}
+.ph-lead{font-size:1.15rem;line-height:1.85;color:rgba(244,241,234,0.72);max-width:700px;margin-bottom:0;position:relative;z-index:1;}
+.ph-lead strong{color:rgba(244,241,234,0.95);}
+
+/* STORY BEAT — JUSTIS */
+.story-band{background:var(--gray);border-top:1px solid rgba(232,160,32,0.1);border-bottom:1px solid rgba(232,160,32,0.1);padding:4rem 3.5rem;}
+.story-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.story-outcome{border-left:4px solid var(--gold);padding:2rem 2.4rem;background:rgba(232,160,32,0.04);}
+.story-outcome-label{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;color:rgba(232,160,32,0.6);text-transform:uppercase;margin-bottom:0.8rem;}
+.story-outcome-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:0.3rem;}
+.story-outcome-detail{font-size:1rem;color:rgba(244,241,234,0.65);line-height:1.7;margin-bottom:1.2rem;}
+.story-outcome-quote{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;line-height:1.55;color:rgba(244,241,234,0.9);font-style:italic;margin-bottom:0.5rem;}
+.story-outcome-attr{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;color:rgba(232,160,32,0.5);text-transform:uppercase;}
+.story-proof{display:flex;flex-direction:column;gap:2px;}
+.story-proof-item{background:var(--black);padding:1.4rem 1.8rem;}
+.story-proof-n{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--gold);line-height:1;margin-bottom:0.2rem;}
+.story-proof-l{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;color:rgba(244,241,234,0.3);text-transform:uppercase;margin-bottom:0.4rem;}
+.story-proof-d{font-size:0.95rem;color:rgba(244,241,234,0.55);line-height:1.6;}
+
+/* PRESS STRIP */
+.press-strip{background:var(--gray2);padding:1.6rem 3.5rem;border-bottom:1px solid rgba(232,160,32,0.08);}
+.press-strip-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;}
+.press-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;color:rgba(244,241,234,0.25);text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.press-items{display:flex;gap:2rem;flex-wrap:wrap;align-items:center;}
+.press-item{font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;color:rgba(244,241,234,0.35);letter-spacing:0.04em;transition:color 0.2s;}
+.press-item:hover{color:var(--gold);}
+.press-div{color:rgba(255,255,255,0.1);}
+
+/* DONATION SECTION */
+.donate-section{background:var(--black);padding:5rem 3.5rem;border-top:1px solid rgba(232,160,32,0.08);}
+.donate-inner{max-width:1200px;margin:0 auto;}
+
+/* QUICK DONATE BUTTONS */
+.quick-donate{background:linear-gradient(135deg,#06080f,#080d1a);border:1px solid rgba(232,160,32,0.2);border-top:3px solid var(--gold);padding:2.5rem 3rem;margin-bottom:3rem;}
+.quick-donate-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:0.6rem;}
+.quick-donate h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:0.5rem;}
+.quick-donate p{font-size:1rem;color:rgba(244,241,234,0.6);line-height:1.7;margin-bottom:1.5rem;max-width:600px;}
+.quick-donate-anchor{display:inline-block;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(232,160,32,0.7);text-transform:uppercase;background:rgba(232,160,32,0.08);border:1px solid rgba(232,160,32,0.2);padding:0.5rem 1.2rem;margin-bottom:1.5rem;}
+.donate-methods{display:flex;gap:2px;flex-wrap:wrap;background:var(--gray2);}
+.dbtn{background:var(--black);padding:1.4rem 1.8rem;display:flex;align-items:center;gap:1rem;cursor:pointer;transition:background 0.2s;text-decoration:none;color:var(--off);flex:1;min-width:200px;}
+.dbtn:hover{background:var(--gray);}
+.dbtn-icon{width:28px;height:28px;flex-shrink:0;color:var(--gold);}
+.dbtn-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;color:rgba(244,241,234,0.35);text-transform:uppercase;display:block;margin-bottom:0.2rem;}
+.dbtn-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;}
+.dbtn-soon{opacity:0.4;cursor:default;}
+
+/* PROGRAM TIERS */
+.tiers-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--gray2);margin-top:3rem;}
+.tier-card{background:var(--black);padding:2.5rem 2.2rem;}
+.tier-card.t1{border-top:3px solid var(--rust);}
+.tier-card.t2{border-top:3px solid var(--gold);}
+.tier-card.t3{border-top:3px solid var(--teal2);}
+.tier-program-label{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:0.6rem;}
+.t1 .tier-program-label{color:var(--rust);}
+.t2 .tier-program-label{color:var(--gold);}
+.t3 .tier-program-label{color:var(--teal2);}
+.tier-card h3{font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:1rem;line-height:1.2;}
+.tier-amounts{display:flex;flex-direction:column;gap:2px;}
+.tier-amount{background:var(--gray2);padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;cursor:pointer;text-decoration:none;color:var(--off);transition:background 0.2s;}
+.tier-amount:hover{background:var(--gray);}
+.tier-amount-n{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;flex-shrink:0;width:4rem;}
+.t1 .tier-amount-n{color:var(--rust);}
+.t2 .tier-amount-n{color:var(--gold);}
+.t3 .tier-amount-n{color:var(--teal2);}
+.tier-amount-desc{font-size:0.9rem;color:rgba(244,241,234,0.55);line-height:1.5;}
+.tier-amount-arrow{margin-left:auto;color:rgba(244,241,234,0.25);font-size:0.9rem;flex-shrink:0;}
+
+/* RECURRING */
+.recurring-band{background:var(--gray);border-top:1px solid rgba(74,159,212,0.12);border-bottom:1px solid rgba(74,159,212,0.12);padding:3.5rem 3.5rem;}
+.recurring-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.recurring-badge{display:inline-block;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;color:var(--teal2);border:1px solid rgba(74,159,212,0.3);padding:0.3rem 0.8rem;text-transform:uppercase;margin-bottom:0.8rem;}
+.recurring-options{display:flex;flex-direction:column;gap:2px;}
+.recurring-opt{background:var(--black);padding:1.4rem 1.6rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;text-decoration:none;color:var(--off);transition:background 0.2s;border-left:3px solid transparent;}
+.recurring-opt:hover{background:var(--gray2);border-left-color:var(--teal2);}
+.recurring-opt-left{display:flex;align-items:center;gap:1rem;}
+.recurring-opt-amount{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--teal2);width:3.5rem;flex-shrink:0;}
+.recurring-opt-label{font-size:0.95rem;color:rgba(244,241,234,0.65);line-height:1.5;}
+.recurring-opt-period{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.12em;color:rgba(244,241,234,0.25);text-transform:uppercase;}
+
+/* CREDENTIAL SIGNAL */
+.credential-band{background:var(--black);border-top:1px solid rgba(255,255,255,0.05);padding:3rem 3.5rem;}
+.credential-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:4rem;flex-wrap:wrap;}
+.credential-text{flex:1;min-width:280px;}
+.credential-text p{font-size:1rem;line-height:1.8;color:rgba(244,241,234,0.6);}
+.credential-text strong{color:rgba(244,241,234,0.85);}
+.credential-items{display:flex;gap:2px;flex-wrap:wrap;}
+.credential-item{background:var(--gray2);padding:0.7rem 1rem;font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(244,241,234,0.4);text-transform:uppercase;white-space:nowrap;}
+
+/* TAX NOTE */
+.tax-band{background:var(--gray2);padding:2rem 3.5rem;border-top:1px solid rgba(255,255,255,0.04);}
+.tax-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:2rem;flex-wrap:wrap;}
+.tax-note{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;color:rgba(244,241,234,0.4);line-height:1.8;}
+.tax-note strong{color:rgba(244,241,234,0.65);}
+
+/* MANTRA */
+.mantra-band{background:linear-gradient(135deg,#06080f,#080d1a);border-top:3px solid var(--gold);padding:5rem 3.5rem;text-align:center;}
+.mantra-inner{max-width:800px;margin:0 auto;}
+.mantra-text{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.6rem,3.5vw,2.6rem);line-height:1.15;margin-bottom:1.5rem;}
+.mantra-text em{font-style:normal;color:var(--gold);}
+.mantra-sub{font-size:1.1rem;color:rgba(244,241,234,0.55);line-height:1.8;margin-bottom:2rem;}
+.mantra-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+.btn{display:inline-block;padding:0.9rem 2.2rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;transition:all 0.2s;cursor:pointer;border:none;}
+.btn-gold{background:var(--gold);color:var(--black);}
+.btn-gold:hover{background:var(--gold2);}
+.btn-outline{border:1px solid rgba(244,241,234,0.25);color:var(--off);}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3rem 3.5rem;}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.4rem;}
+.footer-copy{font-size:0.78rem;color:rgba(244,241,234,0.3);line-height:1.7;}
+.footer-services{margin-top:0.8rem;}
+.footer-services-label{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(232,160,32,0.4);margin-bottom:0.4rem;}
+.footer-services a{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;color:rgba(232,160,32,0.6);transition:color 0.2s;}
+.footer-services a:hover{color:var(--gold);}
+.footer-social{display:flex;gap:0.5rem;margin-top:1rem;}
+.footer-social a{width:36px;height:36px;border:1px solid rgba(255,255,255,0.12);display:inline-flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);transition:all 0.2s;}
+.footer-social a:hover{border-color:var(--gold);color:var(--gold);}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:flex-end;}
+.footer-links a{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.3);transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+
+@media(max-width:900px){
+  nav{padding:1rem 1.2rem;}.nav-links{display:none;}.hamburger{display:flex;}
+  .ph{padding:7rem 1.5rem 4rem;}
+  .pc,.story-band,.donate-section,.recurring-band,.credential-band,.tax-band,.mantra-band,.press-strip{padding-left:1.5rem;padding-right:1.5rem;}
+  .story-inner,.recurring-inner{grid-template-columns:1fr;}
+  .tiers-grid{grid-template-columns:1fr;}
+  .urgency-inner{padding:0.9rem 1.5rem;flex-direction:column;align-items:flex-start;gap:0.8rem;}
+  footer{grid-template-columns:1fr;padding:2rem 1.5rem;}
+  .footer-links{justify-content:flex-start;}
+  .donate-methods{flex-direction:column;}
+}
+@media(max-width:480px){
+  .press-items{gap:1.2rem;}
+  .tier-amounts{gap:1px;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/index.html" class="logo">DJMP Institute</a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/programs.html">Programs</a></li>
+    <li><a href="/pathwayai.html">PathwayAI</a></li>
+    <li><a href="/who-we-are.html">Team</a></li>
+    <li><a href="/intel-hub.html" style="color:var(--teal2);display:inline-flex;align-items:center;gap:0.4rem;"><span style="width:6px;height:6px;background:var(--teal2);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>AI Intel</a></li>
+    <li><a href="/funders.html" style="color:var(--gold);display:inline-flex;align-items:center;gap:0.4rem;font-weight:700;"><span style="width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>Fund Our Work</a></li>
+    <li><a href="/donate.html" style="color:var(--gold);">Donate</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">&times;</button>
+  <a href="/index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+  <a href="/programs.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Programs</a>
+  <a href="/pathwayai.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">PathwayAI</a>
+  <a href="/who-we-are.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Team</a>
+  <a href="/intel-hub.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--teal2);">AI Intel</a>
+  <a href="/funders.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--gold);">Fund Our Work</a>
+  <a href="/donate.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--gold);">Donate</a>
+</div>
+
+<div class="ai-ticker-wrap" role="marquee" aria-label="DJMP Institute AI Intelligence Feed">
+  <div class="ai-ticker-inner">
+    <div class="ai-ticker-label"><span>AI Intel</span></div>
+    <div class="ai-ticker-track">
+      <div class="ai-ticker-scroll">
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">DJMP's autonomous AI agents connect Chicagoland residents to federal workforce funding</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Now Building</span>Summer STEM 2026 — Six Labs · 30 Students · Fund this program now</span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">Grant Intel</span><a href="/intel-hub.html">Free AI intelligence feed · $14.99/mo grant subscription · Subscribe now</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">DJMP's autonomous AI agents connect Chicagoland residents to federal workforce funding</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Now Building</span>Summer STEM 2026 — Six Labs · 30 Students · Fund this program now</span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">Grant Intel</span><a href="/intel-hub.html">Free AI intelligence feed · $14.99/mo grant subscription · Subscribe now</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ai-ticker-spacer"></div>
+
+<!-- URGENCY STRIP -->
+<div class="urgency-strip">
+  <div class="urgency-inner">
+    <div style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+      <div class="urgency-statement">Three programs ready to deploy. Zero paid operational budget.
+        <span>Running entirely on founder-led volunteer power — that changes when you give.</span>
+      </div>
+      <div class="urgency-programs">
+        <span style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:rgba(8,13,26,0.6);text-transform:uppercase;margin-right:0.3rem;">Fund:</span>
+        <span class="urgency-pill summer">Summer STEM $95K</span>
+        <span class="urgency-pill cyber">Cybersecurity $400K</span>
+        <span class="urgency-pill pathway">PathwayAI $1.5M</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:0.5rem;flex-shrink:0;">
+      <a href="#donate-panel" class="urgency-btn-donate">Give Now →</a>
+      <a href="/funders.html" class="urgency-btn-fund">Fund Our Work</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO — TWO COLUMN ABOVE FOLD v4 -->
+<style>
+.hero-donate{padding:7rem 3.5rem 4rem;background:linear-gradient(160deg,#06080f 0%,#080d1a 70%,#06080f 100%);position:relative;overflow:hidden;}
+.hero-donate::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 55% 65% at 25% 50%,rgba(232,160,32,0.06) 0%,transparent 70%);pointer-events:none;}
+.hero-donate-inner{max-width:1260px;margin:0 auto;display:grid;grid-template-columns:3fr 2fr;gap:3.5rem;align-items:start;position:relative;z-index:1;}
+
+/* LEFT — HEADLINE + JUSTIS FEATURE */
+.hero-donate-tag{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;display:inline-flex;align-items:center;gap:0.6rem;}
+.hero-donate-tag::before{content:'';width:7px;height:7px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;}
+.hero-h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.4rem,4.5vw,4rem);line-height:0.97;margin-bottom:1rem;}
+.hero-h1 em{font-style:normal;color:var(--gold);}
+.hero-lead{font-size:1.05rem;line-height:1.8;color:rgba(244,241,234,0.62);margin-bottom:1.6rem;}
+
+/* JUSTIS FEATURE CARD */
+.justis-card{background:var(--gray);border-top:3px solid var(--gold);padding:0;}
+.justis-card-top{padding:1.6rem 2rem 0;}
+.justis-eyebrow{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:0.5rem;display:flex;align-items:center;gap:0.6rem;}
+.justis-eyebrow-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+.justis-award{font-family:'Syne',sans-serif;font-weight:800;font-size:2.6rem;color:var(--gold);line-height:1;margin-bottom:0.15rem;}
+.justis-award-sub{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.16em;color:rgba(232,160,32,0.6);text-transform:uppercase;margin-bottom:0.9rem;}
+.justis-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;margin-bottom:0.2rem;}
+.justis-detail{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(244,241,234,0.4);text-transform:uppercase;margin-bottom:1rem;}
+.justis-quote{font-size:1.05rem;line-height:1.75;color:rgba(244,241,234,0.88);font-style:italic;padding:1rem 1.4rem;background:rgba(232,160,32,0.06);border-left:3px solid rgba(232,160,32,0.4);margin:0 0 1rem;}
+.justis-card-bottom{background:var(--black);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.8rem;}
+.justis-proof-row{display:flex;gap:1.6rem;flex-wrap:wrap;}
+.justis-proof-item{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;}
+.justis-proof-item span{display:block;color:rgba(244,241,234,0.25);margin-bottom:0.2rem;}
+.justis-proof-item strong{color:rgba(244,241,234,0.75);font-size:0.58rem;}
+.justis-links{display:flex;gap:0.4rem;}
+.justis-link{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(232,160,32,0.3);padding:0.22rem 0.6rem;white-space:nowrap;}
+
+/* RIGHT — DONATE PANEL */
+.donate-panel{background:var(--gray);border-top:3px solid var(--gold);padding:2.2rem;}
+.donate-panel-label{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.22em;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem;}
+.donate-panel h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.35rem;line-height:1.15;margin-bottom:1.2rem;}
+
+/* AMOUNT PILLS — COLOR CODED */
+.pills-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;color:rgba(244,241,234,0.35);text-transform:uppercase;margin-bottom:0.6rem;}
+.amount-pills-v4{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:3px;}
+.amount-pills-v4b{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-bottom:0.7rem;}
+.apill{font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;padding:0.65rem 0.3rem;border:2px solid;cursor:pointer;transition:all 0.18s;text-align:center;background:transparent;}
+.apill-50{color:var(--gold);border-color:rgba(232,160,32,0.5);}
+.apill-50:hover,.apill-50.sel{background:var(--gold);color:#000;border-color:var(--gold);}
+.apill-100{color:var(--rust);border-color:rgba(224,92,46,0.4);}
+.apill-100:hover,.apill-100.sel{background:var(--rust);color:#fff;border-color:var(--rust);}
+.apill-250{color:#9b72cf;border-color:rgba(155,114,207,0.4);}
+.apill-250:hover,.apill-250.sel{background:#9b72cf;color:#fff;border-color:#9b72cf;}
+.apill-500{color:rgba(244,241,234,0.75);border-color:rgba(244,241,234,0.2);}
+.apill-500:hover,.apill-500.sel{background:rgba(244,241,234,0.15);color:var(--off);border-color:rgba(244,241,234,0.5);}
+.apill-1000{color:var(--teal2);border-color:rgba(74,159,212,0.4);}
+.apill-1000:hover,.apill-1000.sel{background:var(--teal2);color:#000;border-color:var(--teal2);}
+.apill-custom{color:rgba(232,160,32,0.6);border-color:rgba(232,160,32,0.2);font-size:0.75rem;letter-spacing:0.05em;}
+.apill-custom:hover,.apill-custom.sel{background:rgba(232,160,32,0.12);color:var(--gold);border-color:var(--gold);}
+.custom-row{display:flex;gap:0;margin-bottom:1.2rem;}
+.custom-prefix{background:rgba(232,160,32,0.12);border:1px solid rgba(232,160,32,0.25);border-right:none;padding:0.65rem 0.8rem;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);}
+.custom-input{flex:1;background:var(--black);border:1px solid rgba(232,160,32,0.25);padding:0.65rem 0.8rem;color:var(--off);font-family:'Syne',sans-serif;font-weight:700;font-size:1.1rem;outline:none;width:100%;}
+.custom-input:focus{border-color:var(--gold);}
+
+/* PAYMENT BUTTONS */
+.pay-btns{display:flex;flex-direction:column;gap:2px;}
+.pay-btn{display:flex;align-items:center;gap:0.9rem;padding:1rem 1.3rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.05em;text-transform:uppercase;text-decoration:none;transition:all 0.2s;cursor:pointer;border:none;width:100%;}
+.pay-btn-card{background:var(--gold);color:var(--black);}
+.pay-btn-card:hover{background:var(--gold2);}
+.pay-btn-paypal{background:#003087;color:#fff;}
+.pay-btn-paypal:hover{background:#002070;}
+.pay-btn-cash{background:#00D64F;color:#000;}
+.pay-btn-cash:hover{background:#00bc45;}
+.pay-btn-venmo{background:var(--gray2);color:rgba(244,241,234,0.35);cursor:default;}
+.pay-btn-icon{width:20px;height:20px;flex-shrink:0;}
+.pay-btn-sub{font-family:'Space Mono',monospace;font-size:0.46rem;letter-spacing:0.08em;text-transform:uppercase;font-weight:400;opacity:0.6;display:block;margin-top:0.15rem;}
+
+@media(max-width:1000px){
+  .hero-donate{padding:7rem 1.5rem 3rem;}
+  .hero-donate-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .amount-pills-v4{grid-template-columns:repeat(5,1fr);}
+}
+@media(max-width:480px){
+  .amount-pills-v4{grid-template-columns:repeat(3,1fr);}
+}
+</style>
+
+<div class="hero-donate">
+  <div class="hero-donate-inner">
+
+    <!-- LEFT: HEADLINE + JUSTIS FEATURE -->
+    <div>
+      <div class="hero-donate-tag">Support Our Work</div>
+      <h1 class="hero-h1">This Is Not Charity.<br>It Is <em>Infrastructure.</em></h1>
+      <p class="hero-lead">Every dollar funds autonomous AI civic intelligence, free STEM education, and cybersecurity workforce training for communities that have been waiting long enough.</p>
+      <div class="scroll-cue" onclick="document.getElementById('donate-panel').scrollIntoView({behavior:'smooth'})">
+        <span>Choose Your Impact</span>
+        <div class="scroll-arrow"></div>
+      </div>
+
+      <!-- JUSTIS FEATURE CARD -->
+      <div class="justis-card">
+        <div class="justis-card-top">
+          <div class="justis-eyebrow"><span class="justis-eyebrow-dot"></span>Program Success Story · CBS News · Chicago Sun-Times · April 2023</div>
+          <div class="justis-award">$40,000</div>
+          <div class="justis-award-sub">Amazon Future Engineer Scholarship · 1 of 13 CPS Students · 1 of 400 Nationally</div>
+          <div class="justis-name">Justis Walker</div>
+          <div class="justis-detail">Lane Technical College Prep · DJMP Institute Alumni · University of Iowa</div>
+          <blockquote class="justis-quote">"If you have the ambition, you can go do it. Knowing that you can ease some of that financial pressure — it makes it where you can focus on your studies more."</blockquote>
+        </div>
+        <div class="justis-card-bottom">
+          <div class="justis-proof-row">
+            <div class="justis-proof-item"><span>Award</span><strong>$40,000 · 4 Years</strong></div>
+            <div class="justis-proof-item"><span>Recognition</span><strong>National · Top 400</strong></div>
+            <div class="justis-proof-item"><span>Destination</span><strong>Univ. of Iowa · CS</strong></div>
+          </div>
+          <div class="justis-links">
+            <a href="https://www.cbsnews.com/amp/chicago/news/13-cps-students-college-scholarships-amazon/" target="_blank" class="justis-link">CBS News →</a>
+            <a href="https://chicago.suntimes.com/education/2023/4/18/23688821/cps-students-surprised-with-40000-amazon-scholarship-if-you-have-the-ambition-you-can-go-do-it" target="_blank" class="justis-link">Sun-Times →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: DONATE PANEL -->
+    <div class="donate-panel" id="donate-panel">
+      <div class="donate-panel-label">Donate Now</div>
+      <h3>Give Any Amount.<br>Every Dollar Advances the Mission.</h3>
+
+      <div class="pills-label">Select an amount</div>
+      <div class="amount-pills-v4">
+        <button class="apill apill-50 sel" onclick="setAmt(50,this)">$50</button>
+        <button class="apill apill-100" onclick="setAmt(100,this)">$100</button>
+        <button class="apill apill-250" onclick="setAmt(250,this)">$250</button>
+      </div>
+      <div class="amount-pills-v4b">
+        <button class="apill apill-500" onclick="setAmt(500,this)">$500</button>
+        <button class="apill apill-1000" onclick="setAmt(1000,this)">$1,000</button>
+        <button class="apill apill-custom" onclick="focusCustom(this)">Custom ✎</button>
+      </div>
+      <div class="custom-row">
+        <span class="custom-prefix">$</span>
+        <input type="number" id="donateAmt" class="custom-input" placeholder="Other amount" min="1" value="50" oninput="clearPills()"/>
+      </div>
+
+      <div class="pay-btns">
+        <a href="https://buy.stripe.com/9B67sMf8GaDQ4gh9sh87K00" target="_blank" rel="noopener" class="pay-btn pay-btn-card">
+          <svg class="pay-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          <div><span>Credit / Debit Card</span><span class="pay-btn-sub">Stripe · Secure · Instant receipt</span></div>
+        </a>
+        <a href="https://www.paypal.com/donate?business=mpieters%40djmptechacademy.org&currency_code=USD&amount=50&item_name=DJMP+Institute+Donation" target="_blank" rel="noopener" class="pay-btn pay-btn-paypal" id="paypalBtn">
+          <svg class="pay-btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M7.076 21.337H2.47a.641.641 0 0 1-.633-.74L4.944 2.79A.77.77 0 0 1 5.715 2.145h6.964c2.392 0 4.057.784 4.863 2.295.37.69.505 1.414.433 2.22-.069.748-.069.748-.069.77h.023c-.554 2.898-2.461 4.474-5.676 4.474H9.71a.77.77 0 0 0-.771.645l-.97 5.775a.641.641 0 0 1-.633.54l-.26-.002v.475z"/></svg>
+          <div><span>PayPal</span><span class="pay-btn-sub">Balance, card, or bank</span></div>
+        </a>
+        <a href="https://cash.app/$DJMPInstitute" target="_blank" rel="noopener" class="pay-btn pay-btn-cash">
+          <svg class="pay-btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12.5 6.5h-1v-1a.5.5 0 0 0-1 0v1h-.5a2 2 0 0 0 0 4h.5v3h-1a1 1 0 0 1 0-2h-.5a.5.5 0 0 0 0 1H10v1a.5.5 0 0 0 1 0v-1h.5a2 2 0 0 0 0-4H11V7h1a1 1 0 0 1 0 2h.5a.5.5 0 0 0 0-1h-.5V6.5zM12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2z"/></svg>
+          <div><span>Cash App · $DJMPInstitute</span><span class="pay-btn-sub">Send directly</span></div>
+        </a>
+        <div class="pay-btn pay-btn-venmo">
+          <svg class="pay-btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M18.5 2.5c.6 1 .9 2.1.9 3.4 0 4.2-3.6 9.7-6.5 13.6H6.8L4.2 3.8l5.7-.5 1.3 10.3c1.2-2 2.7-5.2 2.7-7.3 0-1.2-.2-2-.5-2.7l5.1-.8z"/></svg>
+          <div><span>Venmo</span><span class="pay-btn-sub">Coming soon</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PRESS STRIP -->
+<div class="press-strip">
+  <div class="press-strip-inner">
+    <div class="press-label">As Seen In</div>
+    <div class="press-items">
+      <a href="https://www.cbsnews.com/amp/chicago/news/13-cps-students-college-scholarships-amazon/" target="_blank" class="press-item">CBS News Chicago</a>
+      <span class="press-div">·</span>
+      <a href="https://chicago.suntimes.com/education/2023/4/18/23688821/cps-students-surprised-with-40000-amazon-scholarship-if-you-have-the-ambition-you-can-go-do-it" target="_blank" class="press-item">Chicago Sun-Times</a>
+      <span class="press-div">·</span>
+      <a href="https://abc7chicago.com/post/rainbow-push-convention-kicks-off-in-chicago/2210157/" target="_blank" class="press-item">ABC7 Chicago</a>
+      <span class="press-div">·</span>
+      <a href="https://chicagocrusader.com/cook-county-board-honors-push-excel-steam-program/" target="_blank" class="press-item">Chicago Crusader</a>
+      <span class="press-div">·</span>
+      <span class="press-item" style="cursor:default;">Cook County Board Resolution</span>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT YOUR DONATION FUNDS — FIVE PROGRAMS -->
+<div class="donate-section">
+  <div class="donate-inner">
+    <div class="reveal">
+    <div class="sec-label">What Your Donation Funds</div>
+    <h2 class="sec-title" style="font-size:clamp(1.6rem,3vw,2.2rem);">Five Programs.<br><em>One Mission. Every Dollar Advances All of Them.</em></h2>
+    <p class="body-text" style="max-width:760px;">Your donation is unrestricted — it supports the full scope of DJMP Institute's work across every active program. No earmarking required. No overhead-heavy structure. Direct to mission.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--gray2);margin-top:2rem;">
+      <div style="background:var(--black);padding:2rem;border-top:3px solid var(--teal2);">
+        <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.4rem;">Active · Year-Round</div>
+        <div style="display:inline-block;font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;background:rgba(74,159,212,0.1);border:1px solid rgba(74,159,212,0.3);color:var(--teal2);margin-bottom:0.7rem;">Running Now</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.5rem;">Saturday Academy</div>
+        <p style="font-size:0.9rem;color:rgba(244,241,234,0.5);line-height:1.65;">Year-round Saturday sessions serving 25 students weekly. The long-term consistency that single-event programs cannot provide.</p>
+      </div>
+      <div style="background:var(--black);padding:2rem;border-top:3px solid var(--teal2);">
+        <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.4rem;">Active · Academic Year</div>
+        <div style="display:inline-block;font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;background:rgba(74,159,212,0.1);border:1px solid rgba(74,159,212,0.3);color:var(--teal2);margin-bottom:0.7rem;">Running Now</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.5rem;">After-School Program</div>
+        <p style="font-size:0.9rem;color:rgba(244,241,234,0.5);line-height:1.65;">Partner school sessions delivering robotics, programming, and data science — meeting students where they already are.</p>
+      </div>
+      <div style="background:var(--black);padding:2rem;border-top:3px solid var(--rust);">
+        <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:var(--rust);text-transform:uppercase;margin-bottom:0.4rem;">Launching · Urgent</div>
+        <div style="display:inline-block;font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;background:rgba(224,92,46,0.1);border:1px solid rgba(224,92,46,0.3);color:var(--rust);margin-bottom:0.7rem;">$95K–$105K Needed</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.5rem;">Summer STEM 2026</div>
+        <p style="font-size:0.9rem;color:rgba(244,241,234,0.5);line-height:1.65;">Six Learning Labs. 30 students. Grades 4–12. Four weeks. The curriculum is built. Funding is what launches it.</p>
+      </div>
+      <div style="background:var(--black);padding:2rem;border-top:3px solid var(--gold);">
+        <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem;">Building · No Grant Applied</div>
+        <div style="display:inline-block;font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;background:rgba(232,160,32,0.08);border:1px solid rgba(232,160,32,0.25);color:var(--gold);margin-bottom:0.7rem;">$400K Needed</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.5rem;">Cybersecurity Training</div>
+        <p style="font-size:0.9rem;color:rgba(244,241,234,0.5);line-height:1.65;">14-month Fortinet-credentialed pathway. DJMP-designed. $80K+ career outcomes. First funder being sought.</p>
+      </div>
+      <div style="background:var(--black);padding:2rem;border-top:3px solid var(--teal2);grid-column:span 2;">
+        <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.4rem;">Deployed · Google Grant Pending</div>
+        <div style="display:inline-block;font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;background:rgba(74,159,212,0.08);border:1px solid rgba(74,159,212,0.25);color:var(--teal2);margin-bottom:0.7rem;">$1.5M Sought · Independent Funders Welcome</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.5rem;">PathwayAI — Autonomous Civic AI</div>
+        <p style="font-size:0.9rem;color:rgba(244,241,234,0.5);line-height:1.65;">Already deployed. The same agentic architecture that powers PathwayAI powers the AI intelligence feed running across this site. That ticker is not a demo — it is the proof of concept in live production.</p>
+      </div>
+    </div>
+
+    </div><!-- end reveal -->
+  </div>
+</div>
+
+<!-- RECURRING GIVING -->
+<div class="recurring-band">
+  <div class="recurring-inner">
+    <div class="reveal">
+      <div class="recurring-badge">Monthly Giving</div>
+      <h2 class="sec-title" style="font-size:clamp(1.6rem,3vw,2.2rem);">Sustain the Mission.<br><em>Give Monthly.</em></h2>
+      <p class="body-text">One-time gifts launch programs. Monthly gifts sustain them. A recurring donation — even $15 a month — gives DJMP Institute the operational stability to plan ahead, hire instructors, and keep all three programs moving simultaneously.</p>
+      <p style="font-size:0.95rem;color:rgba(244,241,234,0.5);line-height:1.7;">Monthly donors receive a quarterly impact update directly from the team. Cancel anytime.</p>
+    </div>
+    <div>
+      <div class="recurring-options">
+
+        <!-- $15 — TEAL -->
+        <a href="https://buy.stripe.com/9B67sMf8GaDQ4gh9sh87K00" target="_blank" class="recurring-opt" style="border-left-color:rgba(74,159,212,0.4);">
+          <div class="recurring-opt-left">
+            <span class="recurring-opt-amount" style="color:var(--teal2);">$15</span>
+            <div><div class="recurring-opt-label">Sustaining Supporter — funds one SMS delivery week monthly</div><div class="recurring-opt-period">per month · cancel anytime</div></div>
+          </div>
+          <span style="color:var(--teal2);">→</span>
+        </a>
+
+        <!-- $25 — GOLD -->
+        <a href="https://buy.stripe.com/9B67sMf8GaDQ4gh9sh87K00" target="_blank" class="recurring-opt" style="border-left-color:rgba(232,160,32,0.4);">
+          <div class="recurring-opt-left">
+            <span class="recurring-opt-amount" style="color:var(--gold);">$25</span>
+            <div><div class="recurring-opt-label">Community Builder — funds one PathwayAI onboarding monthly</div><div class="recurring-opt-period">per month · cancel anytime</div></div>
+          </div>
+          <span style="color:var(--gold);">→</span>
+        </a>
+
+        <!-- $50 — RUST -->
+        <a href="https://buy.stripe.com/9B67sMf8GaDQ4gh9sh87K00" target="_blank" class="recurring-opt" style="border-left-color:rgba(224,92,46,0.4);">
+          <div class="recurring-opt-left">
+            <span class="recurring-opt-amount" style="color:var(--rust);">$50</span>
+            <div><div class="recurring-opt-label">Program Partner — funds one student's Summer STEM week monthly</div><div class="recurring-opt-period">per month · cancel anytime</div></div>
+          </div>
+          <span style="color:var(--rust);">→</span>
+        </a>
+
+        <!-- $100 — PURPLE -->
+        <a href="https://buy.stripe.com/9B67sMf8GaDQ4gh9sh87K00" target="_blank" class="recurring-opt" style="border-left-color:rgba(155,114,207,0.4);">
+          <div class="recurring-opt-left">
+            <span class="recurring-opt-amount" style="color:var(--purple);">$100</span>
+            <div><div class="recurring-opt-label">Mission Sustainer — operational stability, every month</div><div class="recurring-opt-period">per month · cancel anytime</div></div>
+          </div>
+          <span style="color:var(--purple);">→</span>
+        </a>
+
+        <!-- CUSTOM MONTHLY — WHITE/OUTLINE -->
+        <div class="recurring-opt" style="border-left-color:rgba(244,241,234,0.2);cursor:default;">
+          <div class="recurring-opt-left" style="flex:1;gap:0.6rem;flex-wrap:wrap;">
+            <span class="recurring-opt-amount" style="color:rgba(244,241,234,0.5);width:auto;margin-right:0.4rem;">$</span>
+            <input type="number" id="customMonthly" placeholder="Custom amount" min="1"
+              style="background:var(--gray2);border:1px solid rgba(244,241,234,0.15);padding:0.4rem 0.7rem;color:var(--off);font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;outline:none;width:130px;"
+              onfocus="this.style.borderColor='rgba(244,241,234,0.4)'" onblur="this.style.borderColor='rgba(244,241,234,0.15)'"/>
+            <div>
+              <div class="recurring-opt-label">Custom Monthly — any amount, any impact</div>
+              <div class="recurring-opt-period">per month · cancel anytime</div>
+            </div>
+          </div>
+          <a id="customMonthlyBtn" href="https://buy.stripe.com/9B67sMf8GaDQ4gh9sh87K00" target="_blank"
+            style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;background:rgba(244,241,234,0.1);border:1px solid rgba(244,241,234,0.2);color:var(--off);padding:0.5rem 1rem;white-space:nowrap;text-decoration:none;transition:all 0.2s;"
+            onmouseover="this.style.background='rgba(244,241,234,0.18)'" onmouseout="this.style.background='rgba(244,241,234,0.1)'">Give Monthly →</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CREDENTIAL SIGNAL -->
+<div class="credential-band">
+  <div class="credential-inner">
+    <div class="credential-text">
+      <p>DJMP Institute is led full-time by <strong>Martin Pieters</strong> — a 20-year faculty member at City Colleges of Chicago, a PhD candidate in AI, and a researcher with a network spanning <strong>Illinois Tech, Northwestern University, and the University of Chicago</strong>. This is not a startup. It is a proven organization with the intellectual depth to match the urgency of the moment.</p>
+    </div>
+    <div class="credential-items">
+      <div class="credential-item">Northwestern MRSEC</div>
+      <div class="credential-item">Illinois Tech · U of Chicago</div>
+      <div class="credential-item">AWS MLU Fellow</div>
+      <div class="credential-item">Amazon-HBCU Fellow</div>
+      <div class="credential-item">MSEIP $750K Award</div>
+    </div>
+  </div>
+</div>
+
+<!-- TAX NOTE -->
+<div class="tax-band">
+  <div class="tax-inner">
+    <p class="tax-note"><strong>Fully Tax-Deductible.</strong> DJMP Institute is a registered 501(c)(3) nonprofit. All donations are tax-deductible to the extent permitted by law. You will receive an automatic receipt for your records. EIN available upon request at <a href="/cdn-cgi/l/email-protection#b1d8dfd7def1d5dbdcc1d8dfc2c5d8c5c4c5d49fdec3d6" style="color:rgba(232,160,32,0.6);"><span class="__cf_email__" data-cfemail="6a03040c052a0e00071a0304191e031e1f1e0f4405180d">[email&#160;protected]</span></a>.</p>
+  </div>
+</div>
+
+<!-- MANTRA CLOSE -->
+<div class="mantra-band">
+  <div class="mantra-inner">
+    <div class="mantra-text">Fund DJMP Institute — and help ensure that the future being built by artificial intelligence is <em>built by all of us.</em></div>
+    <p class="mantra-sub">The communities are ready. The technology is proven. The team is in place. The only thing missing is the resources to scale what already works.</p>
+    <div class="mantra-btns">
+      <a href="https://buy.stripe.com/9B67sMf8GaDQ4gh9sh87K00" target="_blank" class="btn btn-gold">Donate by Card Now →</a>
+      <a href="/funders.html" class="btn btn-outline">Become a Funding Partner</a>
+      <a href="/intel-hub.html" class="btn btn-outline">Subscribe to Grant Intelligence</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">DJMP Institute</div>
+      <div class="footer-copy">© 2026 DJMP Institute · 501(c)(3) Nonprofit Pending<br>Overton Hygienic Building, Suite 300 · 3619–3627 S. State Street<br>Bronzeville, Chicago, IL 60609 · info@djmpinstitute.org · (312) 877-9668</div>
+      <div class="footer-services">
+        <div class="footer-services-label">Services</div>
+        <a href="/grant-writing.html">Grant Writing →</a>
+        <span style="color:rgba(255,255,255,0.1);margin:0 0.5rem;">·</span>
+        <a href="/intel-hub.html" style="color:rgba(74,159,212,0.6);">Grant Intelligence →</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://twitter.com/DJMPInstitute" target="_blank" title="X / Twitter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+        <a href="https://instagram.com/DJMPInstitute" target="_blank" title="Instagram"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://linkedin.com/company/djmp-institute" target="_blank" title="LinkedIn"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+        <a href="https://facebook.com/DJMPInstitute" target="_blank" title="Facebook"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/programs.html">Programs</a>
+      <a href="/pathwayai.html">PathwayAI</a>
+      <a href="/who-we-are.html">Team</a>
+      <a href="/intel-hub.html">AI Intel</a>
+      <a href="/funders.html">Fund Our Work</a>
+      <a href="/grant-writing.html">Grant Writing</a>
+      <a href="/donate.html">Donate</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+var revealEls = document.querySelectorAll('.reveal');
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+}, { threshold: 0.1 });
+revealEls.forEach(function(el) { revealObserver.observe(el); });
+</script>
+</body>
+</html>

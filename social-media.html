@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJMP Institute</title>
+</head>
+<body>
+<style>
+/* Nuclear option - hide ALL theme navigation and headers */
+header, .header, #header, #masthead, .site-header,
+.main-navigation, .nav-bar, .navbar, #navbar,
+.top-bar, .menu-bar, #menu-bar, .primary-menu,
+nav.site-navigation, .header-inner, .header-wrap,
+.header-container, .site-branding, .header-widget,
+.consulting-header, .consulting-nav, .page-header,
+#site-navigation, .navigation-main, .main-nav,
+[class*="header"], [class*="navbar"], [class*="nav-bar"],
+[id*="header"], [id*="navbar"],
+/* Hide theme footer too */
+footer.site-footer, #colophon, .site-footer,
+.footer-widgets, .consulting-footer,
+/* Hide sidebar */
+#secondary, .widget-area, aside.sidebar,
+/* Remove theme body padding that pushes content down */
+.site-content, #content, #primary, main.site-main {
+  display: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}
+/* Reset all body/html spacing */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.site, #page, .hentry, article, .entry-content,
+.page-content, .post-content {
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: 100% !important;
+}
+
+  .srch-wrap{position:relative;margin-left:1.2rem;}
+  .srch-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.6);padding:0.3rem;display:flex;align-items:center;transition:color 0.2s;}
+  .srch-btn:hover{color:#e8a020;}
+  .srch-box{position:absolute;right:0;top:calc(100% + 0.8rem);width:260px;background:#0d1525;border:1px solid rgba(232,160,32,0.22);display:none;z-index:9999;}
+  .srch-box.open{display:flex;}
+  .srch-box input{flex:1;background:none;border:none;padding:0.65rem 0.9rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;}
+  .srch-box input::placeholder{color:rgba(255,255,255,0.28);}
+  .srch-box button{background:#e8a020;border:none;padding:0.65rem 0.9rem;cursor:pointer;color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.7rem;white-space:nowrap;}
+  .srch-box button:hover{background:#f0b840;}
+  .nav-links a{color:#ffffff !important;position:relative;}
+  .nav-links a:hover{color:#e8a020 !important;}
+  .nav-links a::after{content:'';position:absolute;bottom:-3px;left:0;width:0;height:1px;background:#e8a020;transition:width 0.25s ease;}
+  .nav-links a:hover::after{width:100%;}
+
+  /* SEARCH */
+  .srch-wrap{position:relative;margin-left:1.2rem;}
+  .srch-btn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,0.6);padding:0.3rem;display:flex;align-items:center;transition:color 0.2s;}
+  .srch-btn:hover{color:#e8a020;}
+  .srch-box{position:absolute;right:0;top:calc(100% + 0.8rem);width:280px;background:#0d1525;border:1px solid rgba(232,160,32,0.22);display:none;z-index:9999;}
+  .srch-box.open{display:flex;}
+  .srch-box input{flex:1;background:none;border:none;padding:0.65rem 0.9rem;color:#fff;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;}
+  .srch-box input::placeholder{color:rgba(255,255,255,0.28);}
+  .srch-box button{background:#e8a020;border:none;padding:0.65rem 0.9rem;cursor:pointer;color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.7rem;white-space:nowrap;}
+  .srch-box button:hover{background:#f0b840;}
+
+  /* HAMBURGER NAV */
+  .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;z-index:1001;}
+  .hamburger span{display:block;width:24px;height:2px;background:var(--gold);border-radius:2px;transition:all 0.3s;}
+  .mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(8,13,26,0.98);z-index:1000;flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+  .mobile-menu.open{display:flex;}
+  .mobile-menu a{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:rgba(244,241,234,0.75);letter-spacing:0.08em;text-transform:uppercase;}
+  .mobile-menu a:hover{color:var(--gold);}
+  .mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.8rem;color:var(--gold);cursor:pointer;background:none;border:none;}
+  @media(max-width:900px){.nav-links{display:none !important;}.hamburger{display:flex;}}
+
+  @media(max-width:900px){
+    .body-text{color:rgba(244,241,234,0.88) !important;font-size:1rem !important;}
+    p{color:rgba(244,241,234,0.85);}
+    .stat p{color:rgba(244,241,234,0.82) !important;}
+    .card p{color:rgba(244,241,234,0.82) !important;}
+    .hero,.ph{min-height:auto !important;padding-top:6rem !important;}
+    h1,h2,.sec-title{font-size:clamp(1.7rem,6vw,2.5rem) !important;}
+    .hero h1{font-size:clamp(1.8rem,7vw,2.6rem) !important;}
+  }
+  @media(max-width:480px){
+    nav{padding:0.9rem 1rem !important;}
+    .hero,.ph{padding:5.5rem 1.2rem 2.5rem !important;}
+    .section,.pc{padding:2.5rem 1.2rem !important;}
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--black:#080d1a;--off:#ffffff;--gold:#e8a020;--gold2:#f0b840;--teal:#2a6b8a;--teal2:#4a9fd4;--rust:#e05c2e;--gray:#0d1525;--gray2:#132030;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--off);font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3.5rem;background:rgba(8,13,26,0.97);border-bottom:1px solid rgba(200,168,75,0.12);backdrop-filter:blur(8px);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.55);transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold);}
+.ph{padding:9rem 3.5rem 5rem;background:linear-gradient(135deg,#0a1a2e,#080d1a);}
+.ph-tag{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.3em;color:var(--teal2);text-transform:uppercase;margin-bottom:1.2rem;}
+.ph h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2.8rem,5.5vw,5rem);line-height:1;}
+.ph h1 em{font-style:normal;color:var(--gold);}
+.ph p{font-size:1rem;line-height:1.85;color:rgba(244,241,234,0.6);max-width:620px;margin-top:1.2rem;}
+.pc{max-width:1200px;margin:0 auto;padding:5rem 3.5rem;}
+.tabs{display:flex;gap:2px;margin-bottom:2px;flex-wrap:wrap;background:var(--gray2);}
+.tab{background:var(--gray);color:rgba(244,241,234,0.45);border:none;padding:0.9rem 1.8rem;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;}
+.tab.active,.tab:hover{background:var(--gold);color:var(--black);}
+.panel{display:none;flex-direction:column;gap:2px;background:var(--gray2);}
+.panel.active{display:flex;}
+.post{background:var(--black);padding:2rem;position:relative;}
+.post-plat{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;color:var(--gold);text-transform:uppercase;margin-bottom:0.8rem;}
+.post-body{font-size:0.9rem;line-height:1.85;color:rgba(244,241,234,0.72);white-space:pre-wrap;margin-bottom:0.8rem;}
+.post-tags{display:flex;flex-wrap:wrap;gap:0.4rem;}
+.ptag{font-family:'Space Mono',monospace;font-size:0.6rem;color:var(--teal2);padding:0.2rem 0.5rem;border:1px solid rgba(42,155,155,0.25);}
+.copy-btn{position:absolute;top:1.5rem;right:1.5rem;background:rgba(200,168,75,0.08);border:1px solid rgba(200,168,75,0.25);color:var(--gold);padding:0.4rem 1rem;font-family:'Space Mono',monospace;font-size:0.62rem;cursor:pointer;letter-spacing:0.08em;transition:all 0.2s;}
+.copy-btn:hover{background:rgba(200,168,75,0.18);}
+footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3rem 3.5rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;margin-top:5rem;}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.4rem;}
+.footer-copy{font-size:0.78rem;color:rgba(244,241,234,0.3);}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:flex-end;}
+.footer-links a{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.3);transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+@media(max-width:900px){nav{padding:1rem 1.2rem;}.nav-links{display:none;}.ph{padding:7rem 1.5rem 3rem;}.pc{padding:3rem 1.5rem;}footer{grid-template-columns:1fr;padding:2rem 1.5rem;}.footer-links{justify-content:flex-start;}}
+</style>
+
+<div style="background:#050810;border-bottom:1px solid rgba(232,160,32,0.08);padding:0.45rem 3.5rem;display:flex;justify-content:space-between;align-items:center;">
+  <span style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:rgba(255,255,255,0.3);text-transform:uppercase;"><a href="tel:+13128779668" style="color:rgba(255,255,255,0.3);text-decoration:none;">(312) 877-9668</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="/cdn-cgi/l/email-protection#f0999e969fb0949a9d80999e83849984858495de9f8297" style="color:rgba(255,255,255,0.3);text-decoration:none;"><span class="__cf_email__" data-cfemail="325b5c545d7256585f425b5c41465b464746571c5d4055">[email&#160;protected]</span></a></span>
+  <div style="display:flex;gap:0.6rem;align-items:center;">
+  </div>
+</div>
+<nav>
+  <a class="logo" href="/index.html">DJMP Institute</a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/mission.html">Mission</a></li>
+    <li><a href="/programs.html">Programs</a></li>
+    <li><a href="/pathwayai.html">PathwayAI</a></li>
+    <li><a href="/who-we-are.html">Team</a></li>
+    <li><a href="/board.html">Board</a></li>
+    <li><a href="/newsroom.html">Newsroom</a></li>
+    <li><a href="/grants.html" style="color:var(--gold) !important;display:inline-flex;align-items:center;gap:0.4rem;"><span style="width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>Grant Intel</a></li>
+    <li><a href="/donate.html">Donate</a></li>
+    <li><a href="/contact.html">Contact</a></li>
+  </ul>
+  
+  <div class="srch-wrap">
+    <button class="srch-btn" onclick="srchToggle()" aria-label="Search">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+    <div class="srch-box" id="srchBox">
+      <input type="text" id="srchInput" placeholder="Search DJMP Institute..." onkeydown="if(event.key==='Enter')srchGo()"/>
+      <button onclick="srchGo()">Go</button>
+    </div>
+  </div>
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">&times;</button>
+  <a href="/index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+  <a href="/mission.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Mission</a>
+  <a href="/programs.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Programs</a>
+  <a href="/pathwayai.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">PathwayAI</a>
+  <a href="/who-we-are.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Team</a>
+  <a href="/board.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Board</a>
+  <a href="/newsroom.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Newsroom</a>
+  <a href="/grants.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--gold);">Grant Intel</a>
+  <a href="/donate.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Donate</a>
+  <a href="/contact.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Contact</a>
+</div>
+
+<!-- ═══ AI INTELLIGENCE TICKER ═══ -->
+<style>
+.ai-ticker-wrap{width:100%;background:#050c1a;border-bottom:1px solid rgba(232,160,32,0.18);overflow:hidden;position:fixed;top:60px;left:0;right:0;z-index:900;padding:0;box-shadow:0 2px 12px rgba(0,0,0,0.4);}
+.ai-ticker-spacer{height:34px;display:block;}
+.ai-ticker-inner{display:flex;align-items:stretch;}
+.ai-ticker-label{flex-shrink:0;background:var(--gold,#e8a020);color:#050c1a;font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0 1.1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;z-index:2;}
+.ai-ticker-label::before{content:'';width:6px;height:6px;background:#050c1a;border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+.ai-ticker-track{overflow:hidden;flex:1;position:relative;}
+.ai-ticker-track::before,.ai-ticker-track::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none;}
+.ai-ticker-track::before{left:0;background:linear-gradient(to right,#050c1a,transparent);}
+.ai-ticker-track::after{right:0;background:linear-gradient(to left,#050c1a,transparent);}
+.ai-ticker-scroll{display:flex;align-items:center;gap:0;animation:ticker-move 55s linear infinite;white-space:nowrap;padding:0.45rem 0;}
+.ai-ticker-scroll:hover{animation-play-state:paused;}
+.ai-ticker-item{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:0.59rem;letter-spacing:0.06em;color:rgba(244,241,234,0.72);padding:0 2rem;border-right:1px solid rgba(232,160,32,0.12);cursor:default;transition:color 0.2s;}
+.ai-ticker-item:hover{color:var(--gold,#e8a020);}
+.ai-ticker-item a{color:inherit;text-decoration:none;}
+.ai-ticker-item a:hover{color:var(--gold,#e8a020);}
+.ai-ticker-cat{font-size:0.52rem;letter-spacing:0.14em;margin-right:0.6rem;padding:0.1rem 0.45rem;border:1px solid;border-radius:1px;font-weight:700;text-transform:uppercase;}
+.cat-gold{color:var(--gold,#e8a020);border-color:rgba(232,160,32,0.35);}
+.cat-teal{color:#4a9fd4;border-color:rgba(74,159,212,0.35);}
+.cat-purple{color:#9b72cf;border-color:rgba(155,114,207,0.35);}
+.cat-rust{color:#c04a2a;border-color:rgba(192,74,42,0.35);}
+.ai-ticker-sep{color:rgba(232,160,32,0.3);padding:0 1rem;font-size:0.6rem;}
+@keyframes ticker-move{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@media(max-width:600px){.ai-ticker-label{font-size:0.5rem;padding:0 0.7rem;}.ai-ticker-item{font-size:0.54rem;padding:0 1.2rem;}}
+</style>
+
+<div class="ai-ticker-wrap" role="marquee" aria-label="DJMP Institute AI Intelligence Feed">
+  <div class="ai-ticker-inner">
+    <div class="ai-ticker-label">
+      <span>AI Intel</span>
+    </div>
+    <div class="ai-ticker-track">
+      <div class="ai-ticker-scroll" id="tickerScroll">
+        <!-- Items duplicated for seamless loop -->
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Submitted Mar 15, 2026 · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">GPT-5.4 · Claude Sonnet 4.6 · Gemini 3.1 Pro — 2026 marks the shift from demos to deployment</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/newsroom.html">Prompt injection attacks on AI agents cannot be fully patched — workforce training is the answer</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">DJMP Institute's autonomous AI agents connect Bronzeville residents to federal workforce funding</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">Fortinet</span><a href="/programs.html">Official Academic Partner · Training Chicago's next cybersecurity workforce</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Equity</span><a href="/newsroom.html">NSF CyberAI SFS program integrates AI + cybersecurity workforce development — DJMP leads this work</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AWS MLU</span><a href="/who-we-are.html">Martin Pieters receives AWS Machine Learning University credential · Tuskegee, Feb 27 2026</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <!-- DUPLICATE SET for seamless loop -->
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Submitted Mar 15, 2026 · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">GPT-5.4 · Claude Sonnet 4.6 · Gemini 3.1 Pro — 2026 marks the shift from demos to deployment</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/newsroom.html">Prompt injection attacks on AI agents cannot be fully patched — workforce training is the answer</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">DJMP Institute's autonomous AI agents connect Bronzeville residents to federal workforce funding</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">Fortinet</span><a href="/programs.html">Official Academic Partner · Training Chicago's next cybersecurity workforce</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Equity</span><a href="/newsroom.html">NSF CyberAI SFS program integrates AI + cybersecurity workforce development — DJMP leads this work</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AWS MLU</span><a href="/who-we-are.html">Martin Pieters receives AWS Machine Learning University credential · Tuskegee, Feb 27 2026</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ═══ END TICKER ═══ -->
+<div class="ai-ticker-spacer"></div>
+
+
+<div class="ph">
+  <div class="ph-tag">Social Media</div>
+  <h1>Ready-to-Post <em>Content</em></h1>
+  <p>Click any tab to browse platform-ready posts. Hit Copy to grab any post instantly.</p>
+</div>
+
+<div class="pc">
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('linkedin',this)">LinkedIn</button>
+    <button class="tab" onclick="showTab('instagram',this)">Instagram</button>
+    <button class="tab" onclick="showTab('facebook',this)">Facebook</button>
+    <button class="tab" onclick="showTab('twitter',this)">X / Twitter</button>
+  </div>
+
+  <div class="panel active" id="p-linkedin">
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">LinkedIn — Mission</div>
+      <div class="post-body">Every year, billions in publicly funded workforce training never reaches the people it was built for.
+
+That is not a funding failure. It is an infrastructure failure.
+
+DJMP Institute builds autonomous AI infrastructure that connects marginalized urban residents directly to the publicly funded education and training resources that are their most accessible pathway to economic opportunity.
+
+Our flagship platform, PathwayAI, deploys three autonomous AI agents powered by Google Gemini — continuously monitoring ten federal databases and delivering personalized career pathways via web, mobile, and SMS so no resident is left out.
+
+If that mission matters to you — support it. Share it. Build with us.
+
+djmpinstitute.org</div>
+      <div class="post-tags"><span class="ptag">#CivicAI</span><span class="ptag">#EconomicOpportunity</span><span class="ptag">#AIForGood</span><span class="ptag">#PathwayAI</span></div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">LinkedIn — PathwayAI Feature</div>
+      <div class="post-body">Over 68 million Americans lack the digital literacy to navigate the government workforce training systems designed to help them.
+
+PathwayAI changes that.
+
+Three autonomous AI agents powered by Google Gemini continuously monitor ten publicly available federal databases — delivering personalized, step-by-step career pathways to marginalized residents via web, mobile, and SMS.
+
+Projected outcomes over 36 months:
+→ 40% increase in WIOA training enrollment
+→ 500K+ residents reached nationally
+→ Deployment in 25+ cities
+
+We are seeking partners, funders, and government agencies ready to build this infrastructure together.
+
+Learn more at djmpinstitute.org</div>
+      <div class="post-tags"><span class="ptag">#PathwayAI</span><span class="ptag">#CivicTech</span><span class="ptag">#DigitalEquity</span><span class="ptag">#WorkforceInnovation</span></div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">LinkedIn — Donate</div>
+      <div class="post-body">DJMP Institute is a 501(c)(3) nonprofit. Every donation funds AI-powered civic intelligence for communities the AI economy was built to exclude.
+
+$25 — Onboards one community member onto PathwayAI
+$100 — Trains one Community Digital Navigator
+$250 — Funds one month of free AI education for underserved youth
+$500 — Maintains one federal database integration
+
+This is not charity. It is investment in infrastructure.
+
+Donate at djmpinstitute.org</div>
+      <div class="post-tags"><span class="ptag">#Nonprofit</span><span class="ptag">#DonateToday</span><span class="ptag">#AIForCommunity</span></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-instagram">
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">Instagram — Mission</div>
+      <div class="post-body">We don't talk about closing the gap. We build the infrastructure to close it.
+
+DJMP Institute creates AI-powered civic tools that turn public data into real pathways to prosperity.
+
+✦ PathwayAI: autonomous workforce navigation
+✦ Free AI + STEM education for youth
+✦ Community Digital Navigators
+✦ Civic data intelligence
+
+The future belongs to everyone. Link in bio.</div>
+      <div class="post-tags"><span class="ptag">#CivicAI</span><span class="ptag">#AIForGood</span><span class="ptag">#EconomicJustice</span><span class="ptag">#BlackTech</span></div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">Instagram — Stat</div>
+      <div class="post-body">68 million.
+
+That's how many Americans can't navigate the government workforce training built to help them.
+
+PathwayAI connects them directly — web, mobile, AND SMS.
+
+Because a solution that only works for the digitally equipped isn't a solution.
+
+Link in bio to learn more or donate.</div>
+      <div class="post-tags"><span class="ptag">#DigitalDivide</span><span class="ptag">#WorkforceEquity</span><span class="ptag">#AIForGood</span></div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-facebook">
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">Facebook — Community Story</div>
+      <div class="post-body">The resources exist. The connection between those resources and the people they were built for does not.
+
+DJMP Institute builds that connection — autonomous AI civic infrastructure that meets marginalized residents where they are and walks them toward the economic opportunity they've always deserved.
+
+We are a Chicago-based 501(c)(3) nonprofit. Your donation is tax-deductible and changes lives.
+
+Learn more and donate: djmpinstitute.org</div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">Facebook — Donation Drive</div>
+      <div class="post-body">DJMP Institute needs your support to build the AI-powered civic infrastructure Chicago's most underserved communities deserve.
+
+$25 — PathwayAI onboarding for one community member
+$50 — One week of SMS delivery for residents without smartphones
+$100 — One Community Digital Navigator training session
+$250 — One month of free AI education for underserved youth
+
+All donations fully tax-deductible. Give today at djmpinstitute.org</div>
+    </div>
+  </div>
+
+  <div class="panel" id="p-twitter">
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">X / Twitter — Thread 1/5</div>
+      <div class="post-body">Every year, billions in publicly funded workforce training never reaches the people it was built for.
+
+That is not a funding failure. It is an infrastructure failure.
+
+DJMP Institute is building the infrastructure that changes that. 🧵(1/5)</div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">X / Twitter — Thread 2/5</div>
+      <div class="post-body">68 million Americans lack the digital literacy to navigate government training systems built to help them.
+
+54% of adults in low-income urban communities lack foundational digital skills for tech careers.
+
+The resources exist. The connection does not. (2/5)</div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">X / Twitter — Thread 3/5</div>
+      <div class="post-body">PathwayAI connects marginalized residents to publicly funded training across 10 federal databases.
+
+Delivered via web, mobile, AND SMS.
+
+Because a solution that only works for the digitally equipped is not a solution. (3/5)</div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">X / Twitter — Thread 4/5</div>
+      <div class="post-body">PathwayAI is one tool. DJMP Institute's mission is larger:
+
+→ Free AI + STEM education for youth
+→ Digital Navigator programs
+→ Community data analytics for civic orgs
+→ Open source civic AI infrastructure
+
+We build autonomous AI that turns public data into community power. (4/5)</div>
+    </div>
+    <div class="post">
+      <button class="copy-btn" onclick="cp(this)">Copy</button>
+      <div class="post-plat">X / Twitter — Thread 5/5</div>
+      <div class="post-body">DJMP Institute is a 501(c)(3) nonprofit building civic AI for Chicago's most underserved communities.
+
+We are not theorizing about closing the gap. We are building the infrastructure to close it.
+
+Support our mission: djmpinstitute.org (5/5)
+
+#CivicAI #PathwayAI #DigitalEquity #AIForGood</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>
+    <div class="footer-logo">DJMP Institute</div>
+    <div class="footer-copy">© 2025 DJMP Institute · 501(c)(3) Nonprofit</div>
+  </div>
+  <div class="footer-links">
+    <a href="/index.html">Home</a>
+    <a href="/mission.html">Mission</a>
+    <a href="/programs.html">Programs</a>
+    <a href="/pathwayai.html">PathwayAI</a>
+    <a href="/who-we-are.html">Team</a>
+    <a href="/donate.html">Donate</a>
+    <a href="/social-media.html">Social</a>
+    <a href="/contact.html">Contact</a>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,0.07);margin-top:1.2rem;padding-top:1rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.8rem;">
+    <span style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;color:rgba(255,255,255,0.2);text-transform:uppercase;">AI-Powered Civic Intelligence &middot; Chicago, IL</span>
+    <div style="display:flex;gap:0.5rem;align-items:center;">
+      <a href="https://twitter.com/DJMPInstitute" target="_blank" title="Twitter/X" style="width:40px;height:40px;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.45);text-decoration:none;" onmouseover="this.style.borderColor='#e8a020';this.style.color='#e8a020';this.style.background='rgba(232,160,32,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.45)';this.style.background='transparent'"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="https://instagram.com/DJMPInstitute" target="_blank" title="Instagram" style="width:40px;height:40px;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.45);text-decoration:none;" onmouseover="this.style.borderColor='#e8a020';this.style.color='#e8a020';this.style.background='rgba(232,160,32,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.45)';this.style.background='transparent'"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://linkedin.com/company/djmp-institute" target="_blank" title="LinkedIn" style="width:40px;height:40px;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.45);text-decoration:none;" onmouseover="this.style.borderColor='#e8a020';this.style.color='#e8a020';this.style.background='rgba(232,160,32,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.45)';this.style.background='transparent'"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="https://facebook.com/DJMPInstitute" target="_blank" title="Facebook" style="width:40px;height:40px;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.45);text-decoration:none;" onmouseover="this.style.borderColor='#e8a020';this.style.color='#e8a020';this.style.background='rgba(232,160,32,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.45)';this.style.background='transparent'"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+      <a href="https://youtube.com/@DJMPInstitute" target="_blank" title="YouTube" style="width:40px;height:40px;border:1px solid rgba(255,255,255,0.15);display:inline-flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.45);text-decoration:none;" onmouseover="this.style.borderColor='#e8a020';this.style.color='#e8a020';this.style.background='rgba(232,160,32,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.15)';this.style.color='rgba(255,255,255,0.45)';this.style.background='transparent'"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#050810"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+function showTab(name,btn){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.getElementById('p-'+name).classList.add('active');
+  btn.classList.add('active');
+}
+function cp(btn){
+  var txt=btn.closest('.post').querySelector('.post-body').innerText;
+  navigator.clipboard.writeText(txt).then(function(){
+    btn.textContent='Copied!';
+    setTimeout(function(){btn.textContent='Copy';},2000);
+  });
+}
+</script>
+<script>
+function srchToggle(){
+  var b=document.getElementById('srchBox');
+  b.classList.toggle('open');
+  if(b.classList.contains('open')) document.getElementById('srchInput').focus();
+}
+function srchGo(){
+  var q=document.getElementById('srchInput').value.trim();
+  if(q) window.open('https://www.google.com/search?q=site:djmpinstitute.org+'+encodeURIComponent(q),'_blank');
+}
+// Close search if clicking outside
+document.addEventListener('click',function(e){
+  var wrap=document.querySelector('.srch-wrap');
+  if(wrap && !wrap.contains(e.target)){
+    var box=document.getElementById('srchBox');
+    if(box) box.classList.remove('open');
+  }
+});
+</script>
+</body>
+</html>

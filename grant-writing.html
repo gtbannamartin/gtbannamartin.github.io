@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grant Writing Services — DJMP Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--black:#080d1a;--off:#f4f1ea;--gold:#e8a020;--gold2:#f0b840;--teal:#2a6b8a;--teal2:#4a9fd4;--rust:#e05c2e;--rust2:#e86b40;--gray:#0d1525;--gray2:#132030;--purple:#9b72cf;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--off);font-family:'DM Sans',sans-serif;font-weight:400;overflow-x:hidden;font-size:1.05rem;}
+a{color:inherit;text-decoration:none;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+@keyframes bounce-down{0%,100%{transform:rotate(45deg) translateY(0);}50%{transform:rotate(45deg) translateY(5px);}}
+@keyframes ticker-move{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+@keyframes reveal-up{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3.5rem;background:rgba(8,13,26,0.97);border-bottom:1px solid rgba(200,168,75,0.12);backdrop-filter:blur(8px);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(244,241,234,0.65);transition:color 0.2s;}
+.nav-links a:hover{color:var(--off);}
+.nav-links a.active{color:var(--gold);}
+.hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:2px;background:var(--off);}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(8,13,26,0.98);z-index:1000;flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Space Mono',monospace;font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.75);}
+.mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.8rem;color:var(--gold);cursor:pointer;background:none;border:none;}
+
+/* ── TICKER ── */
+.ai-ticker-wrap{position:fixed;top:60px;left:0;right:0;z-index:998;background:rgba(8,13,26,0.95);border-bottom:1px solid rgba(200,168,75,0.1);overflow:hidden;height:32px;display:flex;}
+.ai-ticker-inner{display:flex;align-items:center;width:100%;overflow:hidden;}
+.ai-ticker-label{flex-shrink:0;background:var(--gold);color:#050c1a;font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0 1.1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;height:100%;}
+.ai-ticker-track{flex:1;overflow:hidden;position:relative;height:100%;display:flex;align-items:center;}
+.ai-ticker-track::before{content:'';position:absolute;left:0;top:0;bottom:0;width:40px;background:linear-gradient(to right,#050c1a,transparent);z-index:2;}
+.ai-ticker-track::after{content:'';position:absolute;right:0;top:0;bottom:0;width:40px;background:linear-gradient(to left,#050c1a,transparent);z-index:2;}
+.ai-ticker-scroll{display:inline-flex;align-items:center;animation:ticker-move 40s linear infinite;white-space:nowrap;}
+.ai-ticker-item{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:0.59rem;letter-spacing:0.06em;color:rgba(244,241,234,0.72);padding:0 2rem;border-right:1px solid rgba(232,160,32,0.12);}
+.ai-ticker-item a{color:inherit;transition:color 0.2s;}
+.ai-ticker-item a:hover{color:var(--gold);}
+.ai-ticker-sep{color:rgba(232,160,32,0.3);padding:0 0.5rem;font-size:0.5rem;}
+.ai-ticker-cat{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.1rem 0.45rem;margin-right:0.6rem;border:1px solid;}
+.cat-gold{color:var(--gold);border-color:rgba(232,160,32,0.35);}
+.cat-teal{color:var(--teal2);border-color:rgba(74,159,212,0.35);}
+.cat-rust{color:var(--rust);border-color:rgba(224,92,46,0.35);}
+.cat-purple{color:var(--purple);border-color:rgba(155,114,207,0.35);}
+.ai-ticker-spacer{height:92px;}
+
+/* ── URGENCY STRIP ── */
+.urgency-strip{background:linear-gradient(90deg,rgba(13,21,37,0.98),rgba(18,28,50,0.98));border-bottom:1px solid rgba(232,160,32,0.18);padding:0.7rem 3.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
+.urgency-label{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--rust);flex-shrink:0;}
+.urgency-text{font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;color:rgba(244,241,234,0.9);}
+.urgency-pills{display:flex;gap:0.6rem;flex-wrap:wrap;margin-left:auto;}
+.urgency-pill{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.7rem;border:1px solid;white-space:nowrap;}
+.pill-summer{color:#e8a020;border-color:rgba(232,160,32,0.4);}
+.pill-cyber{color:var(--teal2);border-color:rgba(74,159,212,0.4);}
+.pill-pathway{color:var(--purple);border-color:rgba(155,114,207,0.4);}
+
+/* ── HERO ── */
+.hero{padding:5rem 3.5rem 4rem;background:linear-gradient(160deg,#040d18 0%,#060a14 50%,#080d1a 100%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(74,159,212,0.04) 0%,transparent 70%);}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:5rem;align-items:start;position:relative;}
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:1rem;display:inline-flex;align-items:center;gap:0.6rem;}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3.4rem);line-height:1.05;margin-bottom:1.4rem;}
+.hero h1 em{font-style:italic;color:var(--gold);}
+.hero-lead{font-size:1.05rem;line-height:1.85;color:rgba(244,241,234,0.68);margin-bottom:2rem;max-width:560px;}
+.hero-cta-row{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;}
+.btn-primary{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2rem;background:var(--gold);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;letter-spacing:0.08em;text-transform:uppercase;transition:background 0.2s;}
+.btn-primary:hover{background:var(--gold2);}
+.btn-outline{display:inline-flex;align-items:center;gap:0.5rem;padding:0.9rem 2rem;border:1px solid rgba(232,160,32,0.4);color:rgba(244,241,234,0.75);font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.2s;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── PROOF PANEL (three-line format from intel-hub v5.4) ── */
+.proof-panel{background:rgba(74,159,212,0.06);border:1px solid rgba(74,159,212,0.15);border-left:3px solid var(--teal2);padding:1.6rem 2rem;margin-bottom:1.2rem;}
+.proof-panel-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.6rem;}
+.proof-panel-statement{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;line-height:1.6;color:rgba(244,241,234,0.88);margin-bottom:0.8rem;}
+.proof-lines{display:flex;flex-direction:column;gap:0.35rem;}
+.proof-line{font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;}
+.proof-line span.arrow{position:absolute;left:0;color:var(--teal2);}
+
+/* ── STAT BAND ── */
+.stat-band{background:var(--gray);border-top:1px solid rgba(200,168,75,0.1);border-bottom:1px solid rgba(200,168,75,0.1);padding:2.5rem 3.5rem;}
+.stat-band-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;}
+.stat-item{text-align:center;}
+.stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2.2rem;color:var(--gold);line-height:1;margin-bottom:0.3rem;}
+.stat-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,241,234,0.4);line-height:1.5;}
+
+/* ── CREDENTIAL NARRATIVE SECTION ── */
+.section{padding:5rem 3.5rem;}
+.section-inner{max-width:1200px;margin:0 auto;}
+.section-eyebrow{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.24em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;}
+.section-heading{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.1;margin-bottom:1.2rem;}
+.section-lead{font-size:1.05rem;line-height:1.85;color:rgba(244,241,234,0.65);max-width:680px;margin-bottom:3rem;}
+
+/* ── CREDENTIAL ARC CARDS ── */
+.cred-arc{display:flex;flex-direction:column;gap:0;}
+.cred-card{display:grid;grid-template-columns:140px 1fr;gap:0;border-bottom:1px solid rgba(255,255,255,0.05);}
+.cred-card:last-child{border-bottom:none;}
+.cred-year{padding:2rem 1.6rem 2rem 0;border-right:2px solid rgba(232,160,32,0.15);position:relative;}
+.cred-year::after{content:'';position:absolute;right:-5px;top:2.1rem;width:8px;height:8px;background:var(--gold);border-radius:50%;opacity:0.6;}
+.cred-year-label{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.1em;color:var(--gold);font-weight:700;}
+.cred-year-sub{font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.08em;color:rgba(244,241,234,0.3);margin-top:0.2rem;}
+.cred-body{padding:2rem 0 2rem 2rem;}
+.cred-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;line-height:1.3;margin-bottom:0.6rem;color:var(--off);}
+.cred-proof{font-size:0.95rem;line-height:1.75;color:rgba(244,241,234,0.6);}
+.cred-proof strong{color:rgba(244,241,234,0.85);}
+.cred-source{display:inline-flex;align-items:center;gap:0.4rem;font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.12em;text-transform:uppercase;color:rgba(74,159,212,0.7);margin-top:0.8rem;}
+.cred-source a{color:inherit;border-bottom:1px solid rgba(74,159,212,0.25);transition:color 0.2s;}
+.cred-source a:hover{color:var(--teal2);}
+
+/* ── HBCU THREAD ── */
+.hbcu-band{background:linear-gradient(135deg,rgba(13,21,37,0.8),rgba(18,28,50,0.9));border:1px solid rgba(74,159,212,0.12);border-left:3px solid var(--teal2);padding:2.5rem 3rem;margin:3rem 0;}
+.hbcu-band p{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1rem,2vw,1.3rem);line-height:1.5;color:rgba(244,241,234,0.88);margin-bottom:1rem;}
+.hbcu-band .hbcu-thread{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.14em;color:rgba(74,159,212,0.7);text-transform:uppercase;}
+
+/* ── SERVICE TIERS ── */
+.tiers-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:2rem;}
+.tier-card{background:var(--gray);border:1px solid rgba(255,255,255,0.06);padding:2.5rem;position:relative;transition:border-color 0.2s;}
+.tier-card:hover{border-color:rgba(232,160,32,0.25);}
+.tier-card.featured{border:1px solid rgba(232,160,32,0.3);border-top:3px solid var(--gold);}
+.tier-popular{position:absolute;top:0;left:50%;transform:translate(-50%,-50%);background:var(--gold);color:#000;font-family:'Space Mono',monospace;font-size:0.48rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.65rem;white-space:nowrap;}
+.tier-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(244,241,234,0.35);margin-bottom:0.8rem;}
+.tier-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;margin-bottom:0.3rem;color:var(--off);}
+.tier-price{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--gold);line-height:1;margin-bottom:0.2rem;}
+.tier-price-note{font-family:'Space Mono',monospace;font-size:0.52rem;color:rgba(244,241,234,0.3);margin-bottom:1.2rem;}
+.tier-desc{font-size:0.95rem;line-height:1.7;color:rgba(244,241,234,0.55);margin-bottom:1.4rem;}
+.tier-includes{list-style:none;margin-bottom:1.6rem;}
+.tier-includes li{font-size:0.9rem;color:rgba(244,241,234,0.6);display:flex;align-items:flex-start;gap:0.6rem;line-height:1.55;padding:0.3rem 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+.tier-includes li:last-child{border-bottom:none;}
+.tier-includes li::before{content:'✓';color:var(--gold);font-family:'Space Mono',monospace;font-size:0.7rem;flex-shrink:0;margin-top:0.1rem;}
+.tier-btn{display:block;width:100%;padding:0.85rem 1rem;text-align:center;font-family:'Syne',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;transition:all 0.2s;cursor:pointer;border:none;}
+.tier-btn-gold{background:var(--gold);color:#000;}
+.tier-btn-gold:hover{background:var(--gold2);}
+.tier-btn-outline{background:transparent;border:1px solid rgba(232,160,32,0.3);color:rgba(244,241,234,0.65);}
+.tier-btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── RETAINER NOTE ── */
+.retainer-note{background:rgba(74,159,212,0.05);border:1px solid rgba(74,159,212,0.12);border-left:3px solid var(--teal2);padding:1.6rem 2rem;margin-bottom:3rem;}
+.retainer-note-label{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal2);margin-bottom:0.5rem;}
+.retainer-note p{font-size:0.95rem;line-height:1.75;color:rgba(244,241,234,0.65);}
+.retainer-note strong{color:rgba(244,241,234,0.85);}
+
+/* ── CONTACT FORM ── */
+.contact-section{background:var(--gray);padding:5rem 3.5rem;border-top:1px solid rgba(200,168,75,0.1);}
+.contact-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 520px;gap:5rem;align-items:start;}
+.contact-left{}
+.contact-form{background:rgba(8,13,26,0.7);border:1px solid rgba(255,255,255,0.07);padding:2.5rem;}
+.form-row{margin-bottom:1.2rem;}
+.form-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(244,241,234,0.4);display:block;margin-bottom:0.5rem;}
+.form-input{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:0.8rem 1rem;color:var(--off);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;transition:border-color 0.2s;}
+.form-input:focus{border-color:rgba(232,160,32,0.35);}
+.form-select{width:100%;background:rgba(8,13,26,0.8);border:1px solid rgba(255,255,255,0.08);padding:0.8rem 1rem;color:var(--off);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;cursor:pointer;appearance:none;transition:border-color 0.2s;}
+.form-select:focus{border-color:rgba(232,160,32,0.35);}
+.form-textarea{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:0.8rem 1rem;color:var(--off);font-family:'DM Sans',sans-serif;font-size:0.95rem;outline:none;resize:vertical;min-height:120px;transition:border-color 0.2s;}
+.form-textarea:focus{border-color:rgba(232,160,32,0.35);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-submit{width:100%;padding:1rem;background:var(--gold);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s;margin-top:0.5rem;}
+.form-submit:hover{background:var(--gold2);}
+.form-note{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.08em;color:rgba(244,241,234,0.25);text-align:center;margin-top:0.8rem;line-height:1.6;}
+
+/* ── WHAT TO EXPECT ── */
+.expect-list{display:flex;flex-direction:column;gap:1.2rem;margin-top:2rem;}
+.expect-item{display:flex;align-items:flex-start;gap:1rem;}
+.expect-num{min-width:36px;height:36px;background:rgba(232,160,32,0.1);border:1px solid rgba(232,160,32,0.25);display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--gold);flex-shrink:0;}
+.expect-text h4{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:0.25rem;}
+.expect-text p{font-size:0.9rem;line-height:1.65;color:rgba(244,241,234,0.5);}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+/* ── SCROLL CUE ── */
+.scroll-cue{display:flex;flex-direction:column;align-items:flex-start;gap:0.5rem;cursor:pointer;margin-top:1rem;}
+.scroll-cue span{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);}
+.scroll-arrow{width:10px;height:10px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(45deg);margin-left:2px;animation:bounce-down 1.8s ease-in-out infinite;}
+
+/* ── FOOTER ── */
+footer{background:var(--gray);border-top:1px solid rgba(200,168,75,0.1);padding:3rem 3.5rem;}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.footer-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:0.85rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap;}
+.footer-links a{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.35);transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-copy{font-family:'Space Mono',monospace;font-size:0.5rem;color:rgba(244,241,234,0.2);letter-spacing:0.08em;width:100%;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,0.05);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem;}
+  .hamburger{display:flex;}
+  .nav-links{display:none;}
+  .hero{padding:3.5rem 1.5rem 3rem;}
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .stat-band{padding:2rem 1.5rem;}
+  .stat-band-inner{grid-template-columns:repeat(2,1fr);}
+  .section{padding:3.5rem 1.5rem;}
+  .tiers-grid{grid-template-columns:1fr;}
+  .contact-section{padding:3.5rem 1.5rem;}
+  .contact-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .form-grid{grid-template-columns:1fr;}
+  footer{padding:2rem 1.5rem;}
+  .footer-inner{flex-direction:column;align-items:flex-start;}
+  .urgency-strip{padding:0.7rem 1.5rem;}
+  .urgency-pills{margin-left:0;}
+  .cred-card{grid-template-columns:100px 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ NAV ══════════════════ -->
+<nav>
+  <a class="logo" href="/index.html">DJMP Institute</a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/programs.html">Programs</a></li>
+    <li><a href="/pathwayai.html">PathwayAI</a></li>
+    <li><a href="/who-we-are.html">Team</a></li>
+    <li><a href="/intel-hub.html" style="color:var(--teal2);display:inline-flex;align-items:center;gap:0.4rem;"><span style="width:6px;height:6px;background:var(--teal2);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>AI Intel</a></li>
+    <li><a href="/funders.html" style="color:var(--gold);display:inline-flex;align-items:center;gap:0.4rem;font-weight:700;"><span style="width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>Fund Our Work</a></li>
+    <li><a href="/donate.html">Donate</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">&times;</button>
+  <a href="/index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+  <a href="/programs.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Programs</a>
+  <a href="/pathwayai.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">PathwayAI</a>
+  <a href="/who-we-are.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Team</a>
+  <a href="/intel-hub.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--teal2);">AI Intel</a>
+  <a href="/funders.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--gold);">Fund Our Work</a>
+  <a href="/donate.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Donate</a>
+</div>
+
+<!-- ══════════════════ TICKER ══════════════════ -->
+<div class="ai-ticker-wrap" role="marquee" aria-label="DJMP Institute AI Intelligence Feed">
+  <div class="ai-ticker-inner">
+    <div class="ai-ticker-label"><span>AI Intel</span></div>
+    <div class="ai-ticker-track">
+      <div class="ai-ticker-scroll">
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/intel-hub.html">Active nonprofit AI grants tracked weekly — subscribe for deadline alerts &amp; winning strategy</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">2026 marks the shift from AI demos to civic deployment — DJMP is already there</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/programs.html">4M cybersecurity professionals needed globally — DJMP is building the pipeline</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="https://chicago.suntimes.com/2017/7/12/18357886/mitchell-rainbow-push-unveils-stay-safe-app-at-chicago-tech-expo" target="_blank">Stay Safe App unveiled at Rainbow PUSH — Chicago Sun-Times · 2017</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/intel-hub.html">Active nonprofit AI grants tracked weekly — subscribe for deadline alerts &amp; winning strategy</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">2026 marks the shift from AI demos to civic deployment — DJMP is already there</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/programs.html">4M cybersecurity professionals needed globally — DJMP is building the pipeline</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="https://chicago.suntimes.com/2017/7/12/18357886/mitchell-rainbow-push-unveils-stay-safe-app-at-chicago-tech-expo" target="_blank">Stay Safe App unveiled at Rainbow PUSH — Chicago Sun-Times · 2017</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ai-ticker-spacer"></div>
+
+<!-- ══════════════════ URGENCY STRIP ══════════════════ -->
+<div class="urgency-strip">
+  <div class="urgency-label">⚡ Operational Gap</div>
+  <div class="urgency-text">Three programs ready to deploy. Zero paid operational budget.</div>
+  <div class="urgency-pills">
+    <span class="urgency-pill pill-summer">Summer STEM $95K</span>
+    <span class="urgency-pill pill-cyber">Cybersecurity $400K</span>
+    <span class="urgency-pill pill-pathway">PathwayAI $1.5M</span>
+  </div>
+</div>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <!-- LEFT -->
+    <div>
+      <div class="hero-eyebrow">Grant Writing Services · DJMP Institute</div>
+      <h1>Grant Writing by a PI<br>Who Has <em>Won.</em></h1>
+      <p class="hero-lead">When the U.S. Department of Education needed a principal investigator for a $750,000 STEM grant, they chose Martin Pieters. When NSF's MRSEC program selected research educators twice — in 2015 and again in 2022 — Pieters was among the four chosen each cycle. This is who writes your application.</p>
+      <div class="hero-cta-row">
+        <a href="#contact" class="btn-primary">Start the Conversation →</a>
+        <a href="#tiers" class="btn-outline">View Service Tiers</a>
+      </div>
+      <div class="scroll-cue" onclick="document.getElementById('credential-narrative').scrollIntoView({behavior:'smooth'})">
+        <span>See the Credential Arc</span>
+        <div class="scroll-arrow"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: PROOF PANEL (three-line format — intel-hub v5.4) -->
+    <div>
+      <div class="proof-panel">
+        <div class="proof-panel-label">The PI Behind Your Application</div>
+        <p class="proof-panel-statement">You are not hiring a grant consultant. You are engaging a principal investigator with a documented federal research trajectory.</p>
+        <div class="proof-lines">
+          <div class="proof-line"><span class="arrow">→</span>PI — $750K DOE MSEIP Grant · Kennedy-King College · 2012–2015</div>
+          <div class="proof-line"><span class="arrow">→</span>Northwestern MRSEC Research Fellow · 2015 &amp; 2022 · One of four selected each cycle</div>
+          <div class="proof-line"><span class="arrow">→</span>PhD Candidate, AI · TCAF Researcher · AWS MLU Faculty Fellow 2026</div>
+        </div>
+      </div>
+
+      <!-- QUICK TIERS PREVIEW -->
+      <div style="background:var(--gray);border:1px solid rgba(255,255,255,0.06);padding:1.6rem 2rem;">
+        <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;color:rgba(232,160,32,0.6);text-transform:uppercase;margin-bottom:0.8rem;">Four Service Tiers</div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;margin-bottom:1.2rem;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <span style="font-size:0.9rem;color:rgba(244,241,234,0.65);">Application Review</span>
+            <span style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--gold);">$250</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <span style="font-size:0.9rem;color:rgba(244,241,234,0.65);">Full Application</span>
+            <span style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--gold);">$1,500</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <span style="font-size:0.9rem;color:rgba(244,241,234,0.65);">Full Suite</span>
+            <span style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--gold);">$3,000</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;">
+            <span style="font-size:0.9rem;color:rgba(244,241,234,0.65);">Retainer</span>
+            <span style="font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--gold);">From $800/mo</span>
+          </div>
+        </div>
+        <a href="#contact" style="display:block;width:100%;padding:0.75rem 1rem;background:var(--gold);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:background 0.2s;" onmouseover="this.style.background='#f0b840'" onmouseout="this.style.background='#e8a020'">Start That Conversation →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ STAT BAND ══════════════════ -->
+<div class="stat-band">
+  <div class="stat-band-inner">
+    <div class="stat-item reveal">
+      <div class="stat-num">$750K</div>
+      <div class="stat-label">Federal Grant<br>as Principal Investigator</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">2×</div>
+      <div class="stat-label">NSF MRSEC Research<br>Fellow Selection</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">14</div>
+      <div class="stat-label">Institutions Selected<br>Nationally — DJMP Was One</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Years Founder-Funded<br>Before First Grant Dollar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ CREDENTIAL NARRATIVE ══════════════════ -->
+<div class="section" id="credential-narrative">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">The Credential Arc · 2012 – 2026</div>
+    <h2 class="section-heading reveal">This Is Not a Resume.<br>This Is a Research Trajectory.</h2>
+    <p class="section-lead reveal">Most grant writers list credentials. We tell you what each one means — what it required, who it impressed, and why it positions your application to win. Here is the arc that backs every application we write.</p>
+
+    <div class="cred-arc">
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2012–2015</div>
+          <div class="cred-year-sub">Federal PI</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">Principal Investigator — U.S. Department of Education MSEIP Grant · $750,000</div>
+          <p class="cred-proof">When the Department of Education announced its 2012 MSEIP cohort, <strong>14 institutions were selected nationally</strong> — announced by Secretary of Education Arne Duncan. Kennedy-King College at City Colleges of Chicago was one of them, with Martin Pieters as the PI who authored and submitted the winning application. The grant delivered $250,000 per year for three years and launched a ten-year research relationship with Northwestern University that would extend through 2022.</p>
+          <div class="cred-source">
+            <span>→</span>
+            <a href="https://campustechnology.com/articles/2012/05/07/mseip-grants-fuel-stem-programs-at-predominantly-minority-colleges.aspx" target="_blank">Verified: Campus Technology, May 2012</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2015</div>
+          <div class="cred-year-sub">Northwestern</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">NSF MRSEC Research Experience for Teachers Fellow — Northwestern University (Selection 1 of 2)</div>
+          <p class="cred-proof">One of four educators selected for Northwestern's Materials Research Science and Engineering Center RET program. Pieters conducted original computational chemistry research under the Broadbelt Group — kinetic modeling of oil paint aging using Arrhenius equations, Automated Network Generation systems, and ordinary differential equations. Co-authored with Lindsay Oakley (Northwestern Dept. of Materials Science &amp; Engineering). <strong>Presented August 13, 2015.</strong> Funded by NSF and MRSEC.</p>
+          <div class="cred-source"><span>→</span><span>NSF/MRSEC · Northwestern University · RET Final Report 2015</span></div>
+        </div>
+      </div>
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2019</div>
+          <div class="cred-year-sub">IIT + UChicago</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">Visiting Research Scientist — Illinois Institute of Technology &amp; University of Chicago Medical Center</div>
+          <p class="cred-proof">When the American Heart Association needed a curriculum architect for their AI research grant, they chose Martin Pieters — alongside researchers from King's College London and Quest University. Hosted by Dr. Keigo Kawaji, tied to AHA Grant AHA 19AIREA34450209. Pieters co-designed AI curriculum and served as Machine Learning Instructor at the IIT Summer Program (July 28, 2019), <strong>alongside faculty from Stanford, Northwestern, UChicago, and King's College London.</strong></p>
+          <div class="cred-source"><span>→</span><a href="https://bit.ly/IITsummer" target="_blank">IIT Summer Program · bit.ly/IITsummer</a></div>
+        </div>
+      </div>
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2019</div>
+          <div class="cred-year-sub">ISMRM</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">ISMRM Abstract — Equal Contribution Authorship · Kawaji, Goes, Pieters et al.</div>
+          <p class="cred-proof">Kawaji, Goes, Pieters et al. — IIT · UChicago · King's College London · Quest University. Presented at ISMRM Sedona 2019. <strong>Equal contribution status — not acknowledgment.</strong> This is the distinction that separates participants from co-investigators. Funded by AHA Grant #AIREA34450209 and NIH K25 HL141634.</p>
+          <div class="cred-source"><span>→</span><span>AHA Grant #AIREA34450209 · NIH K25 HL141634</span></div>
+        </div>
+      </div>
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2022</div>
+          <div class="cred-year-sub">Northwestern</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">NSF MRSEC Research Experience for Teachers Fellow — Northwestern University (Selection 2 of 2)</div>
+          <p class="cred-proof">Seven years after the first selection, Pieters was chosen again — one of four educators selected for Northwestern's MRSEC RET program. AI and deep learning research for materials science under Dr. Wei Chen, with Ford Motor Company collaboration. <strong>This second selection confirms a documented, seven-year research relationship with Northwestern MRSEC (2015–2022)</strong> — not a one-time credential, but a sustained research identity. Presented August 11, 2022.</p>
+          <div class="cred-source"><span>→</span><span>Northwestern University MRSEC · NSF funded · Dr. Wei Chen Lab</span></div>
+        </div>
+      </div>
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2025</div>
+          <div class="cred-year-sub">Amazon</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">Amazon-HBCU AI/ML Educator Fellow — 2025–2026 Cohort</div>
+          <p class="cred-proof">Selected for the 2025–2026 Amazon-HBCU AI/ML Educator Fellowship — a program connecting historically Black college and university-affiliated educators to Amazon's machine learning infrastructure and research networks. Part of the same intellectual lineage as Howard University and Tuskegee University. <strong>DJMP's work belongs to the tradition of institutions founded to serve communities the mainstream excluded.</strong></p>
+        </div>
+      </div>
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2026</div>
+          <div class="cred-year-sub">AWS MLU</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">AWS Machine Learning University Faculty Fellow — Tuskegee University Symposium 2026</div>
+          <p class="cred-proof">Recognized at the Tuskegee University AWS Machine Learning University Symposium as Faculty Fellow — <strong>the only educator from City Colleges of Chicago in the cohort.</strong> This credential does not travel in straight lines from community college teaching to AWS faculty designation. It travels through 14 years of documented federal research, two Northwestern selections, and a live AI system in production serving Chicago's most underserved communities.</p>
+        </div>
+      </div>
+
+      <div class="cred-card reveal">
+        <div class="cred-year">
+          <div class="cred-year-label">2026</div>
+          <div class="cred-year-sub">PhD / TCAF</div>
+        </div>
+        <div class="cred-body">
+          <div class="cred-title">PhD Candidate, Artificial Intelligence · TCAF Researcher · Leading U.S. Research University</div>
+          <p class="cred-proof">Building TCAF — the Trustworthy Civic AI Framework — the first empirically grounded, integrated design science framework for agentic AI in high-stakes civic environments. Four pillars: Secure by Architecture · Ethical by Design · Equitable by Intent · Scalable by Design. PathwayAI — a live system connecting Bronzeville residents to ten federal workforce databases via autonomous AI agents — is the proof-of-concept artifact from which TCAF is derived. <strong>No other grant writer in the country can point to a running production system as their dissertation's proof of concept.</strong></p>
+        </div>
+      </div>
+
+    </div><!-- /cred-arc -->
+
+    <!-- HBCU THREAD -->
+    <div class="hbcu-band reveal">
+      <p>Two HBCU-connected AI practitioners — one who built the framework, one who governs it — sitting at the same governance table building AI infrastructure for the communities those institutions were founded to serve.</p>
+      <div class="hbcu-thread">Howard University · Tuskegee University · Rainbow PUSH Coalition · The intellectual lineage of this work.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ SERVICE TIERS ══════════════════ -->
+<div class="section" id="tiers" style="background:var(--gray);padding-top:5rem;padding-bottom:5rem;">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Grant Writing Services · Four Tiers</div>
+    <h2 class="section-heading reveal">Choose the Level of<br>Engagement You Need.</h2>
+    <p class="section-lead reveal">Every tier is written by Martin Pieters — principal investigator on a $750,000 federal grant, twice-selected NSF MRSEC Research Fellow, and PhD candidate in AI. We write with you, not for a template.</p>
+
+    <div class="tiers-grid">
+
+      <!-- TIER 1: REVIEW -->
+      <div class="tier-card reveal">
+        <div class="tier-label">Tier 1</div>
+        <div class="tier-name">Application Review</div>
+        <div class="tier-price">$250</div>
+        <div class="tier-price-note">One application · Delivered within 5 business days</div>
+        <p class="tier-desc">You've written a draft. We read it the way a program officer reads it — and tell you exactly what needs to change before you submit.</p>
+        <ul class="tier-includes">
+          <li>Full narrative review with line-level feedback</li>
+          <li>Alignment check against funder priorities and stated criteria</li>
+          <li>Credential framing audit — proof framing, not resume listing</li>
+          <li>Budget narrative review (if applicable)</li>
+          <li>Written report with prioritized revision list</li>
+        </ul>
+        <a href="#contact" class="tier-btn tier-btn-outline">Start a Review →</a>
+      </div>
+
+      <!-- TIER 2: FULL APPLICATION (FEATURED) -->
+      <div class="tier-card featured reveal">
+        <div class="tier-popular">Most Requested</div>
+        <div class="tier-label">Tier 2</div>
+        <div class="tier-name">Full Application</div>
+        <div class="tier-price">$1,500</div>
+        <div class="tier-price-note">One grant · Full narrative drafted by Martin Pieters</div>
+        <p class="tier-desc">We research the funder, map DJMP's — or your organization's — credentials to their priorities, and write the complete narrative. You review, approve, and submit.</p>
+        <ul class="tier-includes">
+          <li>Funder research and eligibility confirmation</li>
+          <li>Complete project narrative draft</li>
+          <li>Proof-framed credential arc woven into the narrative</li>
+          <li>Budget and timeline framework</li>
+          <li>Two revision rounds included</li>
+          <li>Submission checklist and deadline management</li>
+        </ul>
+        <a href="#contact" class="tier-btn tier-btn-gold">Start Your Application →</a>
+      </div>
+
+      <!-- TIER 3: SUITE -->
+      <div class="tier-card reveal">
+        <div class="tier-label">Tier 3</div>
+        <div class="tier-name">Full Suite</div>
+        <div class="tier-price">$3,000</div>
+        <div class="tier-price-note">Three grants · Coordinated strategy across funders</div>
+        <p class="tier-desc">For organizations ready to run multiple applications simultaneously. We sequence the submissions, reuse approved narrative blocks strategically, and manage the full pipeline.</p>
+        <ul class="tier-includes">
+          <li>Everything in Full Application — times three</li>
+          <li>Funder sequencing strategy (who to approach in what order)</li>
+          <li>Shared narrative architecture across all three grants</li>
+          <li>AI Intel feed subscription included — track deadlines weekly</li>
+          <li>Priority turnaround scheduling</li>
+          <li>Post-submission debrief and feedback integration</li>
+        </ul>
+        <a href="#contact" class="tier-btn tier-btn-outline">Build Your Pipeline →</a>
+      </div>
+
+      <!-- TIER 4: RETAINER -->
+      <div class="tier-card reveal">
+        <div class="tier-label">Tier 4</div>
+        <div class="tier-name">Monthly Retainer</div>
+        <div class="tier-price" style="font-size:1.6rem;">From $800<span style="font-size:1rem;color:rgba(244,241,234,0.4);">/mo</span></div>
+        <div class="tier-price-note">Ongoing engagement · Custom scope</div>
+        <p class="tier-desc">For foundations, workforce boards, or nonprofits that need a continuous grant writing partner — not a one-time vendor. Retainer scope is custom-negotiated based on volume and cadence.</p>
+        <ul class="tier-includes">
+          <li>Dedicated monthly application capacity</li>
+          <li>Ongoing funder research and opportunity identification</li>
+          <li>Grant calendar management and deadline alerts</li>
+          <li>AI Intel Grant Subscription included</li>
+          <li>Priority scheduling and faster turnaround</li>
+          <li>Quarterly strategy review</li>
+        </ul>
+        <a href="#contact" class="tier-btn tier-btn-outline">Discuss a Retainer →</a>
+      </div>
+
+    </div><!-- /tiers-grid -->
+
+    <div class="retainer-note reveal">
+      <div class="retainer-note-label">A Note on White-Label</div>
+      <p>Workforce boards, foundations, and consultants: <strong>we offer white-label grant writing at custom pricing.</strong> If your clients need federal, state, or foundation grant support and you want a PI-credentialed writer behind the work without using your own capacity — start that conversation below.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ CONTACT FORM ══════════════════ -->
+<div class="contact-section" id="contact">
+  <div class="contact-inner">
+
+    <!-- LEFT -->
+    <div>
+      <div class="section-eyebrow reveal">Start the Conversation</div>
+      <h2 class="section-heading reveal">Tell Us About<br>Your Grant.</h2>
+      <p style="font-size:1rem;line-height:1.85;color:rgba(244,241,234,0.6);margin-bottom:2rem;" class="reveal">We respond to every inquiry. If you have an upcoming deadline, say so — we triage by urgency and will tell you within 24 hours whether we can take the work.</p>
+
+      <div class="expect-list">
+        <div class="expect-item reveal">
+          <div class="expect-num">01</div>
+          <div class="expect-text">
+            <h4>Submit This Form</h4>
+            <p>Tell us the grant, the deadline, and where you are in the process. The more context, the better.</p>
+          </div>
+        </div>
+        <div class="expect-item reveal">
+          <div class="expect-num">02</div>
+          <div class="expect-text">
+            <h4>We Confirm Fit Within 24 Hours</h4>
+            <p>We'll confirm whether this is a grant we can take, the appropriate tier, and next steps. No obligation.</p>
+          </div>
+        </div>
+        <div class="expect-item reveal">
+          <div class="expect-num">03</div>
+          <div class="expect-text">
+            <h4>Kick-Off Call</h4>
+            <p>30 minutes. We align on the narrative strategy before a word is written. We research, you approve.</p>
+          </div>
+        </div>
+        <div class="expect-item reveal">
+          <div class="expect-num">04</div>
+          <div class="expect-text">
+            <h4>Draft · Revise · Submit</h4>
+            <p>Two revision rounds included in all tiers above Review. You submit when you're confident.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div class="contact-form reveal">
+      <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:1.5rem;">Grant Writing Inquiry</div>
+
+      <div class="form-grid">
+        <div class="form-row">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="First name">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Last name">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Organization</label>
+        <input type="text" class="form-input" placeholder="Your organization name">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="your@email.org">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Service Tier</label>
+        <select class="form-select">
+          <option value="" disabled selected>Select a tier</option>
+          <option>Application Review — $250</option>
+          <option>Full Application — $1,500</option>
+          <option>Full Suite (3 grants) — $3,000</option>
+          <option>Monthly Retainer — from $800/mo</option>
+          <option>White-Label / Custom</option>
+          <option>Not sure yet — just exploring</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Grant Name &amp; Funder (if known)</label>
+        <input type="text" class="form-input" placeholder="e.g. NSF CyberAICorps, Google.org Impact Challenge">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Application Deadline</label>
+        <input type="text" class="form-input" placeholder="e.g. April 3, 2026 — or Rolling">
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Tell Us About Your Project</label>
+        <textarea class="form-textarea" placeholder="What does your organization do? What is this grant for? Where are you in the process — idea, draft, or nearly ready to submit?"></textarea>
+      </div>
+
+      <button class="form-submit" onclick="handleFormSubmit(event)">Send Inquiry →</button>
+      <div class="form-note">We respond within 24 hours · info@djmpinstitute.org · (312) 877-9668</div>
+      <div id="form-confirm" style="display:none;margin-top:1rem;background:rgba(74,159,212,0.08);border-left:3px solid var(--teal2);padding:1rem 1.2rem;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;color:var(--teal2);line-height:1.6;">Thank you — your inquiry has been sent. We'll confirm fit and next steps within 24 hours.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">DJMP Institute</div>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/programs.html">Programs</a>
+      <a href="/pathwayai.html">PathwayAI</a>
+      <a href="/who-we-are.html">Team</a>
+      <a href="/intel-hub.html">AI Intel</a>
+      <a href="/funders.html">Fund Our Work</a>
+      <a href="/donate.html">Donate</a>
+      <a href="mailto:info@djmpinstitute.org">Contact</a>
+    </div>
+    <div class="footer-copy">© 2026 DJMP Institute · Bronzeville, Chicago, Illinois · 501(c)(3) Nonprofit Pending · info@djmpinstitute.org · (312) 877-9668</div>
+  </div>
+</footer>
+
+<script>
+// ── SCROLL REVEAL ──
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// ── FORM SUBMIT (mailto fallback) ──
+function handleFormSubmit(e) {
+  e.preventDefault();
+  const inputs = document.querySelectorAll('.form-input, .form-select, .form-textarea');
+  let body = '';
+  const labels = document.querySelectorAll('.form-label');
+  inputs.forEach((inp, i) => {
+    const label = labels[i] ? labels[i].textContent : 'Field';
+    body += label + ': ' + (inp.value || '(blank)') + '\n';
+  });
+  const mailtoLink = 'mailto:info@djmpinstitute.org?subject=Grant Writing Inquiry — DJMP Institute&body=' + encodeURIComponent(body);
+  window.location.href = mailtoLink;
+  document.getElementById('form-confirm').style.display = 'block';
+}
+
+// ── SMOOTH ANCHOR SCROLLING ──
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth'}); }
+  });
+});
+</script>
+</body>
+</html>

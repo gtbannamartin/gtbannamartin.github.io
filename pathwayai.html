@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PathwayAI — DJMP Institute</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800;900&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── THEME OVERRIDE ── */
+header,.header,#header,#masthead,.site-header,.main-navigation,.nav-bar,.navbar,#navbar,
+.top-bar,.menu-bar,#menu-bar,.primary-menu,nav.site-navigation,.header-inner,.header-wrap,
+.header-container,.site-branding,.header-widget,.consulting-header,.consulting-nav,.page-header,
+#site-navigation,.navigation-main,.main-nav,[class*="header"],[class*="navbar"],[class*="nav-bar"],
+[id*="header"],[id*="navbar"],footer.site-footer,#colophon,.site-footer,.footer-widgets,
+.consulting-footer,#secondary,.widget-area,aside.sidebar,.site-content,#content,#primary,main.site-main{
+  display:none!important;height:0!important;overflow:hidden!important;
+}
+html,body{margin:0!important;padding:0!important;}
+.site,#page,.hentry,article,.entry-content,.page-content,.post-content{margin:0!important;padding:0!important;max-width:100%!important;}
+
+/* ── ROOT ── */
+:root{
+  --black:#080d1a;--off:#f4f1ea;--gold:#e8a020;--gold2:#f0b840;
+  --teal:#2a6b8a;--teal2:#4a9fd4;--rust:#e05c2e;--rust2:#e86b40;
+  --gray:#0d1525;--gray2:#132030;--purple:#9b72cf;--green:#2d9f6f;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--off);font-family:'DM Sans',sans-serif;font-weight:400;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+
+/* ── NAV ── */
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content:space-between;align-items:center;padding:1.1rem 3.5rem;background:rgba(8,13,26,0.97);border-bottom:1px solid rgba(200,168,75,0.12);backdrop-filter:blur(8px);}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;color:rgba(244,241,234,0.65);transition:color 0.2s;}
+.nav-links a:hover{color:var(--gold);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;z-index:1001;}
+.hamburger span{display:block;width:24px;height:2px;background:var(--gold);border-radius:2px;}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(8,13,26,0.98);z-index:1000;flex-direction:column;align-items:center;justify-content:center;gap:2rem;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Syne',sans-serif;font-weight:700;font-size:1.4rem;color:rgba(244,241,234,0.75);letter-spacing:0.08em;text-transform:uppercase;}
+.mobile-menu a:hover{color:var(--gold);}
+.mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.8rem;color:var(--gold);cursor:pointer;background:none;border:none;}
+
+/* ── TICKER ── */
+.ai-ticker-wrap{width:100%;background:#050c1a;border-bottom:1px solid rgba(232,160,32,0.18);overflow:hidden;position:fixed;top:60px;left:0;right:0;z-index:900;box-shadow:0 2px 12px rgba(0,0,0,0.4);}
+.ai-ticker-spacer{height:70px;display:block;}
+.ai-ticker-inner{display:flex;align-items:stretch;}
+.ai-ticker-label{flex-shrink:0;background:var(--gold);color:#050c1a;font-family:'Space Mono',monospace;font-size:0.58rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;padding:0 1.1rem;display:flex;align-items:center;gap:0.4rem;white-space:nowrap;}
+.ai-ticker-label::before{content:'';width:6px;height:6px;background:#050c1a;border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;}
+.ai-ticker-track{overflow:hidden;flex:1;position:relative;}
+.ai-ticker-track::before,.ai-ticker-track::after{content:'';position:absolute;top:0;bottom:0;width:60px;z-index:2;pointer-events:none;}
+.ai-ticker-track::before{left:0;background:linear-gradient(to right,#050c1a,transparent);}
+.ai-ticker-track::after{right:0;background:linear-gradient(to left,#050c1a,transparent);}
+.ai-ticker-scroll{display:flex;align-items:center;animation:ticker-move 55s linear infinite;white-space:nowrap;padding:0.45rem 0;}
+.ai-ticker-scroll:hover{animation-play-state:paused;}
+@keyframes ticker-move{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+.ai-ticker-item{display:inline-flex;align-items:center;font-family:'Space Mono',monospace;font-size:0.59rem;letter-spacing:0.06em;color:rgba(244,241,234,0.72);padding:0 2rem;border-right:1px solid rgba(232,160,32,0.12);}
+.ai-ticker-item a{color:inherit;transition:color 0.2s;}
+.ai-ticker-item a:hover{color:var(--gold);}
+.ai-ticker-cat{font-size:0.52rem;letter-spacing:0.14em;margin-right:0.6rem;padding:0.1rem 0.45rem;border:1px solid;border-radius:1px;font-weight:700;text-transform:uppercase;}
+.cat-gold{color:var(--gold);border-color:rgba(232,160,32,0.35);}
+.cat-teal{color:#4a9fd4;border-color:rgba(74,159,212,0.35);}
+.cat-purple{color:#9b72cf;border-color:rgba(155,114,207,0.35);}
+.cat-rust{color:#c04a2a;border-color:rgba(192,74,42,0.35);}
+.ai-ticker-sep{color:rgba(232,160,32,0.3);padding:0 1rem;}
+
+/* ── HERO ── */
+.hero{padding:8rem 3.5rem 5rem;background:linear-gradient(145deg,#040d18 0%,#060a14 55%,#080d1a 100%);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 20% 50%,rgba(74,159,212,0.07) 0%,transparent 70%),radial-gradient(ellipse 40% 45% at 85% 25%,rgba(232,160,32,0.05) 0%,transparent 60%);pointer-events:none;}
+.hero-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:4rem;align-items:center;position:relative;z-index:1;}
+.hero-tag{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.28em;color:var(--teal2);text-transform:uppercase;margin-bottom:1rem;display:inline-flex;align-items:center;gap:0.6rem;}
+.hero-tag::before{content:'';width:7px;height:7px;background:var(--green);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;}
+.hero h1{font-family:'Syne',sans-serif;font-weight:900;font-size:clamp(3rem,6vw,5rem);line-height:0.95;letter-spacing:-0.02em;margin-bottom:1.2rem;}
+.hero h1 em{font-style:normal;color:var(--teal2);}
+.hero-lead{font-size:1.05rem;line-height:1.85;color:rgba(244,241,234,0.65);margin-bottom:2rem;max-width:520px;}
+.hero-lead strong{color:var(--off);}
+
+/* ── LIVE STATUS CARD ── */
+.live-card{background:rgba(45,159,111,0.08);border:1px solid rgba(45,159,111,0.25);border-top:3px solid var(--green);padding:1.8rem 2rem;}
+.live-card-top{display:flex;align-items:center;gap:0.8rem;margin-bottom:1.2rem;}
+.live-dot{width:10px;height:10px;background:var(--green);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;}
+.live-label{font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--green);font-weight:700;}
+.live-stats{display:grid;grid-template-columns:1fr 1fr;gap:2px;}
+.live-stat{background:rgba(255,255,255,0.03);padding:1rem 1.2rem;}
+.live-num{font-family:'Syne',sans-serif;font-weight:900;font-size:1.8rem;line-height:1;margin-bottom:0.2rem;}
+.ls1 .live-num{color:var(--rust);}
+.ls2 .live-num{color:var(--gold);}
+.ls3 .live-num{color:var(--teal2);}
+.ls4 .live-num{color:var(--green);}
+.live-desc{font-size:0.72rem;color:rgba(244,241,234,0.45);line-height:1.4;}
+
+/* ── HERO BTNS ── */
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{background:var(--teal2);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.78rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 1.8rem;transition:background 0.2s;border:none;cursor:pointer;}
+.btn-primary:hover{background:#5fb0e4;}
+.btn-outline{border:1px solid rgba(232,160,32,0.4);color:rgba(244,241,234,0.7);font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.85rem 1.6rem;transition:all 0.2s;}
+.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── PROOF BAND ── */
+.proof-band{background:rgba(74,159,212,0.06);border-top:1px solid rgba(74,159,212,0.12);border-bottom:1px solid rgba(74,159,212,0.12);padding:1.5rem 3.5rem;}
+.proof-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:2rem;}
+.proof-icon{font-size:1.4rem;flex-shrink:0;}
+.proof-text{font-size:0.95rem;color:rgba(244,241,234,0.75);line-height:1.6;}
+.proof-text strong{color:var(--teal2);}
+
+/* ── SECTION ── */
+.section{max-width:1200px;margin:0 auto;padding:5rem 3.5rem;}
+.sec-label{font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:0.6rem;}
+.sec-title{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.8rem,3.5vw,2.6rem);line-height:1.1;margin-bottom:0.8rem;}
+.sec-sub{font-size:1rem;color:rgba(244,241,234,0.55);line-height:1.75;max-width:680px;margin-bottom:3rem;}
+
+/* ── AGENTS GRID ── */
+.agents-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:rgba(255,255,255,0.04);}
+.agent-card{background:var(--gray);padding:2.2rem 2rem;border-top:3px solid transparent;transition:background 0.2s;}
+.agent-card:hover{background:var(--gray2);}
+.ac1{border-top-color:var(--teal2);}
+.ac2{border-top-color:var(--gold);}
+.ac3{border-top-color:var(--green);}
+.agent-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1.2rem;}
+.ai1{background:rgba(74,159,212,0.12);}
+.ai2{background:rgba(232,160,32,0.1);}
+.ai3{background:rgba(45,159,111,0.1);}
+.agent-num{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.2em;color:rgba(244,241,234,0.3);text-transform:uppercase;margin-bottom:0.5rem;}
+.agent-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1.05rem;margin-bottom:0.6rem;line-height:1.25;}
+.ac1 .agent-name{color:var(--teal2);}
+.ac2 .agent-name{color:var(--gold);}
+.ac3 .agent-name{color:var(--green);}
+.agent-desc{font-size:0.88rem;color:rgba(244,241,234,0.55);line-height:1.7;}
+
+/* ── DATABASE GRID ── */
+.db-section{background:var(--gray2);border-top:1px solid rgba(74,159,212,0.1);border-bottom:1px solid rgba(74,159,212,0.1);padding:4rem 3.5rem;}
+.db-inner{max-width:1200px;margin:0 auto;}
+.db-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:2rem;}
+.db-tag{background:var(--black);padding:1rem 1.2rem;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:var(--teal2);text-transform:uppercase;border-left:2px solid rgba(74,159,212,0.25);transition:border-color 0.2s;}
+.db-tag:hover{border-left-color:var(--teal2);}
+
+/* ── IMPACT STRIP ── */
+.impact-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:rgba(232,160,32,0.06);}
+.impact-card{background:var(--black);padding:2.5rem 2rem;text-align:center;border-top:3px solid transparent;}
+.ic1{border-top-color:var(--rust);}
+.ic2{border-top-color:var(--gold);}
+.ic3{border-top-color:var(--teal2);}
+.ic4{border-top-color:var(--green);}
+.impact-num{font-family:'Syne',sans-serif;font-weight:900;font-size:2.8rem;line-height:1;margin-bottom:0.3rem;}
+.ic1 .impact-num{color:var(--rust);}
+.ic2 .impact-num{color:var(--gold);}
+.ic3 .impact-num{color:var(--teal2);}
+.ic4 .impact-num{color:var(--green);}
+.impact-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,241,234,0.3);margin-bottom:0.5rem;}
+.impact-desc{font-size:0.82rem;color:rgba(244,241,234,0.5);line-height:1.5;}
+
+/* ── TECH STACK ── */
+.tech-section{padding:4rem 3.5rem;background:var(--gray);}
+.tech-inner{max-width:1200px;margin:0 auto;}
+.tech-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2rem;}
+.tech-card{background:var(--black);padding:1.6rem 1.8rem;}
+.tech-cat{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(244,241,234,0.3);margin-bottom:0.5rem;}
+.tech-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--off);margin-bottom:0.2rem;}
+.tech-desc{font-size:0.8rem;color:rgba(244,241,234,0.45);}
+
+/* ── INTEL TEASER ── */
+.intel-section{background:linear-gradient(145deg,#050c1a,#060f18);border-top:1px solid rgba(74,159,212,0.1);padding:5rem 3.5rem;}
+.intel-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.intel-pillars{display:flex;flex-direction:column;gap:2px;}
+.intel-pillar{background:var(--gray);padding:1.2rem 1.6rem;border-left:3px solid transparent;display:flex;align-items:center;gap:1rem;}
+.ip1{border-left-color:var(--teal2);}
+.ip2{border-left-color:var(--purple);}
+.ip3{border-left-color:var(--gold);}
+.ip4{border-left-color:var(--rust);}
+.pillar-icon{font-size:1.2rem;flex-shrink:0;}
+.pillar-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.88rem;margin-bottom:0.15rem;}
+.ip1 .pillar-name{color:var(--teal2);}
+.ip2 .pillar-name{color:var(--purple);}
+.ip3 .pillar-name{color:var(--gold);}
+.ip4 .pillar-name{color:var(--rust);}
+.pillar-desc{font-size:0.75rem;color:rgba(244,241,234,0.45);}
+.intel-cta{background:rgba(74,159,212,0.07);border:1px solid rgba(74,159,212,0.2);padding:1.2rem 1.6rem;margin-top:1rem;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:background 0.2s;}
+.intel-cta:hover{background:rgba(74,159,212,0.12);}
+.intel-cta-text{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal2);}
+.intel-cta-arrow{color:var(--teal2);font-size:1rem;}
+
+/* ── PARTNERS ── */
+.partners-section{padding:5rem 3.5rem;background:var(--gray2);}
+.partners-inner{max-width:1200px;margin:0 auto;}
+.partners-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:2rem;}
+.partner-card{background:var(--black);padding:2rem;border-top:2px solid rgba(255,255,255,0.06);}
+.partner-status{font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.2rem 0.6rem;border:1px solid;margin-bottom:0.8rem;display:inline-block;}
+.ps-active{color:var(--green);border-color:rgba(45,159,111,0.35);}
+.ps-progress{color:var(--gold);border-color:rgba(232,160,32,0.3);}
+.ps-pursuing{color:var(--teal2);border-color:rgba(74,159,212,0.3);}
+.partner-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.5rem;}
+.partner-desc{font-size:0.82rem;color:rgba(244,241,234,0.5);line-height:1.6;}
+
+/* ── FOOTER ── */
+footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3rem 3.5rem;}
+.footer-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:start;}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:var(--gold);margin-bottom:0.4rem;}
+.footer-copy{font-size:0.78rem;color:rgba(244,241,234,0.3);line-height:1.7;}
+.footer-services{margin-top:0.8rem;}
+.footer-services-label{font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;color:rgba(232,160,32,0.4);margin-bottom:0.4rem;}
+.footer-services a{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;color:rgba(232,160,32,0.6);transition:color 0.2s;}
+.footer-services a:hover{color:var(--gold);}
+.footer-right{display:flex;flex-direction:column;align-items:flex-end;gap:1rem;}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:flex-end;}
+.footer-links a{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.3);transition:color 0.2s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-social{display:flex;gap:0.5rem;}
+.footer-social a{width:36px;height:36px;border:1px solid rgba(255,255,255,0.12);display:inline-flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);transition:all 0.2s;}
+.footer-social a:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  nav{padding:1rem 1.2rem;}
+  .nav-links{display:none!important;}
+  .hamburger{display:flex!important;}
+  .hero{padding:7rem 1.5rem 3rem;}
+  .hero-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .agents-grid{grid-template-columns:1fr;}
+  .db-grid{grid-template-columns:1fr 1fr;}
+  .impact-strip{grid-template-columns:1fr 1fr;}
+  .tech-grid{grid-template-columns:1fr;}
+  .intel-inner{grid-template-columns:1fr;gap:2.5rem;}
+  .partners-grid{grid-template-columns:1fr;}
+  .section,.db-section,.tech-section,.intel-section,.partners-section{padding-left:1.5rem;padding-right:1.5rem;}
+  .proof-band{padding-left:1.5rem;padding-right:1.5rem;}
+  footer{padding:2rem 1.5rem;}
+  .footer-inner{grid-template-columns:1fr;}
+  .footer-links{justify-content:flex-start;}
+}
+@media(max-width:600px){
+  .db-grid{grid-template-columns:1fr;}
+  .impact-strip{grid-template-columns:1fr;}
+  .live-stats{grid-template-columns:1fr 1fr;}
+}
+</style>
+
+<!-- ── NAV ── -->
+<nav>
+  <a class="logo" href="/index.html">DJMP Institute</a>
+  <ul class="nav-links">
+    <li><a href="/index.html">Home</a></li>
+    <li><a href="/programs.html">Programs</a></li>
+    <li><a href="/pathwayai.html" style="color:var(--teal2);">PathwayAI</a></li>
+    <li><a href="/who-we-are.html">Team</a></li>
+    <li><a href="/mission.html">Mission</a></li>
+    <li><a href="/intel-hub.html" style="color:var(--teal2);display:inline-flex;align-items:center;gap:0.4rem;"><span style="width:6px;height:6px;background:var(--teal2);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>AI Intel</a></li>
+    <li><a href="/donate.html">Donate</a></li>
+  </ul>
+  <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">&times;</button>
+  <a href="/index.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Home</a>
+  <a href="/programs.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Programs</a>
+  <a href="/pathwayai.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--teal2);">PathwayAI</a>
+  <a href="/who-we-are.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Team</a>
+  <a href="/mission.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Mission</a>
+  <a href="/intel-hub.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--teal2);">AI Intel</a>
+  <a href="/donate.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Donate</a>
+</div>
+
+<!-- ── TICKER ── -->
+<div class="ai-ticker-wrap" role="marquee" aria-label="DJMP Institute AI Intelligence Feed">
+  <div class="ai-ticker-inner">
+    <div class="ai-ticker-label"><span>AI Intel</span></div>
+    <div class="ai-ticker-track">
+      <div class="ai-ticker-scroll">
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/intel-hub.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/intel-hub.html">2026 marks the shift from AI demos to civic deployment — DJMP is already there</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/intel-hub.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/programs.html">4M cybersecurity professionals needed globally — DJMP is building the pipeline</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">Three autonomous agents · 10 federal databases · Production deployed · Bronzeville, Chicago</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="https://chicago.suntimes.com/2017/7/12/18357886/mitchell-rainbow-push-unveils-stay-safe-app-at-chicago-tech-expo" target="_blank">Stay Safe App unveiled at Rainbow PUSH — Chicago Sun-Times · 2017</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/intel-hub.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/intel-hub.html">2026 marks the shift from AI demos to civic deployment — DJMP is already there</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/intel-hub.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/programs.html">4M cybersecurity professionals needed globally — DJMP is building the pipeline</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">PathwayAI</span><a href="/pathwayai.html">Three autonomous agents · 10 federal databases · Production deployed · Bronzeville, Chicago</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="https://chicago.suntimes.com/2017/7/12/18357886/mitchell-rainbow-push-unveils-stay-safe-app-at-chicago-tech-expo" target="_blank">Stay Safe App unveiled at Rainbow PUSH — Chicago Sun-Times · 2017</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ai-ticker-spacer"></div>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">Production Deployed · Bronzeville, Chicago · Live Since 2024</div>
+      <h1>Pathway<em>AI</em></h1>
+      <p class="hero-lead">The autonomous AI platform that does what government databases never have — <strong>connects marginalized communities directly to federal workforce resources.</strong> Personally. Immediately. At scale.</p>
+      <div class="hero-btns">
+        <a href="/pathwayai-overview.html" class="btn-primary">Platform Overview →</a>
+        <a href="/donate.html" class="btn-outline">Fund PathwayAI</a>
+      </div>
+    </div>
+    <div>
+      <div class="live-card">
+        <div class="live-card-top">
+          <div class="live-dot"></div>
+          <div class="live-label">System Live · Three Agents Active</div>
+        </div>
+        <div class="live-stats">
+          <div class="live-stat ls1">
+            <div class="live-num">68M+</div>
+            <div class="live-desc">Americans locked out of federal training systems</div>
+          </div>
+          <div class="live-stat ls2">
+            <div class="live-num">$150B+</div>
+            <div class="live-desc">Federal workforce investment sitting untapped</div>
+          </div>
+          <div class="live-stat ls3">
+            <div class="live-num">40%</div>
+            <div class="live-desc">Projected WIOA enrollment increase among users</div>
+          </div>
+          <div class="live-stat ls4">
+            <div class="live-num">500K+</div>
+            <div class="live-desc">Residents reached through deployment & replication</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PROOF BAND ── -->
+<div class="proof-band">
+  <div class="proof-inner">
+    <div class="proof-icon">⚡</div>
+    <p class="proof-text"><strong>Not a pilot. Not a prototype.</strong> PathwayAI is production-deployed agentic AI — the same autonomous architecture powering every DJMP service, running live in Chicagoland right now. The same system Google.org has been asked to fund at $1.5M for national scale.</p>
+  </div>
+</div>
+
+<!-- ── THREE AGENTS ── -->
+<div class="section">
+  <div class="sec-label">The Solution</div>
+  <h2 class="sec-title">Three Autonomous Agents.<br>Running 24 Hours a Day.</h2>
+  <p class="sec-sub">PathwayAI deploys three purpose-built AI agents that work continuously — no human required — to connect every community member to the resources they need.</p>
+  <div class="agents-grid">
+    <div class="agent-card ac1">
+      <div class="agent-icon ai1">🗺️</div>
+      <div class="agent-num">Agent 01</div>
+      <div class="agent-name">Skills & Opportunity Mapping</div>
+      <p class="agent-desc">Monitors BLS Occupational Outlook and O*NET in real time — mapping exactly what jobs are available, what they pay, and what skills unlock them for each community member.</p>
+    </div>
+    <div class="agent-card ac2">
+      <div class="agent-icon ai2">🔍</div>
+      <div class="agent-num">Agent 02</div>
+      <div class="agent-name">Training Resource Discovery</div>
+      <p class="agent-desc">Autonomously searches WIOA, CareerOneStop, apprenticeship.gov, and College Scorecard — returning a ranked, personalized list of publicly funded training opportunities available right now.</p>
+    </div>
+    <div class="agent-card ac3">
+      <div class="agent-icon ai3">🚀</div>
+      <div class="agent-num">Agent 03</div>
+      <div class="agent-name">Pathway Progression & Career Bridge</div>
+      <p class="agent-desc">Builds a complete, milestone-based career roadmap for each resident — delivered via web, mobile, or SMS. No smartphone required. No one left out.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── DATABASE GRID ── -->
+<div class="db-section">
+  <div class="db-inner">
+    <div class="sec-label">10 Federal Databases · Monitored Continuously</div>
+    <h2 class="sec-title" style="font-size:clamp(1.4rem,2.5vw,2rem);margin-bottom:0.5rem;">Every public federal resource. Automatically searched. Personally delivered.</h2>
+    <div class="db-grid">
+      <div class="db-tag">BLS / Occupational Outlook</div>
+      <div class="db-tag">O*NET Skills Database</div>
+      <div class="db-tag">WIOA Training Registry</div>
+      <div class="db-tag">CareerOneStop</div>
+      <div class="db-tag">Apprenticeship.gov</div>
+      <div class="db-tag">College Scorecard</div>
+      <div class="db-tag">USAJobs.gov</div>
+      <div class="db-tag">Federal Student Aid</div>
+      <div class="db-tag">H-1B Data Hub</div>
+      <div class="db-tag">ETA Job Bank</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── IMPACT STRIP ── -->
+<div class="impact-strip">
+  <div class="impact-card ic1">
+    <div class="impact-label">Problem Scale</div>
+    <div class="impact-num">68M+</div>
+    <div class="impact-desc">Americans who can't navigate federal workforce systems</div>
+  </div>
+  <div class="impact-card ic2">
+    <div class="impact-label">Untapped Investment</div>
+    <div class="impact-num">$150B+</div>
+    <div class="impact-desc">Annual federal workforce funding that never reaches its intended communities</div>
+  </div>
+  <div class="impact-card ic3">
+    <div class="impact-label">Enrollment Impact</div>
+    <div class="impact-num">40%</div>
+    <div class="impact-desc">Projected increase in WIOA training enrollment among PathwayAI users</div>
+  </div>
+  <div class="impact-card ic4">
+    <div class="impact-label">National Reach</div>
+    <div class="impact-num">500K+</div>
+    <div class="impact-desc">Residents reached through Chicago deployment and national replication</div>
+  </div>
+</div>
+
+<!-- ── TECH STACK ── -->
+<div class="tech-section">
+  <div class="tech-inner">
+    <div class="sec-label">Technology Stack</div>
+    <h2 class="sec-title" style="font-size:clamp(1.4rem,2.5vw,2rem);margin-bottom:0.5rem;">Built to production standards. Designed for community reality.</h2>
+    <div class="tech-grid">
+      <div class="tech-card">
+        <div class="tech-cat">AI / LLM</div>
+        <div class="tech-name">Google Gemini API</div>
+        <div class="tech-desc">Natural language processing & personalized pathway generation</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Agent Framework</div>
+        <div class="tech-name">LangChain</div>
+        <div class="tech-desc">Autonomous agent orchestration & pipeline management</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Backend</div>
+        <div class="tech-name">FastAPI + Python</div>
+        <div class="tech-desc">ML pipelines & real-time federal API integrations</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Frontend</div>
+        <div class="tech-name">React Mobile-First</div>
+        <div class="tech-desc">Low-bandwidth optimized — works on any device</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">Infrastructure</div>
+        <div class="tech-name">Google Cloud Platform</div>
+        <div class="tech-desc">Kubernetes Engine · Production-grade · Fully managed</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-cat">SMS Access</div>
+        <div class="tech-name">Twilio API</div>
+        <div class="tech-desc">Reaches residents without smartphones — no one excluded</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── AI INTEL TEASER ── -->
+<div class="intel-section">
+  <div class="intel-inner">
+    <div>
+      <div class="sec-label">AI Intelligence Feed</div>
+      <h2 class="sec-title">The Same Agentic Architecture.<br>Four Intelligence Pillars.</h2>
+      <p class="sec-sub" style="margin-bottom:1.5rem;">The autonomous agents that power PathwayAI also power DJMP's weekly intelligence feed — tracking the four forces reshaping AI, workforce, and equity. Free. Updated every Monday. No signup required.</p>
+      <a href="/intel-hub.html" class="btn-primary" style="display:inline-block;">Access Free Intelligence Feed →</a>
+    </div>
+    <div>
+      <div class="intel-pillars">
+        <div class="intel-pillar ip1">
+          <div class="pillar-icon">🤖</div>
+          <div>
+            <div class="pillar-name">Agentic AI</div>
+            <div class="pillar-desc">Autonomous systems moving from demos to civic deployment</div>
+          </div>
+        </div>
+        <div class="intel-pillar ip2">
+          <div class="pillar-icon">⚖️</div>
+          <div>
+            <div class="pillar-name">AI Ethics</div>
+            <div class="pillar-desc">Governance, responsible AI, and equity in design</div>
+          </div>
+        </div>
+        <div class="intel-pillar ip3">
+          <div class="pillar-icon">🌍</div>
+          <div>
+            <div class="pillar-name">AI Equity</div>
+            <div class="pillar-desc">Closing the gap between AI access and community need</div>
+          </div>
+        </div>
+        <div class="intel-pillar ip4">
+          <div class="pillar-icon">🔐</div>
+          <div>
+            <div class="pillar-name">Cybersecurity</div>
+            <div class="pillar-desc">4M professionals needed — DJMP is building the pipeline</div>
+          </div>
+        </div>
+        <a href="/intel-hub.html" class="intel-cta">
+          <span class="intel-cta-text">Subscribe for Grant Intelligence → $9.99 one-time · $14.99/month</span>
+          <span class="intel-cta-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── GOVERNMENT PARTNERS ── -->
+<div class="partners-section">
+  <div class="partners-inner">
+    <div class="sec-label">Government Partners</div>
+    <h2 class="sec-title" style="font-size:clamp(1.4rem,2.5vw,2rem);margin-bottom:0.5rem;">A confirmed government partnership is not a nice-to-have. It is our deployment architecture.</h2>
+    <div class="partners-grid">
+      <div class="partner-card">
+        <div class="partner-status ps-active">Active Partner ✓</div>
+        <div class="partner-name">City Colleges of Chicago</div>
+        <p class="partner-desc">Seven campuses across Chicago's most underserved neighborhoods. Existing faculty relationships make this PathwayAI's most immediately credible deployment partner.</p>
+      </div>
+      <div class="partner-card">
+        <div class="partner-status ps-progress">In Active Conversations</div>
+        <div class="partner-name">Chicago Cook Workforce Partnership</div>
+        <p class="partner-desc">Oversees the federally funded workforce system serving 100,000+ Cook County residents annually — the natural integration point for PathwayAI's WIOA intelligence.</p>
+      </div>
+      <div class="partner-card">
+        <div class="partner-status ps-pursuing">Pursuing</div>
+        <div class="partner-name">City of Chicago — DFSS</div>
+        <p class="partner-desc">Department of Family & Support Services directly serves PathwayAI's target population — low-income South and West Side residents navigating unemployment and digital exclusion.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">DJMP Institute</div>
+      <div class="footer-copy">© 2026 DJMP Institute · 501(c)(3) Nonprofit Pending<br>Overton Hygienic Building, Suite 300 · 3619–3627 S. State Street<br>Bronzeville, Chicago, IL 60609 · info@djmpinstitute.org · (312) 877-9668</div>
+      <div class="footer-services">
+        <div class="footer-services-label">Services</div>
+        <a href="/grant-writing.html">Grant Writing →</a>
+        <span style="color:rgba(255,255,255,0.1);margin:0 0.5rem;">·</span>
+        <a href="/intel-hub.html" style="color:rgba(74,159,212,0.6);">Grant Intelligence →</a>
+        <span style="color:rgba(255,255,255,0.1);margin:0 0.5rem;">·</span>
+        <a href="/pathwayai-overview.html" style="color:rgba(74,159,212,0.6);">PathwayAI Overview →</a>
+      </div>
+    </div>
+    <div class="footer-right">
+      <div class="footer-links">
+        <a href="/index.html">Home</a>
+        <a href="/programs.html">Programs</a>
+        <a href="/pathwayai.html">PathwayAI</a>
+        <a href="/who-we-are.html">Team</a>
+        <a href="/mission.html">Mission</a>
+        <a href="/intel-hub.html">AI Intel</a>
+        <a href="/donate.html">Donate</a>
+        <a href="/contact.html">Contact</a>
+      </div>
+      <div class="footer-social">
+        <a href="https://twitter.com/DJMPInstitute" target="_blank" aria-label="Twitter/X">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="https://instagram.com/DJMPInstitute" target="_blank" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://linkedin.com/company/djmp-institute" target="_blank" aria-label="LinkedIn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+        <a href="https://facebook.com/DJMPInstitute" target="_blank" aria-label="Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+        <a href="https://youtube.com/@DJMPInstitute" target="_blank" aria-label="YouTube">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58A2.78 2.78 0 0 0 3.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.95A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#050810"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+function srchToggle(){
+  var b=document.getElementById('srchBox');
+  if(b){b.classList.toggle('open');if(b.classList.contains('open'))document.getElementById('srchInput').focus();}
+}
+function srchGo(){
+  var q=document.getElementById('srchInput');
+  if(q&&q.value.trim())window.open('https://www.google.com/search?q=site:djmpinstitute.org+'+encodeURIComponent(q.value.trim()),'_blank');
+}
+document.addEventListener('click',function(e){
+  var wrap=document.querySelector('.srch-wrap');
+  if(wrap&&!wrap.contains(e.target)){var box=document.getElementById('srchBox');if(box)box.classList.remove('open');}
+});
+</script>
+</body>
+</html>
