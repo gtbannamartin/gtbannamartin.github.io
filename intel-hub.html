@@ -260,6 +260,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;justify-content
 .story-link{font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);white-space:nowrap;padding:0.4rem 0.8rem;border:1px solid rgba(232,160,32,0.25);transition:all 0.2s;flex-shrink:0;align-self:center;}
 .story-card:hover .story-link{background:rgba(232,160,32,0.08);border-color:var(--gold);}
 
+/* ── ARCHIVE ACCORDION ── */
+.archive-toggle{width:100%;background:rgba(255,255,255,0.03);border:none;border-top:1px solid rgba(255,255,255,0.06);padding:1rem 2rem;font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,241,234,0.3);cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.6rem;margin-top:2px;transition:color 0.2s;}
+.archive-toggle:hover{color:rgba(244,241,234,0.5);}
+.archive-toggle::before{content:'▸';font-size:0.7rem;transition:transform 0.2s;}
+.archive-toggle.open::before{transform:rotate(90deg);}
+.archive-drawer{display:none;padding:0 0 2px;}
+.archive-drawer.open{display:block;}
+.archive-week-label{font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;text-transform:uppercase;color:rgba(244,241,234,0.2);padding:1rem 2rem 0.5rem;border-top:1px solid rgba(255,255,255,0.04);}
+
+.archive-older-toggle{width:100%;background:rgba(255,255,255,0.02);border:none;border-top:1px solid rgba(255,255,255,0.04);padding:0.75rem 2rem;font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,241,234,0.2);cursor:pointer;text-align:left;display:flex;align-items:center;gap:0.6rem;margin-top:2px;transition:color 0.2s;}
+.archive-older-toggle:hover{color:rgba(244,241,234,0.35);}
+.archive-older-toggle::before{content:'▸';font-size:0.65rem;transition:transform 0.2s;}
+.archive-older-toggle.open::before{transform:rotate(90deg);}
+.archive-older-drawer{display:none;padding:0 0 2px;}
+.archive-older-drawer.open{display:block;}
+.archive-older-drawer .archive-week-label{color:rgba(244,241,234,0.13);font-size:0.48rem;}
+.archive-older-drawer .pillar-article{opacity:0.5 !important;}
+
 /* ── PILLAR CARDS (AI feed tabs) ── */
 .pillar-cards{display:flex;flex-direction:column;gap:2px;}
 .pillar-article{background:var(--gray);padding:2rem 2.2rem;border-left:3px solid transparent;transition:background 0.2s;}
@@ -395,6 +413,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
     <li><a href="/intel-hub.html" class="active" style="color:var(--teal2);display:inline-flex;align-items:center;gap:0.4rem;"><span style="width:6px;height:6px;background:var(--teal2);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>AI Intel</a></li>
     <li><a href="/funders.html" style="color:var(--gold);display:inline-flex;align-items:center;gap:0.4rem;font-weight:700;"><span style="width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;display:inline-block;"></span>Fund Our Work</a></li>
     <li><a href="/donate.html">Donate</a></li>
+    <li><a href="/contact.html" style="color:var(--off);border:1px solid rgba(244,241,234,0.2);padding:0.3rem 0.9rem;border-radius:1px;transition:border-color 0.2s,color 0.2s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)';" onmouseout="this.style.borderColor='rgba(244,241,234,0.2)';this.style.color='var(--off)';">Contact</a></li>
     <li><div class="srch-wrap"><button class="srch-icon" onclick="srchToggle()" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></button><div class="srch-box" id="srchBox"><input type="text" id="srchInput" placeholder="Search DJMP Institute..." onkeydown="if(event.key==='Enter')srchGo()"/><button onclick="srchGo()">Go</button></div></div></li>
   </ul>
   <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
@@ -410,6 +429,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
   <a href="/intel-hub.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--teal2);">AI Intel</a>
   <a href="/funders.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--gold);">Fund Our Work</a>
   <a href="/donate.html" onclick="document.getElementById('mobileMenu').classList.remove('open')">Donate</a>
+  <a href="/contact.html" onclick="document.getElementById('mobileMenu').classList.remove('open')" style="color:var(--gold);border:1px solid rgba(232,160,32,0.35);padding:0.6rem 2rem;margin-top:0.5rem;">Contact</a>
 </div>
 
 <!-- ══════════════════ TICKER ══════════════════ -->
@@ -418,29 +438,37 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
     <div class="ai-ticker-label"><span>AI Intel</span></div>
     <div class="ai-ticker-track">
       <div class="ai-ticker-scroll">
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Submitted</span><a href="/intel-hub.html">AWS Imagine Grant — $200K + $100K credits · Submitted June 5, 2026 · Notification July 14</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/intel-hub.html">Active nonprofit AI grants tracked weekly — subscribe for deadline alerts &amp; winning strategy</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/intel-hub.html">NSF TechAccess: AI-Ready America — Up to $3M per hub · LOI due June 16, 2026</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">2026 marks the shift from AI demos to civic deployment — DJMP is already there</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AI Security</span><a href="/intel-hub.html">Colorado AI Act enforcement June 30, 2026 — TCAF governance architecture holds across every regulatory cycle</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AI Security</span><a href="/intel-hub.html">EU AI Act high-risk enforcement August 2, 2026 — employment, healthcare, civic services · TCAF-governed systems are ready</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/programs.html">4M cybersecurity professionals needed globally — DJMP is building the pipeline</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/intel-hub.html">Agentic AI equity funding hits $2.66B in 2026 — 142% over 2025 · Civic deployment is the next frontier</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="https://chicago.suntimes.com/2017/7/12/18357886/mitchell-rainbow-push-unveils-stay-safe-app-at-chicago-tech-expo" target="_blank">Stay Safe App unveiled at Rainbow PUSH — Chicago Sun-Times · 2017</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/intel-hub.html">EU AI Act mandates bias assessment for high-risk AI — algorithmic fairness is now a legal requirement, not a principle</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Grant Submitted</span><a href="/newsroom.html">LinkedIn Future of Work Fund — $200K–$300K · Results expected 60–90 days</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AI Equity</span><a href="/intel-hub.html">Humanity AI $10M open call launching summer 2026 — Ford, MacArthur, Mellon, Mozilla · DJMP mission-aligned</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/intel-hub.html">Active nonprofit AI grants tracked weekly — subscribe for deadline alerts &amp; winning strategy</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="/newsroom.html">Summer STEM 2026 · Bronzeville · 30 students · 6 labs · 4 weeks · Grades 4–12 · Free</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/newsroom.html">2026 marks the shift from AI demos to civic deployment — DJMP is already there</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">✓ Submitted</span><a href="/intel-hub.html">AWS Imagine Grant — $200K + $100K credits · Submitted June 5, 2026 · Notification July 14</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/newsroom.html">AI literacy is becoming a human right — nonprofits must lead the equity response</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Grant Intel</span><a href="/intel-hub.html">NSF TechAccess: AI-Ready America — Up to $3M per hub · LOI due June 16, 2026</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-rust">Cybersecurity</span><a href="/programs.html">4M cybersecurity professionals needed globally — DJMP is building the pipeline</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AI Security</span><a href="/intel-hub.html">Colorado AI Act enforcement June 30, 2026 — TCAF governance architecture holds across every regulatory cycle</a></span>
         <span class="ai-ticker-sep">◆</span>
-        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="https://chicago.suntimes.com/2017/7/12/18357886/mitchell-rainbow-push-unveils-stay-safe-app-at-chicago-tech-expo" target="_blank">Stay Safe App unveiled at Rainbow PUSH — Chicago Sun-Times · 2017</a></span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AI Security</span><a href="/intel-hub.html">EU AI Act high-risk enforcement August 2, 2026 — employment, healthcare, civic services · TCAF-governed systems are ready</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-teal">Agentic AI</span><a href="/intel-hub.html">Agentic AI equity funding hits $2.66B in 2026 — 142% over 2025 · Civic deployment is the next frontier</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-purple">AI Ethics</span><a href="/intel-hub.html">EU AI Act mandates bias assessment for high-risk AI — algorithmic fairness is now a legal requirement, not a principle</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">AI Equity</span><a href="/intel-hub.html">Humanity AI $10M open call launching summer 2026 — Ford, MacArthur, Mellon, Mozilla · DJMP mission-aligned</a></span>
+        <span class="ai-ticker-sep">◆</span>
+        <span class="ai-ticker-item"><span class="ai-ticker-cat cat-gold">DJMP News</span><a href="/newsroom.html">Summer STEM 2026 · Bronzeville · 30 students · 6 labs · 4 weeks · Grades 4–12 · Free</a></span>
       </div>
     </div>
   </div>
@@ -454,17 +482,17 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
     <div>
       <div class="ih-hero-tag">AI &amp; Grant Intelligence · Published Every Monday · Two Services · One Architecture</div>
       <h1>Agentic AI Agents That Find Grants —<br><em>and Track the Four Forces<br>Reshaping Your World.</em></h1>
-      <p class="ih-hero-lead">The same autonomous agent architecture that powers PathwayAI delivers two things: a paid grant subscription that tells you exactly how to win, and a free weekly intelligence feed tracking the four pillars every equity-focused organization needs to understand.</p>
+      <p class="ih-hero-lead">The same TCAF-governed agentic architecture that powers PathwayAI delivers two things: a paid grant subscription that tells you how to frame, position, and submit your strongest possible application, and a free weekly intelligence feed tracking the four pillars every equity-focused organization needs to understand.</p>
       <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.4rem;">
         <button class="hero-pill pill-gold" onclick="switchPath('feed');switchFeedTab('djmp')" style="animation-delay:0s">📰 DJMP News</button>
-        <button class="hero-pill pill-gold" onclick="switchPath('feed');switchFeedTab('governance')" style="animation-delay:0.1s">🏗️ AI Governance</button>
+        <button class="hero-pill pill-gold" onclick="switchPath('feed');switchFeedTab('governance')" style="animation-delay:0.1s">🏗️ AI Security</button>
         <button class="hero-pill pill-teal" onclick="switchPath('feed');switchFeedTab('agentic')" style="animation-delay:0.20s">🤖 Agentic AI</button>
         <button class="hero-pill pill-purple" onclick="switchPath('feed');switchFeedTab('ethics')" style="animation-delay:0.35s">⚖️ AI Ethics</button>
         <button class="hero-pill pill-warm" onclick="switchPath('feed');switchFeedTab('equity')" style="animation-delay:0.50s">🌍 AI Equity</button>
         <button class="hero-pill pill-rust" onclick="switchPath('feed');switchFeedTab('cyber')" style="animation-delay:0.65s">🔐 Cybersecurity</button>
       </div>
       <div class="ih-proof-band">
-        <p><strong>What you are watching in the ticker above is not a demo.</strong> It is the proof of concept in live production. The same agentic architecture powers PathwayAI and this intelligence feed.</p>
+        <p><strong>What you are watching in the ticker above is DJMP's agentic intelligence workflow</strong> — TCAF-governed, updated every Monday. The same architecture powers PathwayAI and this intelligence feed.</p>
       </div>
       <div class="scroll-cue" onclick="document.getElementById('why-different').scrollIntoView({behavior:'smooth'})">
         <span>See Why We're Different</span>
@@ -485,11 +513,11 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
       <!-- PROOF CREDENTIALS -->
       <div style="background:rgba(74,159,212,0.06);border:1px solid rgba(74,159,212,0.15);border-left:3px solid var(--teal2);padding:1.6rem 2rem;">
         <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.6rem;">Live Proof of Concept</div>
-        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;line-height:1.6;color:rgba(244,241,234,0.88);margin-bottom:0.8rem;">What you are watching in the ticker above is not a demo. It is the proof of concept in live production.</p>
+        <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;line-height:1.6;color:rgba(244,241,234,0.88);margin-bottom:0.8rem;">What you are watching is DJMP's agentic intelligence workflow — TCAF-governed, updated every Monday.</p>
         <div style="display:flex;flex-direction:column;gap:0.35rem;">
           <div style="font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--teal2);">→</span>PI — $750K DOE MSEIP Grant · Kennedy-King College · 2012–2015</div>
           <div style="font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--teal2);">→</span>Northwestern MRSEC Research Fellow · 2015 &amp; 2022 · One of four selected each cycle</div>
-          <div style="font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--teal2);">→</span>PhD Candidate, AI · TCAF Researcher · AWS MLU Faculty Fellow 2026</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.56rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--teal2);">→</span>Doctoral researcher in AI governance · TCAF Architect · AWS MLU Faculty Fellow 2026</div>
         </div>
       </div>
 
@@ -517,7 +545,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
             <span id="prior-name" style="font-family:'Space Mono',monospace;font-size:0.5rem;color:rgba(232,160,32,0.6);margin-left:auto;display:none;"></span>
           </label>
         </div>
-        <a href="#" onclick="event.preventDefault();switchPath('grant')" style="display:block;width:100%;padding:0.75rem 1rem;background:var(--gold);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:background 0.2s;" onmouseover="this.style.background='#f0b840'" onmouseout="this.style.background='#e8a020'">Find &amp; Win Grants →</a>
+        <a href="#" onclick="event.preventDefault();switchPath('grant')" style="display:block;width:100%;padding:0.75rem 1rem;background:var(--gold);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:background 0.2s;" onmouseover="this.style.background='#f0b840'" onmouseout="this.style.background='#e8a020'">Find Grants. Apply Stronger. →</a>
         <div style="font-family:'Space Mono',monospace;font-size:0.48rem;letter-spacing:0.08em;color:rgba(244,241,234,0.2);margin-top:0.6rem;text-align:center;">$9.99 one-time · $14.99/mo · $29.99/mo Pro · Grant writing from $250</div>
       </div>
 
@@ -530,7 +558,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
     <button class="path-tab" id="tab-grant" onclick="switchPath('grant')">
       <span class="path-tab-dot"></span>
       <span>
-        Find &amp; Win Grants
+        Find Grants. Apply Stronger.
         <span class="path-tab-sub">$9.99 one-time · $14.99/mo · Written by a team that has won</span>
       </span>
     </button>
@@ -553,7 +581,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
   <div class="diff-band" id="why-different">
     <div class="diff-inner">
       <div class="diff-statement">
-        <p>Google finds the grant.<br>We tell you how to win it.<br>That&#x2019;s not the same thing.</p>
+        <p>Google finds the grant.<br>We tell you how to apply for it strategically.<br>That&#x2019;s not the same thing.</p>
       </div>
       <div class="diff-compare">
         <div class="diff-row">
@@ -590,7 +618,73 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
     </div>
   </div>
 
-  <!-- MICRO-CUE: diff → pillar selector -->
+  <!-- FREE DOMAIN INTELLIGENCE — NEW v7: shows BEFORE pricing, organized by domain not TCAF pillars -->
+  <div style="background:var(--gray2);border-top:1px solid rgba(232,160,32,0.12);padding:4rem 3.5rem;">
+    <div style="max-width:1100px;margin:0 auto;">
+      <div style="font-family:'Space Mono',monospace;font-size:0.65rem;letter-spacing:0.28em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.5rem;">Free Intelligence · This Week · No Signup Required</div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.4rem,2.8vw,2rem);margin-bottom:0.6rem;">What Funders Are Prioritizing — <em style="font-style:normal;color:var(--gold);">Right Now.</em></h2>
+      <p style="font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.08em;color:rgba(244,241,234,0.4);margin-bottom:2.5rem;">Organized by high-stakes domain · Updated every Monday · Full grant names, deadlines &amp; strategy for subscribers</p>
+
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:2px;background:rgba(232,160,32,0.06);">
+
+        <!-- Workforce Development -->
+        <div style="background:#06080f;padding:2rem 2.2rem;border-left:3px solid var(--teal2);">
+          <div style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;margin-bottom:0.5rem;">⚡ Workforce Development</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.8rem;line-height:1.3;">Federal workforce AI grants are opening now — but require organizations with documented deployment track records, not concept-stage proposals.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;color:rgba(244,241,234,0.5);line-height:1.7;">
+            NSF is funding $3M state-level AI literacy hubs — LOI due June 16, 2026. EDA added $25M in workforce-specific AI funding. DOL's WIOA formula grants are open for AI-workforce programs through state workforce boards. The $169M FIPSE allocation covers short-term workforce programs at accredited institutions and nonprofits.<br><br>
+            <span style="color:var(--gold);">What subscribers see:</span> Named grants · Deadlines · Eligibility checklists · Application framing · DJMP's own positioning applied to your context.
+          </div>
+        </div>
+
+        <!-- Disability-Inclusive Services -->
+        <div style="background:#06080f;padding:2rem 2.2rem;border-left:3px solid var(--purple);">
+          <div style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;color:var(--purple);text-transform:uppercase;margin-bottom:0.5rem;">♿ Disability-Inclusive Services</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.8rem;line-height:1.3;">Near-empty competitive landscape. Almost no curated grant intelligence exists for this domain — which is why DJMP tracks it specifically.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;color:rgba(244,241,234,0.5);line-height:1.7;">
+            EU AI Act Article 5(1)(b) enforcement begins August 2 — creating demand for disability-inclusive AI governance. The Craig H. Neilsen Foundation, Ruderman Family Foundation, and Robert Wood Johnson Foundation all carry 2026 priorities directly aligned with disability-inclusive civic navigation and accessibility tech. One in four Americans will develop a disability — the populations most likely to be algorithmically excluded are the ones these funders are reading for.<br><br>
+            <span style="color:var(--purple);">What subscribers see:</span> Named grants · Deadlines · Domain-specific framing · Full eligibility analysis.
+          </div>
+        </div>
+
+        <!-- Civic AI and Government -->
+        <div style="background:#06080f;padding:2rem 2.2rem;border-left:3px solid var(--gold);">
+          <div style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;color:var(--gold);text-transform:uppercase;margin-bottom:0.5rem;">🏛️ Civic AI &amp; Government Services</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.8rem;line-height:1.3;">90% of governments plan agentic AI deployment. Funders are moving from exploration grants to implementation grants — they want organizations already doing the work.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;color:rgba(244,241,234,0.5);line-height:1.7;">
+            Google.org's AI for Government Innovation initiative ($30M) is in active review. Mozilla's Democracy x AI Cohort 2026 is selecting 10 projects through June 1. AWS Imagine Grant Round One closes June 5 — $200K cash + $100K credits. The WEF readiness framework maps 70 government functions against agentic AI deployment readiness — organizations with documented civic AI deployments have a structural advantage this cycle.<br><br>
+            <span style="color:var(--gold);">What subscribers see:</span> Named grants · Exact deadlines · Application tips written by a team that has applied in this space.
+          </div>
+        </div>
+
+        <!-- Community Development / STEM -->
+        <div style="background:#06080f;padding:2rem 2.2rem;border-left:3px solid var(--rust);">
+          <div style="font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.18em;color:var(--rust);text-transform:uppercase;margin-bottom:0.5rem;">🧬 Community Development &amp; STEM</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.8rem;line-height:1.3;">$800M+ in AI education and workforce grants available in 2026. Funders are no longer asking whether AI belongs — they are funding concrete deployments.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;color:rgba(244,241,234,0.5);line-height:1.7;">
+            OpenAI Foundation committed $1B to social impact grants including workforce and youth. KPMG's $6M AI Impact Initiative combines cash with pro bono consulting. IBM's SkillsBuild grants run through June. Salesforce.org Racial Equity Fund is rolling. Ben &amp; Jerry's grassroots organizing grants run five cycles annually. Black-led organizations in Chicago with documented equity outcomes have specific positioning advantages in this pool.<br><br>
+            <span style="color:var(--rust);">What subscribers see:</span> Filtered pool · Application strategy · What this funder is actually reading for.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- HOOK: free → paid conversion -->
+      <div style="margin-top:2px;background:linear-gradient(135deg,rgba(232,160,32,0.06),rgba(8,13,26,0.98));border:1px solid rgba(232,160,32,0.2);border-top:4px solid var(--gold);padding:2.5rem 2.8rem;display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;">
+        <div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.18em;color:rgba(232,160,32,0.6);text-transform:uppercase;margin-bottom:0.4rem;">The Free Feed Is the Signal</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1rem,2vw,1.4rem);line-height:1.25;margin-bottom:0.7rem;">The subscription delivers the strategy — named grants, exact deadlines, eligibility analysis, and application framing written by a $750K federal PI.</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.06em;color:rgba(244,241,234,0.45);line-height:1.6;">Organizations that rely on the free feed are the organizations most likely to subscribe when their grant pipeline requires more than a weekly summary. The conversion sequence is designed: free intelligence establishes trust → deadline pressure creates urgency → subscription delivers the edge.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0.6rem;min-width:180px;">
+          <a href="#" onclick="event.preventDefault();document.querySelector('.pricing-section').scrollIntoView({behavior:'smooth'})" style="display:block;padding:0.9rem 1.4rem;background:var(--gold);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;transition:background 0.2s;" onmouseover="this.style.background='#f0b840'" onmouseout="this.style.background='#e8a020'">See Subscription Tiers ↓</a>
+          <div style="font-family:'Space Mono',monospace;font-size:0.5rem;letter-spacing:0.1em;color:rgba(244,241,234,0.25);text-transform:uppercase;text-align:center;line-height:1.5;">$9.99 report · $14.99/mo · $29.99 Pro · Custom Org</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MICRO-CUE: domain intel → pillar selector -->
   <div class="micro-cue" onclick="document.getElementById('pillar-selector').scrollIntoView({behavior:'smooth'})">
     <span>Find grants matched to your mission</span>
     <div class="micro-chevron"></div>
@@ -609,23 +703,23 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
           <div style="font-size:2rem;margin-bottom:0.8rem;">⚡</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.3rem;">Workforce Development</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--teal2);line-height:1;margin-bottom:0.3rem;">7</div>
-          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(74,159,212,0.5);text-transform:uppercase;">Active grants this week</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(74,159,212,0.5);text-transform:uppercase;">Grants tracked · Updated weekly</div>
         </div>
 
-        <!-- AI Governance -->
+        <!-- AI Policy & Governance (renamed from AI Governance per May 14 Option B taxonomy lock; keeps 'governance' JS binding) -->
         <div class="pillar-sel-card" onclick="selectPillar('governance')" style="background:#06080f;padding:2rem 1.8rem;cursor:pointer;border-top:3px solid var(--gold);transition:background 0.2s;" onmouseover="this.style.background='#0a0f18'" onmouseout="this.style.background='#06080f'">
-          <div style="font-size:2rem;margin-bottom:0.8rem;">🏗️</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.3rem;">AI Governance</div>
+          <div style="font-size:2rem;margin-bottom:0.8rem;">🏛️</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.3rem;">AI Policy &amp; Governance</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--gold);line-height:1;margin-bottom:0.3rem;">4</div>
-          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(232,160,32,0.5);text-transform:uppercase;">Active grants this week</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(232,160,32,0.5);text-transform:uppercase;">Grants tracked · Updated weekly</div>
         </div>
 
-        <!-- Cybersecurity -->
+        <!-- AI Security (renamed from Cybersecurity per May 14 taxonomy lock; keeps 'cyber' JS binding) -->
         <div class="pillar-sel-card" onclick="selectPillar('cyber')" style="background:#06080f;padding:2rem 1.8rem;cursor:pointer;border-top:3px solid var(--rust);transition:background 0.2s;" onmouseover="this.style.background='#0a0f18'" onmouseout="this.style.background='#06080f'">
           <div style="font-size:2rem;margin-bottom:0.8rem;">🔐</div>
-          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.3rem;">Cybersecurity</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.3rem;">AI Security</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--rust);line-height:1;margin-bottom:0.3rem;">3</div>
-          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(224,92,46,0.5);text-transform:uppercase;">Active grants this week</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(224,92,46,0.5);text-transform:uppercase;">Grants tracked · Updated weekly</div>
         </div>
 
         <!-- Agentic AI -->
@@ -633,7 +727,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
           <div style="font-size:2rem;margin-bottom:0.8rem;">🤖</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.3rem;">Agentic AI</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--teal2);line-height:1;margin-bottom:0.3rem;">5</div>
-          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(74,159,212,0.5);text-transform:uppercase;">Active grants this week</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(74,159,212,0.5);text-transform:uppercase;">Grants tracked · Updated weekly</div>
         </div>
 
         <!-- STEM / Youth -->
@@ -641,7 +735,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
           <div style="font-size:2rem;margin-bottom:0.8rem;">🧬</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;color:var(--off);margin-bottom:0.3rem;">STEM &amp; Youth</div>
           <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--purple);line-height:1;margin-bottom:0.3rem;">6</div>
-          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(155,114,207,0.5);text-transform:uppercase;">Active grants this week</div>
+          <div style="font-family:'Space Mono',monospace;font-size:0.52rem;letter-spacing:0.1em;color:rgba(155,114,207,0.5);text-transform:uppercase;">Grants tracked · Updated weekly</div>
         </div>
 
         <!-- Custom / Other -->
@@ -801,7 +895,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
           <div style="display:flex;flex-direction:column;gap:0.35rem;">
             <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--gold);">→</span>PI — $750K U.S. DOE MSEIP Grant · Kennedy-King College</div>
             <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--gold);">→</span>Northwestern MRSEC Research Fellow · 2015 &amp; 2022</div>
-            <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--gold);">→</span>PhD Candidate, AI · AWS MLU Faculty Fellow 2026 · TCAF Researcher</div>
+            <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.08em;color:rgba(244,241,234,0.55);padding-left:1rem;position:relative;line-height:1.5;"><span style="position:absolute;left:0;color:var(--gold);">→</span>Doctoral researcher in AI governance · AWS MLU Faculty Fellow 2026 · TCAF Architect</div>
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:0.6rem;min-width:180px;">
@@ -824,24 +918,24 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
     <div class="sec-label" style="font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:0.28em;color:var(--gold);text-transform:uppercase;margin-bottom:0.8rem;">Grant Intelligence · Free Preview</div>
     <div class="free-card">
       <div class="free-badge">🔓 Free Access · No Subscription Required</div>
-      <h2>LinkedIn Future of Work Fund 2026 — $200,000–$300,000</h2>
-      <p>LinkedIn's Future of Work Fund provides financial grants and in-kind support for nonprofits preparing young adults for AI-driven careers through AI literacy, job access, workforce success, and system-level innovation. Specifically prioritizes organizations supporting career starters overcoming barriers to economic opportunity.</p>
+      <h2>NSF TechAccess: AI-Ready America — Up to $3,000,000 per Hub</h2>
+      <p>The National Science Foundation's TechAccess: AI-Ready America program funds state- and territory-level coordination hubs that expand access to AI literacy, workforce training, and business adoption. Each hub receives up to $1 million per year for three years. Unlike traditional research grants, these hubs are designed as operational coordination infrastructure — eligible applicants include coalitions of nonprofits, community colleges, workforce boards, and local governments. Round 1 is open now.</p>
       <div style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.16em;color:var(--gold);text-transform:uppercase;margin:1.4rem 0 0.6rem;">Eligibility Checklist</div>
       <ul class="eligibility-list">
-        <li>501(c)(3) nonprofit status — required</li>
-        <li>Focus on AI literacy, workforce access, or system-level workforce innovation</li>
-        <li>Direct service to young adults facing systemic barriers to economic opportunity</li>
-        <li>Demonstrated program track record — not concept-stage organizations</li>
-        <li>U.S.-based operations</li>
+        <li>U.S. nonprofit, community college, workforce board, or government entity</li>
+        <li>Focus on AI literacy, workforce training, or business AI adoption at state/territory level</li>
+        <li>Coalition or hub structure — single organizations can apply as hub coordinators</li>
+        <li>Capacity to coordinate across multiple stakeholder types (education, business, government)</li>
+        <li>Commitment to equity and access for underserved communities preferred</li>
       </ul>
-      <div class="tip-box"><strong>Application Tip:</strong> Lead with your autonomous AI system or measurable community outcome — not your mission statement. LinkedIn's reviewers are looking for nonprofits already doing the work, not planning to.</div>
+      <div class="tip-box"><strong>Application Tip:</strong> NSF is funding operational hubs, not research projects. Lead with your coordination capacity and existing stakeholder relationships — not your technology. Organizations with documented community partnerships in AI literacy or workforce development are positioned to lead or co-lead hub applications.</div>
       <div class="grant-meta">
-        <div class="grant-meta-item"><span>Amount</span><strong>$200K – $300K</strong></div>
-        <div class="grant-meta-item"><span>Type</span><strong>Grant + In-Kind Support</strong></div>
-        <div class="grant-meta-item"><span>DJMP Status</span><strong style="color:var(--teal2);">✓ Applied · Mar 15, 2026</strong></div>
-        <div class="grant-meta-item"><span>Results</span><strong>60–90 Days</strong></div>
+        <div class="grant-meta-item"><span>Amount</span><strong>Up to $3M (3 years)</strong></div>
+        <div class="grant-meta-item"><span>LOI Deadline</span><strong style="color:var(--rust);">June 16, 2026</strong></div>
+        <div class="grant-meta-item"><span>Full Proposal</span><strong>July 16, 2026</strong></div>
+        <div class="grant-meta-item"><span>DJMP Status</span><strong style="color:var(--teal2);">✓ Monitoring · Eligible</strong></div>
       </div>
-      <div style="margin-top:1.5rem;"><a href="https://grantedai.com/grants/future-of-work-fund-2026-global-ai-workforce-grant-linkedin-893cba18" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid rgba(232,160,32,0.35);color:var(--gold);display:inline-block;transition:all 0.2s;" onmouseover="this.style.background='rgba(232,160,32,0.1)'" onmouseout="this.style.background='transparent'">Fund Details →</a></div>
+      <div style="margin-top:1.5rem;"><a href="https://grantedai.com/news/nsf-ai-ready-america-hubs-funding-round-one" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid rgba(232,160,32,0.35);color:var(--gold);display:inline-block;transition:all 0.2s;" onmouseover="this.style.background='rgba(232,160,32,0.1)'" onmouseout="this.style.background='transparent'">Fund Details → NSF TechAccess ↗</a></div>
     </div>
 
     <!-- LOCK WALL -->
@@ -861,7 +955,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
 
         <!-- REAL GRANT CARDS — two-track system -->
         <div id="unlocked-grants" style="display:none;flex-direction:column;gap:0;text-align:left;">
-          <div style="background:rgba(74,159,212,0.08);border:1px solid rgba(74,159,212,0.2);padding:0.8rem 1.6rem;margin-bottom:0.8rem;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;display:flex;align-items:center;gap:0.6rem;"><span style="width:7px;height:7px;background:var(--teal2);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;"></span>Access Granted · Week of March 23, 2026 · 8 Active Grants · Two-Track System</div>
+          <div style="background:rgba(74,159,212,0.08);border:1px solid rgba(74,159,212,0.2);padding:0.8rem 1.6rem;margin-bottom:0.8rem;font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:0.18em;color:var(--teal2);text-transform:uppercase;display:flex;align-items:center;gap:0.6rem;"><span style="width:7px;height:7px;background:var(--teal2);border-radius:50%;animation:pulse-dot 1.4s ease-in-out infinite;flex-shrink:0;"></span>Access Granted · Week of June 7, 2026 · 8 Active Grants · Two-Track System</div>
 
           <!-- ══ TRACK 1: DJMP LEADS ══ -->
           <div class="track-header">
@@ -880,7 +974,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
             <div class="eligibility-badge badge-eligible">✓ DJMP Eligible as Lead</div>
             <div class="grant-funder" style="color:var(--gold);">Google.org · Deadline: April 3, 2026 — PRIORITY APPLICATION</div>
             <div class="grant-title">Google.org AI for Government Innovation — $1M–$3M</div>
-            <div class="grant-body">Funds nonprofits deploying agentic AI for public services. PathwayAI's architecture — three autonomous agents connecting residents to federal workforce funding — is the centerpiece of this application. This is DJMP's highest-priority open grant. Apply immediately.</div>
+            <div class="grant-body">Funds nonprofits deploying agentic AI for public services. PathwayAI's architecture — a five-agent agentic system connecting residents to federal workforce resources — is the centerpiece of this application. This is DJMP's highest-priority open grant. Apply immediately.</div>
             <div class="grant-tip"><strong>Application Tip:</strong> Lead with PathwayAI's live deployment status. Google's reviewers want to see it running, not planned. State it in your first sentence. Name the three agents, the ten federal databases, and the Bronzeville deployment. This is not a concept — it is a running system.</div>
             <div class="grant-meta">
               <span>Amount: <strong>$1M–$3M</strong></span>
@@ -926,7 +1020,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
             <div class="eligibility-badge badge-eligible">✓ DJMP Eligible as Lead</div>
             <div class="grant-funder" style="color:var(--purple);">OpenAI Foundation · Deadline: Rolling 2026</div>
             <div class="grant-title">OpenAI People-First AI Fund — Up to $250K</div>
-            <div class="grant-body">Community-led AI design for populations excluded from digital innovation. DJMP's TCAF Pillar III is architecturally built on this principle. The Stay Safe App and NIH research placements are exactly the evidence this fund requires.</div>
+            <div class="grant-body">Community-led AI design for populations excluded from digital innovation. DJMP's TCAF Pillar 5 is architecturally built on this principle. The Stay Safe App and NIH research placements are exactly the evidence this fund requires.</div>
             <div class="grant-tip tip-purple"><strong>Application Tip:</strong> Lead with student-built technology — not adult-designed programs for students. The Stay Safe App, built by teenagers mapping gun violence data, is your strongest opening.</div>
             <div class="grant-meta">
               <span>Amount: <strong>Up to $250K</strong></span>
@@ -990,7 +1084,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
             <div style="margin-top:1rem;"><a href="https://www.nsf.gov/funding/opportunities/cyberai-sfs-cyberaicorps-scholarship-service" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.6rem 1.2rem;border:1px solid rgba(74,159,212,0.35);color:var(--teal2);display:inline-block;transition:all 0.2s;" onmouseover="this.style.background='rgba(74,159,212,0.08)'" onmouseout="this.style.background='transparent'">Grant Details → NSF.gov ↗</a></div>
           </div>
 
-          <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);text-align:center;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.12em;color:rgba(244,241,234,0.22);text-transform:uppercase;">Grant intelligence updated weekly · Week of March 23, 2026 · Two-track system · Powered by DJMP agentic architecture</div>
+          <div style="margin-top:1.2rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.06);text-align:center;font-family:'Space Mono',monospace;font-size:0.55rem;letter-spacing:0.12em;color:rgba(244,241,234,0.22);text-transform:uppercase;">Grant intelligence updated weekly · Week of June 7, 2026 · Two-track system · Powered by DJMP agentic architecture</div>
         </div>
 
         <div class="lock-pricing" id="lw-pricing">
@@ -1083,7 +1177,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
   <div class="feed-tabs" id="feed-tabs-bar">
     <div class="feed-tabs-inner">
       <button class="feed-tab djmp-news" id="ftab-djmp" onclick="switchFeedTab('djmp')">📰 DJMP News</button>
-      <button class="feed-tab" id="ftab-governance" onclick="switchFeedTab('governance')">🏗️ AI Governance</button>
+      <button class="feed-tab" id="ftab-governance" onclick="switchFeedTab('governance')">🏗️ AI Security</button>
       <button class="feed-tab" id="ftab-agentic" onclick="switchFeedTab('agentic')">🤖 Agentic AI</button>
       <button class="feed-tab" id="ftab-ethics" onclick="switchFeedTab('ethics')">⚖️ AI Ethics</button>
       <button class="feed-tab" id="ftab-equity" onclick="switchFeedTab('equity')">🌍 AI Equity</button>
@@ -1095,7 +1189,7 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
   <div id="feed-welcome" style="padding:3rem 3.5rem;background:var(--black);max-width:1100px;margin:0 auto;text-align:center;">
     <div style="font-family:'Space Mono',monospace;font-size:0.58rem;letter-spacing:0.22em;text-transform:uppercase;color:rgba(74,159,212,0.5);margin-bottom:1rem;">Free Intelligence Feed · Select a Topic</div>
     <p style="font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(1.1rem,2vw,1.5rem);color:rgba(244,241,234,0.8);margin-bottom:0.8rem;">Choose a topic above to begin reading.</p>
-    <p style="font-size:0.95rem;color:rgba(244,241,234,0.4);line-height:1.8;max-width:520px;margin:0 auto;">Six curated intelligence feeds — DJMP News, AI Governance, Agentic AI, AI Ethics, AI Equity, and Cybersecurity — updated weekly and powered by DJMP's agentic research architecture.</p>
+    <p style="font-size:0.95rem;color:rgba(244,241,234,0.4);line-height:1.8;max-width:520px;margin:0 auto;">Four research pillars — AI Security, Agentic AI, AI Ethics, AI Equity — plus DJMP News, updated weekly and powered by DJMP's agentic research architecture.</p>
   </div>
   <div class="feed-panel" id="fpanel-djmp">
     <div class="feed-panel-inner">
@@ -1160,210 +1254,548 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
   <!-- AI GOVERNANCE PANEL -->
   <div class="feed-panel" id="fpanel-governance">
     <div class="feed-panel-inner">
-      <div class="feed-panel-label" style="color:var(--gold);">🏗️ AI Governance · TCAF · Pieters, 2026 · A leading U.S. research university</div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">They Certified the Builders.<br><em style="font-style:normal;color:var(--gold);">We Certified the Standard the Builders Should Have Met.</em></h2>
-      <div class="feed-panel-date">Week of March 24, 2026 &middot; Updated weekly &middot; TCAF · Pieters, 2026 · A leading U.S. research university</div>
+      <div class="feed-panel-label" style="color:var(--gold);">🏗️ AI Security · TCAF · Pieters, 2026 · A leading U.S. research university</div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Colorado's Deadline Is June 30. The EU's Is August 2.<br><em style="font-style:normal;color:var(--gold);">Two Regulatory Cliffs. One Architecture That Holds for Both.</em></h2>
+      <div class="feed-panel-date">Week of June 7, 2026 &middot; Updated weekly &middot; TCAF · Pieters, 2026 · A leading U.S. research university</div>
       <div class="pillar-cards">
 
-        <!-- CARD 1: AWS Retirement — the anchor story -->
+        <!-- CARD 1: NEW JUNE 7 — Colorado AI Act June 30 enforcement + EU AI Act August 2 -->
         <div class="pillar-article reveal" style="border-left:3px solid var(--gold);background:linear-gradient(135deg,rgba(232,160,32,0.06),rgba(8,13,26,0.98));">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag" style="background:rgba(232,160,32,0.12);color:var(--gold);border:1px solid rgba(232,160,32,0.3);">AI Governance &middot; Breaking</span>
-            <span class="pillar-article-date">March 31, 2026 · Deadline</span>
+            <span class="pillar-article-tag" style="background:rgba(232,160,32,0.12);color:var(--gold);border:1px solid rgba(232,160,32,0.3);">AI Security &middot; This Week</span>
+            <span class="pillar-article-date">June 7, 2026</span>
           </div>
-          <h4>AWS Retires Its ML Specialty Certification March 31. The Field Just Acknowledged What TCAF Already Built.</h4>
-          <p>Amazon is retiring the AWS Certified Machine Learning – Specialty credential on March 31, 2026 — the certification that defined AI validation for a generation. The reason: the field has moved from building models to deploying autonomous agents. From "does it work?" to "who does it work for — and who does it harm?" AWS certified thousands of people to build AI. Nobody certified that what they built was safe for the communities it touched. That is the gap TCAF was designed to fill. PathwayAI is the proof of concept — running in production, built on the standard AWS just acknowledged the field now requires.</p>
+          <h4>Two Enforcement Deadlines in the Next 60 Days. Colorado Goes Live June 30. The EU AI Act's High-Risk Rules Trigger August 2. Compliance Teams Are Rewriting Postures Organizations Built on the Wrong Foundation.</h4>
+          <p>Colorado's AI Act — originally slated for June 2025, revised and delayed to June 30, 2026 — requires AI developers and deployers of high-risk systems to demonstrate reasonable care against algorithmic discrimination, produce impact assessments, and make consumer disclosures. The EU AI Act follows on August 2, extending full Annex III enforcement to any AI used in employment, credit, housing, healthcare, education, or government services — with penalties reaching €35 million or 7% of global annual turnover. California's AI Transparency Act and Texas's Responsible AI Governance Act are now active. The White House's preemption effort has not slowed state-level enforcement calendars. Organizations that separated security, ethics, and equity as independent compliance concerns now face three overlapping regulatory regimes requiring simultaneous compliance. Organizations that built them as a single architectural requirement — as TCAF prescribes — do not face that problem.</p>
           <div style="background:rgba(232,160,32,0.06);border-left:3px solid var(--gold);padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.95rem;line-height:1.75;color:rgba(244,241,234,0.82);">
             <strong style="color:var(--gold);">TCAF · Pieters, 2026 · A leading U.S. research university</strong><br>
-            The governance framework AWS's retirement just validated.
+            Frameworks built for a single regulatory regime break when two arrive at once. TCAF was designed as a structural foundation — not a checklist for one jurisdiction.
           </div>
-          <a href="https://aws.amazon.com/blogs/training-and-certification/big-news-aws-expands-ai-certification-portfolio-and-updates-security-certification/" target="_blank" rel="noopener" class="pillar-article-cta">Source: AWS Training &amp; Certification Blog →</a>
+          <a href="https://www.wsgr.com/en/insights/2026-year-in-preview-ai-regulatory-developments-for-companies-to-watch-out-for.html" target="_blank" rel="noopener" class="pillar-article-cta">Source: Wilson Sonsini →</a>
         </div>
 
-        <!-- CARD 2: EU AI Act Compliance -->
+        <!-- CARD 2: NEW JUNE 7 — White House preemption vs. state AI law divergence -->
         <div class="pillar-article reveal" style="border-left:3px solid var(--teal2);">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-teal">AI Governance &middot; Regulation</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag tag-teal">AI Security &middot; Federal vs. State</span>
+            <span class="pillar-article-date">April 28, 2026</span>
           </div>
-          <h4>EU AI Act Enforcement Begins. $500K Per Violation. Architecture-First Organizations Are Already Compliant.</h4>
-          <p>The EU AI Act's high-risk AI provisions are now in active enforcement — with penalties reaching €30 million or 6% of global revenue. U.S. state-level equivalents are advancing in Colorado, California, and Illinois. Organizations that designed governance into their architecture from the first line of code are not scrambling to retrofit compliance. They already have it. TCAF's governance pillar is not a compliance checklist — it is an architectural decision made before deployment, not after.</p>
-          <a href="https://artificialintelligenceact.eu/the-act/" target="_blank" rel="noopener" class="pillar-article-cta">Source: EU AI Act Official Text →</a>
+          <h4>The White House Is Conditioning Federal Funding on State Alignment With National AI Policy. States Are Refusing to Slow Down. The Governance Fragmentation Is Structural — and TCAF Was Designed for It.</h4>
+          <p>The Trump administration released a four-page blueprint in March 2026 directing Congress toward a unified federal AI governance approach while tasking the Attorney General with an AI Litigation Task Force to challenge state laws deemed innovation-limiting. California, Texas, and Colorado have all advanced comprehensive AI statutes regardless — incorporating transparency mandates, automated decision-making disclosures, and anti-discrimination requirements. The federal preemption effort and state enforcement timelines are now on a collision course. For civic AI organizations deploying in multiple jurisdictions, the question is not which governing framework to follow. It is whether the architecture was built to satisfy all of them simultaneously. That is what TCAF resolves at the design layer — not through compliance documentation, but through architectural discipline embedded before deployment.</p>
+          <a href="https://www.vorys.com/publication-battle-for-ai-governance-white-houses-plan-to-centralize-ai-regulation-and-states-continuous-opposition" target="_blank" rel="noopener" class="pillar-article-cta">Source: Vorys →</a>
         </div>
 
-        <!-- CARD 3: NIST AI RMF -->
+        <!-- CARD 3: NEW JUNE 7 — EU AI Act independent expert support + transparency obligations August 2026 -->
         <div class="pillar-article reveal" style="border-left:3px solid var(--purple);">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag" style="background:rgba(155,114,207,0.1);color:var(--purple);border:1px solid rgba(155,114,207,0.3);">AI Governance &middot; Standards</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag" style="background:rgba(155,114,207,0.1);color:var(--purple);border:1px solid rgba(155,114,207,0.3);">AI Security &middot; EU Enforcement</span>
+            <span class="pillar-article-date">June 1, 2026</span>
           </div>
-          <h4>NIST AI Risk Management Framework 2.0: Agentic AI Requires Governance at the Architecture Level — Not the Audit Level.</h4>
-          <p>NIST's updated AI RMF 1.0 and its 2026 generative AI companion explicitly call out agentic systems as requiring governance frameworks embedded in design — not appended after deployment. The framework identifies trustworthiness, transparency, and accountability as foundational properties, not post-deployment features. TCAF operationalizes exactly these properties as design requirements. PathwayAI was built to this standard two years before the framework was updated to require it.</p>
-          <a href="https://www.nist.gov/system/files/documents/2023/01/26/AI%20RMF%20Playbook%20Jan%2025%202023.pdf" target="_blank" rel="noopener" class="pillar-article-cta">Source: NIST AI RMF →</a>
+          <h4>EU AI Act Enforcement Gets Independent Expert Support — and Transparency Obligations Take Effect in August. The Compliance Cliff Is No Longer Theoretical.</h4>
+          <p>On June 1, the European Commission announced independent expert support for EU AI Act enforcement infrastructure — an institutional signal that the August 2 enforcement date for high-risk AI systems is firm. The transparency obligations that apply to all AI systems — including those used in employment screening, housing, healthcare, and government services — take full effect the same month. The Commission is also consulting on draft guidelines for classifying high-risk systems and AI transparency requirements, with broader AI Act reform under consideration including simplified SME requirements and expanded regulatory sandboxes. For organizations deploying civic AI in any of these domains, the enforcement architecture is no longer theoretical. The governance foundation must be in place before August.</p>
+          <a href="https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" target="_blank" rel="noopener" class="pillar-article-cta">Source: European Commission →</a>
         </div>
 
       </div>
-      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of March 24, 2026 &middot; TCAF · Pieters, 2026 · A leading U.S. research university &middot; <a href="/pathwayai.html" style="color:rgba(232,160,32,0.5);border-bottom:1px solid rgba(232,160,32,0.2);">PathwayAI →</a></div>
+
+      <!-- ARCHIVE ACCORDION -->
+      <button class="archive-toggle" onclick="toggleArchive('archive-governance')">Previous Intel — Week of June 1, 2026</button>
+      <div class="archive-drawer" id="archive-governance">
+        <div class="archive-week-label">Week of June 1, 2026</div>
+        <div class="pillar-cards">
+          <div class="pillar-article reveal" style="border-left:3px solid rgba(232,160,32,0.35);opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag" style="background:rgba(232,160,32,0.06);color:rgba(232,160,32,0.6);border:1px solid rgba(232,160,32,0.15);">AI Security &middot; Archive</span>
+              <span class="pillar-article-date">May 14, 2026</span>
+            </div>
+            <h4>Colorado Just Rewrote Its AI Law — and Pushed Enforcement to January 1, 2027. The Federal-State Governance War Is Reshaping the Compliance Landscape in Real Time.</h4>
+            <p>Colorado Governor Polis signed SB 189 in May — revising the state's 2024 AI Act and delaying enforcement while scaling back requirements after industry pressure and a March 2026 Policy Work Group overhaul. The governance terrain was already shifting faster than compliance timelines. TCAF was designed as a structural foundation that holds across regulatory cycles.</p>
+            <a href="https://www.hunton.com/privacy-and-cybersecurity-law-blog/colorado-ai-act-amended-and-effective-date-delayed" target="_blank" rel="noopener" class="pillar-article-cta">Source: Hunton Andrews Kurth →</a>
+          </div>
+          <div class="pillar-article reveal" style="border-left:3px solid rgba(74,159,212,0.35);opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag" style="background:rgba(74,159,212,0.06);color:rgba(74,159,212,0.6);border:1px solid rgba(74,159,212,0.15);">AI Security &middot; Archive</span>
+              <span class="pillar-article-date">June 1, 2026</span>
+            </div>
+            <h4>AI Governance Is No Longer a Documentation Exercise. It Is the New Operating Model — and States Are Moving Faster Than Congress.</h4>
+            <p>Dataversity's April 2026 analysis: AI governance is measured by operational evidence, not policy statements. California, Texas, and Colorado advanced state-level AI legislation regardless of federal preemption attempts. TCAF resolves this as a design requirement — not a compliance response.</p>
+            <a href="https://www.dataversity.net/articles/ai-governance-in-2026-is-your-organization-ready/" target="_blank" rel="noopener" class="pillar-article-cta">Source: Dataversity →</a>
+          </div>
+          <div class="pillar-article reveal" style="border-left:3px solid rgba(155,114,207,0.35);opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag" style="background:rgba(155,114,207,0.06);color:rgba(155,114,207,0.6);border:1px solid rgba(155,114,207,0.15);">AI Security &middot; Archive</span>
+              <span class="pillar-article-date">May 13, 2026</span>
+            </div>
+            <h4>71% of Government Decision-Makers Say Agentic AI Will Accelerate Public-Sector Adoption — But Sovereign Data Governance Is the Prerequisite.</h4>
+            <p>IDC/Dell Technologies May 2026: 71% of government leaders say agentic AI accelerates adoption — 58% name sovereign data governance as most critical. Speed of adoption is set by governance strength, not ambition.</p>
+            <a href="https://www.intelligentcio.com/north-america/2026/05/13/governments-prepare-for-sovereign-agentic-ai-adoption-as-implementation-accelerates/" target="_blank" rel="noopener" class="pillar-article-cta">Source: Intelligent CIO →</a>
+          </div>
+        </div>
+        <button class="archive-older-toggle" onclick="toggleOlderArchive('archive-governance-may11')">Older Intel — Week of May 11, 2026</button>
+        <div class="archive-older-drawer" id="archive-governance-may11">
+          <div class="archive-week-label">Week of May 11, 2026</div>
+        <div class="pillar-cards">
+          <div class="pillar-article reveal" style="border-left:3px solid rgba(232,160,32,0.35);opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag" style="background:rgba(232,160,32,0.06);color:rgba(232,160,32,0.6);border:1px solid rgba(232,160,32,0.15);">AI Security &middot; Archive</span>
+              <span class="pillar-article-date">May 13, 2026</span>
+            </div>
+            <h4>EU AI Act High-Risk Enforcement Begins August 2, 2026. The Inventory Gap Becomes a Compliance Gap.</h4>
+            <p>Full Annex III enforcement of the EU AI Act begins August 2, 2026, with non-compliance fines reaching 3% of global annual turnover. Most organizations cannot produce a current, accurate inventory of the AI systems they actually run. TCAF resolves this at the architectural level — security, ethics, equity, and scalability as a single architectural requirement designed in before deployment.</p>
+            <a href="https://www.marktechpost.com/2026/05/13/enterprise-ai-governance-in-2026-why-the-tools-employees-use-are-ahead-of-the-policies-that-cover-them/" target="_blank" rel="noopener" class="pillar-article-cta">Source: MarkTechPost →</a>
+          </div>
+          <div class="pillar-article reveal" style="border-left:3px solid rgba(74,159,212,0.35);opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag" style="background:rgba(74,159,212,0.06);color:rgba(74,159,212,0.6);border:1px solid rgba(74,159,212,0.15);">AI Security &middot; Archive</span>
+              <span class="pillar-article-date">March 25, 2026</span>
+            </div>
+            <h4>McKinsey: Only 30% of Organizations Have Mature Agentic AI Governance. The Gap Is Global and Consistent.</h4>
+            <p>McKinsey's 2026 AI Trust Maturity Survey — 500 organizations across industries and regions — finds average responsible AI maturity at 2.3 out of 4, with only one-third achieving mature governance and agentic AI controls. Organizations investing $25M or more in responsible AI show significantly higher maturity. TCAF is that architecture.</p>
+            <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/tech-forward/state-of-ai-trust-in-2026-shifting-to-the-agentic-era" target="_blank" rel="noopener" class="pillar-article-cta">Source: McKinsey →</a>
+          </div>
+        </div>
+        <!-- OLDER INTEL: Level 2 -->
+        <button class="archive-older-toggle" onclick="toggleOlderArchive('archive-governance-older')">Older Intel — Week of March 30, 2026</button>
+        <div class="archive-older-drawer" id="archive-governance-older">
+          <div class="archive-week-label">Week of March 30, 2026</div>
+          <div class="pillar-cards">
+            <div class="pillar-article reveal" style="border-left:3px solid rgba(232,160,32,0.25);opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag" style="background:rgba(232,160,32,0.04);color:rgba(232,160,32,0.45);border:1px solid rgba(232,160,32,0.1);">AI Security &middot; Older Archive</span>
+                <span class="pillar-article-date">March 31, 2026</span>
+              </div>
+              <h4>AWS Retired Its ML Specialty Certification. The Field Just Acknowledged What TCAF Already Built.</h4>
+              <p>Amazon retired the AWS Certified Machine Learning – Specialty credential. The reason: the field has moved from building models to deploying autonomous agents. TCAF fills the governance gap AWS just acknowledged.</p>
+              <a href="https://aws.amazon.com/blogs/training-and-certification/big-news-aws-expands-ai-certification-portfolio-and-updates-security-certification/" target="_blank" rel="noopener" class="pillar-article-cta">Source: AWS →</a>
+            </div>
+            <div class="pillar-article reveal" style="border-left:3px solid rgba(74,159,212,0.25);opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag" style="background:rgba(74,159,212,0.04);color:rgba(74,159,212,0.45);border:1px solid rgba(74,159,212,0.1);">AI Security &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>Chatham House: Global AI Governance Is at Risk of Failure. Progress May Only Come After a Crisis.</h4>
+              <p>Chatham House warns international AI governance is in structural deadlock — geopolitical fragmentation and institutional weakness make global coordination "close to impossible." Communities need governance built into architecture now, not waiting for consensus.</p>
+              <a href="https://www.chathamhouse.org/2026/03/breaking-deadlock-ai-governance" target="_blank" rel="noopener" class="pillar-article-cta">Source: Chatham House →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of June 7, 2026 &middot; TCAF · Pieters, 2026 · A leading U.S. research university &middot; <a href="/pathwayai.html" style="color:rgba(232,160,32,0.5);border-bottom:1px solid rgba(232,160,32,0.2);">PathwayAI →</a></div>
       <div class="back-to-tabs"><button onclick="scrollToFeedTabs()">↑ Back to Feed Topics</button></div>
     </div>
   </div>
-
   <!-- AGENTIC AI PANEL -->
   <div class="feed-panel" id="fpanel-agentic">
     <div class="feed-panel-inner">
-      <div class="feed-panel-label" style="color:var(--teal2);">Pillar I &middot; Agentic AI</div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Only 11% of Organizations Have Agentic AI in Production. DJMP Has Been Running for Two Years.</h2>
-      <div class="feed-panel-date">Week of March 24, 2026 &middot; Updated weekly &middot; Powered by DJMP agentic architecture</div>
+      <div class="feed-panel-label" style="color:var(--teal2);">🤖 Agentic AI · Pillar 3</div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">90% of Governments Plan to Deploy Agentic AI Within Three Years.<br><em style="font-style:normal;color:var(--teal2);">Gartner Says 40% of Those Projects Will Fail. Architecture Is the Difference.</em></h2>
+      <div class="feed-panel-date">Week of June 7, 2026 &middot; Updated weekly &middot; Powered by DJMP agentic architecture</div>
       <div class="pillar-cards">
+        <!-- CARD 1: NEW JUNE 7 — Agentic AI investment $2.66B + civic deployment signal -->
         <div class="pillar-article p1 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-teal">Agentic AI &middot; 2026</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag tag-teal">Agentic AI &middot; This Week</span>
+            <span class="pillar-article-date">June 7, 2026</span>
           </div>
-          <h4>Deloitte: 38% Piloting Agentic AI. Only 11% in Production. DJMP Is in the 11%.</h4>
-          <p>Deloitte's 2026 Emerging Technology Trends report finds the gap between pilot and production is 2026's defining challenge. McKinsey finds high-performing organizations are 3x more likely to have scaled agents &mdash; the differentiator is not the model, it is the willingness to redesign workflows around agent-first thinking. PathwayAI has been production-deployed for two years. That is not a claim. That is the dissertation.</p>
-          <a href="/pathwayai.html" class="pillar-article-cta">Explore PathwayAI →</a>
+          <h4>Agentic AI Companies Raised $2.66 Billion in the First Four Months of 2026 — a 142% Jump Over 2025. The Field Has Moved From Demo to Deployment. Civic Applications Are the Underfunded Frontier.</h4>
+          <p>Tracxn's May 2026 analysis of disclosed agentic AI equity rounds finds $2.66B raised in pure-play agentic AI companies through April 2026 — up from $1.09B in the same period last year. The market has shifted from proof-of-concept investment to deployment-scale capital allocation. What the data also shows: the surge is concentrated in enterprise and commercial applications. Civic AI — systems serving populations in housing, workforce, healthcare, and government services — remains dramatically underfunded relative to its consequence. Organizations deploying agentic AI in high-stakes civic contexts are not facing a technology readiness gap. They are facing a governance readiness gap. PathwayAI is built on TCAF™ because that gap is exactly what TCAF resolves — not as a constraint on deployment, but as its precondition.</p>
+          <a href="https://tracxn.com/d/sectors/agentic-ai/" target="_blank" rel="noopener" class="pillar-article-cta">Source: Tracxn →</a>
         </div>
+        <!-- CARD 2: Carry — WEF readiness framework (remains current) -->
         <div class="pillar-article p1 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-teal">Civic AI &middot; Global</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag tag-teal">Agentic AI &middot; Government</span>
+            <span class="pillar-article-date">April 29, 2026</span>
           </div>
-          <h4>WEF: Governments Are Deploying Agents at Scale. The Civic AI Era Has Begun.</h4>
-          <p>The World Economic Forum reports Singapore, Barcelona, Estonia, and the UK are deploying agentic AI into public services. The UK's autonomous agent resolved 82% of police queries in its first week without human escalation. The WEF calls this the "hybrid workforce" era &mdash; AI handles transactional work; humans retain ethical authority. DJMP's TCAF was designed for exactly this architecture.</p>
-          <a href="/who-we-are.html" class="pillar-article-cta">Meet the Builder →</a>
+          <h4>WEF Maps 70 Government Functions Against Agentic AI Readiness. 90% of Public-Sector Organizations Plan Deployment. 40% of Projects Will Be Cancelled by 2027.</h4>
+          <p>The World Economic Forum's April 2026 Agentic AI Readiness Framework maps 70 core government functions against two dimensions: the potential for agentic AI to deliver public value, and the complexity of deploying it responsibly. A Capgemini survey of 350 public-sector organizations found that 90% plan to deploy within two to three years — but Gartner forecasts over 40% of those projects will be cancelled by 2027, most often because organizations moved without governance foundations. PathwayAI's five-agent architecture was built on exactly this principle.</p>
+          <a href="https://www.weforum.org/publications/making-agentic-ai-work-for-government-a-readiness-framework/" target="_blank" rel="noopener" class="pillar-article-cta">Source: World Economic Forum →</a>
         </div>
+        <!-- CARD 3: Carry — Agent Washing -->
         <div class="pillar-article p1 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-teal">TCAF Framework</span>
-            <span class="pillar-article-date">2026</span>
+            <span class="pillar-article-tag tag-teal">Agentic AI &middot; Governance Gap</span>
+            <span class="pillar-article-date">April 3, 2026</span>
           </div>
-          <h4>TCAF: The First Empirically Grounded Design Framework for Trustworthy Civic Agentic AI</h4>
-          <p>Trustworthy Civic AI Framework &mdash; Secure by Architecture &middot; Ethical by Design &middot; Equitable by Intent &middot; Scalable by Design. Built by Martin Pieters, PhD Candidate, as the first integrated design science framework for agentic AI in high-stakes civic environments. PathwayAI is the running proof of concept.</p>
-          <a href="/programs.html" class="pillar-article-cta">Our Programs →</a>
+          <h4>"Agent Washing" Is the New AI Washing. The Gap Between Demo and Production Is Where Governance Fails.</h4>
+          <p>Analysis in The Week flags "agent washing" as 2026's most consequential governance risk — legacy automation tools with conversational interfaces being marketed as autonomous agentic AI. These systems perform in demos but collapse in real-world complexity. Governance is not a compliance layer added after deployment. It is a design decision made at the architecture stage. TCAF operationalizes exactly this — and PathwayAI is the proof of concept that it works in production, not just in a lab.</p>
+          <a href="https://www.theweek.in/news/sci-tech/2026/04/03/agentic-ai-governance-gap.html" target="_blank" rel="noopener" class="pillar-article-cta">Source: The Week →</a>
         </div>
       </div>
-      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of March 24, 2026</div>
+
+      <!-- ARCHIVE ACCORDION -->
+      <button class="archive-toggle" onclick="toggleArchive('archive-agentic')">Previous Intel — Week of June 1, 2026</button>
+      <div class="archive-drawer" id="archive-agentic">
+        <div class="archive-week-label">Week of June 1, 2026</div>
+        <div class="pillar-cards">
+          <div class="pillar-article p1 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-teal">Agentic AI &middot; Archive</span>
+              <span class="pillar-article-date">April 2, 2026</span>
+            </div>
+            <h4>Deloitte: Agentic AI Moves Government Services From Digital Forms to Fully Customized, Proactive Delivery.</h4>
+            <p>Deloitte Insights reports that agentic AI enables government services to move beyond digital forms toward fully customized, proactive service delivery — systems that match individual needs to the right services and guide users through end-to-end journeys. PathwayAI's five-agent architecture connects Chicagoland residents to federal workforce resources exactly this way.</p>
+            <a href="https://www.deloitte.com/us/en/insights/industry/government-public-sector-services/government-trends/2026/agentic-ai-government-customized-service-delivery.html" target="_blank" rel="noopener" class="pillar-article-cta">Source: Deloitte Insights →</a>
+          </div>
+        </div>
+        <button class="archive-older-toggle" onclick="toggleOlderArchive('archive-agentic-may11')">Older Intel — Week of May 11, 2026</button>
+        <div class="archive-older-drawer" id="archive-agentic-may11">
+          <div class="archive-week-label">Week of May 11, 2026</div>
+        <div class="pillar-cards">
+          <div class="pillar-article p1 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-teal">Agentic AI &middot; Archive</span>
+              <span class="pillar-article-date">May 13, 2026</span>
+            </div>
+            <h4>71% of Government Decision-Makers Say Agentic AI Will Accelerate Public-Sector Adoption. The Question Is No Longer If — It Is How.</h4>
+            <p>A new IDC study commissioned by Dell Technologies finds 71% of government decision-makers believe agentic AI will accelerate public-sector AI adoption. The WEF released "Making Agentic AI Work for Government: A Readiness Framework" — assessing where agentic AI can deliver the greatest public value and what risks must be managed before deployment at scale. PathwayAI is the 2026 evolution of DJMP's civic AI lineage — governed by TCAF™, the framework the field is now asking for.</p>
+            <a href="https://www.weforum.org/publications/making-agentic-ai-work-for-government-a-readiness-framework/" target="_blank" rel="noopener" class="pillar-article-cta">Source: World Economic Forum →</a>
+          </div>
+          <div class="pillar-article p1 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-teal">Agentic AI &middot; Archive</span>
+              <span class="pillar-article-date">March 30, 2026</span>
+            </div>
+            <h4>Gartner: 40% of Enterprise Apps Will Embed Agents by 2026. Up from Less Than 5% Last Year.</h4>
+            <p>Gartner projects the agentic AI market — valued at $9 billion in 2025 — will reach $139 billion by 2034 at a 35% compound annual growth rate. Yet only 11% of organizations have agentic systems in production today. The gap between pilot and production is 2026's defining challenge. PathwayAI's five-agent architecture is the standard — built simultaneously with the framework that evaluates it.</p>
+            <a href="/pathwayai.html" class="pillar-article-cta">Explore PathwayAI →</a>
+          </div>
+        </div>
+        <button class="archive-older-toggle" onclick="toggleOlderArchive('archive-agentic-older')">Older Intel — Week of March 30, 2026</button>
+        <div class="archive-older-drawer" id="archive-agentic-older">
+          <div class="archive-week-label">Week of March 30, 2026</div>
+          <div class="pillar-cards">
+            <div class="pillar-article p1 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-teal">Agentic AI &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>Deloitte: 38% Piloting Agentic AI. Only 11% in Production. DJMP Is in the 11%.</h4>
+              <p>Deloitte's 2026 Emerging Technology Trends report finds the gap between pilot and production is 2026's defining challenge. McKinsey finds high-performing organizations are 3x more likely to have scaled agents — the differentiator is not the model, it is the willingness to redesign workflows around agent-first thinking.</p>
+              <a href="/pathwayai.html" class="pillar-article-cta">Explore PathwayAI →</a>
+            </div>
+            <div class="pillar-article p1 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-teal">Civic AI &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>WEF: Governments Are Deploying Agents at Scale. The Civic AI Era Has Begun.</h4>
+              <p>The World Economic Forum reports Singapore, Barcelona, Estonia, and the UK are deploying agentic AI into public services. The WEF calls this the "hybrid workforce" era — AI handles transactional work; humans retain ethical authority. DJMP's TCAF was designed for exactly this architecture.</p>
+              <a href="/who-we-are.html" class="pillar-article-cta">Meet the Builder →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of June 7, 2026</div>
       <div class="back-to-tabs"><button onclick="scrollToFeedTabs()">↑ Back to Feed Topics</button></div>
     </div>
   </div>
-
   <!-- AI ETHICS PANEL -->
   <div class="feed-panel" id="fpanel-ethics">
     <div class="feed-panel-inner">
-      <div class="feed-panel-label" style="color:var(--purple);">Pillar II &middot; AI Ethics</div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Brookings Names a New Category of AI Harm: Algorithmic Exclusion. TCAF Was Built for This.</h2>
-      <div class="feed-panel-date">Week of March 24, 2026 &middot; Updated weekly</div>
+      <div class="feed-panel-label" style="color:var(--purple);">⚖️ Ethical by Design · Pillar 4</div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">The Colorado AI Act Was Built Around One Question:<br><em style="font-style:normal;color:var(--purple);">Who Gets Hurt When the Algorithm Is Wrong?</em></h2>
+      <div class="feed-panel-date">Week of June 7, 2026 &middot; Updated weekly</div>
       <div class="pillar-cards">
+        <!-- CARD 1: NEW JUNE 7 — EU AI Act algorithmic fairness as legal requirement + disability hiring bias -->
         <div class="pillar-article p2 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-purple">AI Ethics &middot; Policy</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag tag-purple">AI Ethics &middot; This Week</span>
+            <span class="pillar-article-date">June 7, 2026</span>
           </div>
-          <h4>Brookings: "Algorithmic Exclusion" Is a Class of Harm Equal to Bias &mdash; and It Hits Bronzeville First.</h4>
-          <p>Brookings released a major policy proposal arguing that when AI systems fail to generate outputs for certain populations due to missing data &mdash; not bias, but invisibility &mdash; that is a structural harm requiring regulatory remedy. The populations most affected: low-income Americans, new immigrants, and the digitally disconnected. DJMP's TCAF was built on exactly this insight before the report was written.</p>
-          <a href="/who-we-are.html" class="pillar-article-cta">TCAF Framework →</a>
+          <h4>EU AI Act Makes Algorithmic Fairness a Legal Requirement — Not a Principle. Bias Assessment Is Now Mandatory for Every High-Risk AI System. And AI Hiring Tools Are Already Failing Candidates With Disabilities.</h4>
+          <p>The EU AI Act's August 2 enforcement date for high-risk AI systems introduces mandatory bias risk assessment and mitigation as a compliance requirement — not a voluntary practice. Regulatory instruments now treat algorithmic fairness as a measurable system property, with failure subject to penalties reaching 7% of global annual turnover. Springer Nature's March 2026 analysis confirms the doctrinal shift: fairness is increasingly codified into EU, U.S. state, and international AI law as a legal and compliance standard. Meanwhile, a University of Melbourne study found AI hiring tools systematically failed candidates with speech disabilities and non-standard accents — mis-transcribing speech, generating unfair scores, and reducing hire probability. The bias was not incidental. It was structural. Disability-inclusive AI design is not a niche accommodation. It is the test of whether an AI system's ethical architecture actually holds under real-world human diversity. TCAF's Ethical by Design pillar builds that test into the governance architecture before deployment.</p>
+          <div style="background:rgba(155,114,207,0.07);border-left:3px solid var(--purple);padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.95rem;line-height:1.75;color:rgba(244,241,234,0.82);">
+            <strong style="color:var(--purple);">TCAF · Pieters, 2026 · A leading U.S. research university</strong><br>
+            Ethical by Design is not a compliance date. It is an architectural requirement — and the populations it protects do not get a delay.
+          </div>
+          <a href="https://link.springer.com/article/10.1007/s00146-026-02969-z" target="_blank" rel="noopener" class="pillar-article-cta">Source: AI & Society, Springer Nature →</a>
         </div>
+        <!-- CARD 2: NEW JUNE 1 — EY human-centric bias, IBM bias definitions -->
         <div class="pillar-article p2 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-purple">AI Governance &middot; 2026</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag tag-purple">AI Ethics &middot; Bias</span>
+            <span class="pillar-article-date">March 19, 2026 · EY</span>
           </div>
-          <h4>$500,000 Per Violation. New Regulations Target Algorithmic Discrimination.</h4>
-          <p>Emerging U.S. state laws and the EU AI Act are creating compliance mandates with real penalties &mdash; up to $500K per violation. Organizations that designed ethics into their architecture from the start are the ones positioned to lead. TCAF's "Ethical by Design" pillar is an architectural decision, not a value statement.</p>
-          <a href="/mission.html" class="pillar-article-cta">Our Mission →</a>
+          <h4>EY: Mitigating AI Bias Requires a Human-Centric Approach — Data Audits, Algorithm Re-Evaluation, and Continuous Monitoring. The Checklist Posture Fails Every Time.</h4>
+          <p>EY's March 2026 analysis establishes the standard for responsible AI bias mitigation: it requires ongoing human judgment at every stage — data audits, algorithm re-evaluation grounded in societal contexts, and continuous monitoring aligned with ethical principles and societal wellbeing. Long-term solutions are interdisciplinary, not technical-only. IBM's parallel framing is direct: biased algorithms can lead to disparate impact under federal anti-discrimination law, and courts have refused to distinguish between human and AI decision-makers to avoid undermining those protections. There is no "software exception." For organizations deploying AI in hiring, housing, or service delivery: the ethical architecture is a legal posture as much as a moral one. TCAF's Ethical by Design pillar operationalizes that posture before the first deployment — not after a breach or a lawsuit forces the correction.</p>
+          <a href="https://www.ey.com/en_us/insights/emerging-technologies/addressing-ai-bias-a-human-centric-approach-to-fairness" target="_blank" rel="noopener" class="pillar-article-cta">Source: EY →</a>
         </div>
+        <!-- CARD 3: Carry — CEO Alliance for Mental Health -->
         <div class="pillar-article p2 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-purple">OpenAI Foundation</span>
-            <span class="pillar-article-date">March 24, 2026 &middot; Breaking</span>
+            <span class="pillar-article-tag tag-purple">AI Ethics &middot; Mental Health</span>
+            <span class="pillar-article-date">January 16, 2026 · Active</span>
           </div>
-          <h4>OpenAI Foundation Pledges $1 Billion in Grants. Workforce + Equity Are the Focus Areas.</h4>
-          <p>OpenAI Foundation announced today it will grant $1 billion over the next year, targeting AI's impact on jobs, the economy, and children's mental health. Round 2 of the People-First AI Fund is expected. DJMP's mission is direct alignment &mdash; subscribe for full analysis and deadlines.</p>
-          <a href="/intel-hub.html" class="pillar-article-cta">Subscribe for Full Analysis →</a>
+          <h4>CEO Alliance for Mental Health: AI in Behavioral Health Must Be "Ethical by Design." Not Patched After Harm Is Done.</h4>
+          <p>The CEO Alliance for Mental Health declared 2026 priorities around AI: "Ethical Stewardship and Protection" requires AI to be "ethical by design," with proactive safeguards for privacy, safety, and consumer rights built in from the start. The Alliance calls for AI to reduce disparities in care access, not reproduce them — and explicitly warns against allowing AI to replace the essential human element of mental health treatment. TCAF's Ethical by Design pillar was built for exactly this deployment context — systems used in crisis routing, suicide risk assessment, and behavioral health navigation, where the consequences of governance failure are measured in lives.</p>
+          <a href="https://ceoallianceformentalhealth.org/2026-priority-addressing-artificial-intelligence-in-behavioral-health/" target="_blank" rel="noopener" class="pillar-article-cta">Source: CEO Alliance for Mental Health →</a>
+        </div>
+        <!-- CARD 4: Carry — BIAS Act -->
+        <div class="pillar-article p2 reveal">
+          <div class="pillar-article-meta">
+            <span class="pillar-article-tag tag-purple">AI Ethics &middot; Legislation</span>
+            <span class="pillar-article-date">January 15, 2026 · Active</span>
+          </div>
+          <h4>Rep. Summer Lee &amp; Sen. Markey Reintroduce the BIAS Act: Every Federal AI Agency Must Have a Civil Rights Office.</h4>
+          <p>The Eliminating Bias in Algorithmic Systems (BIAS) Act would require every federal agency that uses, funds, or oversees AI to establish a dedicated Office of Civil Rights focused on algorithmic accountability. The National Urban League called it "long overdue," citing how opaque algorithms "reinforce systemic inequities that disproportionately harm Black, Brown, Indigenous, and immigrant communities." Algorithms already discriminate in hiring, housing, credit, and criminal justice. TCAF's Ethical by Design pillar is the architectural response — built before deployment, not mandated after harm is documented.</p>
+          <a href="https://summerlee.house.gov/newsroom/press-releases/rep-summer-lee-sen-markey-reintroduce-legislation-to-mandate-civil-rights-offices-in-federal-agencies-that-manage-artificial-intelligence" target="_blank" rel="noopener" class="pillar-article-cta">Source: Rep. Summer Lee →</a>
         </div>
       </div>
-      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of March 24, 2026</div>
+
+      <!-- ARCHIVE ACCORDION -->
+      <button class="archive-toggle" onclick="toggleArchive('archive-ethics')">Previous Intel — Week of June 1, 2026</button>
+      <div class="archive-drawer" id="archive-ethics">
+        <div class="archive-week-label">Week of May 11, 2026</div>
+        <div class="pillar-cards">
+          <div class="pillar-article p2 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-purple">AI Ethics &middot; Archive</span>
+              <span class="pillar-article-date">May 13, 2026</span>
+            </div>
+            <h4>McKinsey: Agentic AI Forces a New Ethics Question — Not "What Will the System Say?" But "What Will It Do?"</h4>
+            <p>McKinsey's 2026 AI Trust Maturity Survey names the architectural shift: in the age of agentic AI, organizations must contend with systems doing the wrong thing, not just saying it. Taking unintended actions, misusing tools, operating beyond guardrails. McKinsey adds a new fifth dimension — agentic AI governance and controls — to its trust maturity model. TCAF's Ethical by Design pillar was built for exactly this question.</p>
+            <a href="https://www.mckinsey.com/capabilities/tech-and-ai/our-insights/tech-forward/state-of-ai-trust-in-2026-shifting-to-the-agentic-era" target="_blank" rel="noopener" class="pillar-article-cta">Source: McKinsey →</a>
+          </div>
+          <div class="pillar-article p2 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-purple">AI Ethics &middot; Archive</span>
+              <span class="pillar-article-date">March 30, 2026</span>
+            </div>
+            <h4>Brookings: Algorithmic Exclusion Is a Class of Harm Equal to Bias. When AI Can't See a Community, It Can't Serve Them.</h4>
+            <p>Brookings defines algorithmic exclusion as a structural harm — when AI systems lack enough data on certain individuals to return any output at all. These are "data deserts." TCAF was built on this insight. PathwayAI was designed to see communities that AI systems routinely miss.</p>
+            <a href="https://www.brookings.edu/articles/artificial-intelligence-and-algorithmic-exclusion/" target="_blank" rel="noopener" class="pillar-article-cta">Source: Brookings Institution →</a>
+          </div>
+        </div>
+        <button class="archive-older-toggle" onclick="toggleOlderArchive('archive-ethics-older')">Older Intel — Week of March 30, 2026</button>
+        <div class="archive-older-drawer" id="archive-ethics-older">
+          <div class="archive-week-label">Week of March 30, 2026</div>
+          <div class="pillar-cards">
+            <div class="pillar-article p2 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-purple">AI Ethics &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>Rep. Summer Lee &amp; Sen. Markey Reintroduce the BIAS Act: Every Federal AI Agency Must Have a Civil Rights Office.</h4>
+              <p>The BIAS Act would require every federal agency that uses AI to establish a dedicated Office of Civil Rights focused on algorithmic accountability. Algorithms already discriminate in hiring, housing, credit, and criminal justice. TCAF's Ethical by Design pillar is the architectural response.</p>
+              <a href="https://summerlee.house.gov/newsroom/press-releases/rep-summer-lee-sen-markey-reintroduce-legislation-to-mandate-civil-rights-offices-in-federal-agencies-that-manage-artificial-intelligence" target="_blank" rel="noopener" class="pillar-article-cta">Source: Rep. Summer Lee →</a>
+            </div>
+            <div class="pillar-article p2 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-purple">AI Ethics &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>Brookings: Algorithmic Exclusion Is a Class of Harm Equal to Bias. When AI Can't See a Community, It Can't Serve Them.</h4>
+              <p>Brookings defines algorithmic exclusion as a structural harm — "data deserts" where AI cannot function, and where the same forces that marginalize people offline also erase them from training data. TCAF was built on this insight. PathwayAI was designed to see them.</p>
+              <a href="https://www.brookings.edu/articles/artificial-intelligence-and-algorithmic-exclusion/" target="_blank" rel="noopener" class="pillar-article-cta">Source: Brookings Institution →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of June 7, 2026</div>
       <div class="back-to-tabs"><button onclick="scrollToFeedTabs()">↑ Back to Feed Topics</button></div>
     </div>
   </div>
-
   <!-- AI EQUITY PANEL -->
   <div class="feed-panel" id="fpanel-equity">
     <div class="feed-panel-inner">
-      <div class="feed-panel-label" style="color:var(--gold);">Pillar III &middot; AI Equity</div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">Federal Digital Equity Funding Frozen. $1.44 Billion on Hold. DJMP Is Already Moving.</h2>
-      <div class="feed-panel-date">Week of March 24, 2026 &middot; Updated weekly</div>
+      <div class="feed-panel-label" style="color:var(--gold);">🌍 Equitable by Intent · Pillar 5</div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">$140 Billion in Social Resources Go Unclaimed Every Year.<br><em style="font-style:normal;color:var(--gold);">The Infrastructure Gap Is What DJMP Was Built to Close.</em></h2>
+      <div class="feed-panel-date">Week of June 7, 2026 &middot; Updated weekly</div>
       <div class="pillar-cards">
+        <!-- CARD 1: NEW JUNE 7 — Humanity AI $10M open call + $500M coalition -->
+        <div class="pillar-article p3 reveal">
+          <div class="pillar-article-meta">
+            <span class="pillar-article-tag tag-gold">AI Equity &middot; This Week</span>
+            <span class="pillar-article-date">May 12, 2026</span>
+          </div>
+          <h4>Humanity AI — Ford, MacArthur, Mellon, Mozilla, Omidyar, and Five More — Announced $18 Million in First Grants and a $10 Million Open Call Launching This Summer. This Is the Most Significant New Funding Pool in Civic AI Philanthropy.</h4>
+          <p>On May 12, 2026, Humanity AI — a $500 million five-year coalition anchored by ten major foundations including Ford, MacArthur, Mellon, Mozilla, and Omidyar Network — announced its first $8 million in grants to organizations working on democratic institutions, workers' rights, journalism, and education. More important for DJMP's pipeline: the coalition committed an additional $10 million to a forthcoming open call launching this summer, explicitly designed to bring new voices into the AI public interest conversation. "How do we get a broader array of humans in the process of determining how AI can help our communities thrive, as opposed to being extractive?" is the question Humanity AI says will guide the open call. That is not a distant aspiration. That is DJMP's mission statement. DJMP Grant Intelligence subscribers received the full eligibility analysis, positioning framing, and application strategy guidance in this week's feed. The open call details and timeline will be announced through humanityai.ai.</p>
+          <div style="background:rgba(232,160,32,0.06);border-left:3px solid var(--gold);padding:1rem 1.2rem;margin:1.2rem 0;font-size:0.95rem;line-height:1.75;color:rgba(244,241,234,0.82);">
+            <strong style="color:var(--gold);">DJMP Grant Intelligence · Track A — DJMP Eligible as Lead</strong><br>
+            Humanity AI's open call is a primary target. TCAF's sector-agnostic governance architecture and documented equity outcomes are precisely what this coalition is reading for.
+          </div>
+          <a href="https://humanityai.ai/humanity-ai-announces-more-than-18-million-in-new-grants-to-shape-ai-for-the-public-good/" target="_blank" rel="noopener" class="pillar-article-cta">Source: Humanity AI →</a>
+        </div>
+        <!-- CARD 2: NEW JUNE 1 — NSF AI-Ready America, $3M hubs, LOI June 16 -->
+        <div class="pillar-article p3 reveal">
+          <div class="pillar-article-meta">
+            <span class="pillar-article-tag tag-gold">AI Equity &middot; Federal Opportunity</span>
+            <span class="pillar-article-date">April 11, 2026 · LOI Due June 16</span>
+          </div>
+          <h4>NSF Opens $3 Million AI-Ready America Hubs for All 50 States. Letters of Intent Due June 16, 2026.</h4>
+          <p>The National Science Foundation has opened Round 1 of TechAccess: AI-Ready America — a national initiative funding state- and territory-level coordination hubs that will expand access to AI knowledge, tools, and workforce training. Each hub can receive up to $1 million per year for three years ($3 million total). Letters of intent are due June 16, 2026, with full proposals due July 16, 2026. Unlike traditional research grants, these hubs are designed to be operational coordination infrastructure — exactly the kind of community-serving AI literacy and workforce training that DJMP's PathwayAI and Summer STEM programs have been building since 2017. Two additional rounds follow in December 2026 and June 2027. DJMP Grant Intelligence subscribers received the full framing and eligibility analysis in this week's feed.</p>
+          <a href="https://grantedai.com/news/nsf-ai-ready-america-hubs-funding-round-one" target="_blank" rel="noopener" class="pillar-article-cta">Source: Granted AI →</a>
+        </div>
+        <!-- CARD 3: Carry — Digital Equity Act cancellation -->
         <div class="pillar-article p3 reveal">
           <div class="pillar-article-meta">
             <span class="pillar-article-tag tag-gold">AI Equity &middot; Federal</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-date">March 30, 2026</span>
           </div>
-          <h4>$1.44B in Digital Equity Act Funding Frozen. 11 Workforce Programs Proposed for Consolidation.</h4>
-          <p>The National Skills Coalition reports the 2026 federal budget proposes collapsing WIOA Adult, Youth, and Dislocated Worker programs into a single block grant while freezing $1.44 billion in Digital Equity Act funding. As federal investment contracts, community-led AI infrastructure becomes more essential &mdash; not less. PathwayAI is already doing the work this funding was meant to support.</p>
-          <a href="/pathwayai.html" class="pillar-article-cta">PathwayAI in Action →</a>
+          <h4>Trump Administration Canceled $2.75B in Digital Equity Act Funding. 20+ States Are Suing. Communities Are on Their Own.</h4>
+          <p>The Trump administration canceled the entire $2.75 billion Digital Equity Act grant program overnight. Over 20 states filed federal lawsuits. The National Skills Coalition reports the 2026 budget also proposes collapsing WIOA Adult, Youth, and Dislocated Worker programs into a single block grant and cutting Tribal Broadband Connectivity funding from $988 million to $24 million. As federal investment contracts, community-led AI infrastructure becomes more essential — not less. PathwayAI is already doing the work this funding was meant to support. We are not waiting for policy permission.</p>
+          <a href="https://nationalskillscoalition.org/blog/news/cuts-disguised-as-reform-how-the-2026-budget-undermines-workforce-development/" target="_blank" rel="noopener" class="pillar-article-cta">Source: National Skills Coalition →</a>
         </div>
+        <!-- CARD 4: Founding data point — carry -->
         <div class="pillar-article p3 reveal">
           <div class="pillar-article-meta">
             <span class="pillar-article-tag tag-gold">AI Equity &middot; Chicago</span>
-            <span class="pillar-article-date">March 2026</span>
+            <span class="pillar-article-date">Founding Data Point</span>
           </div>
           <h4>24 Black Students Took the AP CS Exam in All of Illinois in 2013. 18 Failed. DJMP Was Built to Close That Gap.</h4>
-          <p>One African-American female passed. This is the documented, measured, structural failure that drives every program DJMP delivers. Not an abstract equity statement &mdash; a specific data point that became a founding mission. Summer STEM 2026: 30 students. 6 labs. 4 weeks. Bronzeville.</p>
+          <p>One African-American female passed. This is the documented, measured, structural failure that drives every program DJMP delivers. Not an abstract equity statement — a specific data point that became a founding mission. Summer STEM 2026: 30 students. 6 labs. 4 weeks. Bronzeville. Robotics · Cybersecurity · AI · Game Design · Aviation · FLL. Free for every student.</p>
           <a href="/mission.html" class="pillar-article-cta">The Mission →</a>
         </div>
-        <div class="pillar-article p3 reveal">
-          <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-gold">OpenAI Foundation &middot; Breaking</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+      </div>
+
+      <!-- ARCHIVE ACCORDION -->
+      <button class="archive-toggle" onclick="toggleArchive('archive-equity')">Previous Intel — Week of June 1, 2026</button>
+      <div class="archive-drawer" id="archive-equity">
+        <div class="archive-week-label">Week of May 11, 2026</div>
+        <div class="pillar-cards">
+          <div class="pillar-article p3 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-gold">AI Equity &middot; Archive</span>
+              <span class="pillar-article-date">May 13, 2026</span>
+            </div>
+            <h4>The EU AI Act Centers Disability Rights — and U.S. Disability Communities Are Still Watching Federal Workforce Funding Contract.</h4>
+            <p>The European Disability Forum's March 2026 update: EU Article 5(1)(b) explicitly prohibits AI systems that exploit vulnerabilities of persons due to disability. EU enforcement of high-risk AI systems begins August 2, 2026. Meanwhile, in the U.S., one in four Americans will develop a disability at some point in their lives — and federal workforce funding for the populations most likely to be algorithmically excluded continues to contract. TCAF's Equitable by Intent pillar holds the commitment most frameworks treat as a compliance bullet.</p>
+            <a href="https://www.edf-feph.org/artificial-intelligence-and-disability-edf-update/" target="_blank" rel="noopener" class="pillar-article-cta">Source: European Disability Forum →</a>
           </div>
-          <h4>OpenAI Foundation: $1 Billion for Workforce Equity and Community-Led AI &mdash; Round 2 Expected</h4>
-          <p>OpenAI Foundation today pledged $1 billion in grants targeting AI's impact on workforce, equity, and children's mental health. The People-First AI Fund Round 2 is expected to open. DJMP's mission &mdash; communities leading AI design, not just consuming it &mdash; is exactly what these funders are looking for.</p>
-          <a href="/intel-hub.html" class="pillar-article-cta">Subscribe for Full Analysis →</a>
+          <div class="pillar-article p3 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-gold">AI Literacy &middot; Archive</span>
+              <span class="pillar-article-date">February 2026</span>
+            </div>
+            <h4>DOL Issues AI Literacy Framework for States. But Funding to Implement It Has Been Cut.</h4>
+            <p>The Department of Labor issued guidance allowing states to use WIOA funding for AI literacy programs — calling AI literacy "the gateway to opportunity." Simultaneously, the administration is proposing to cut the very WIOA programs that would fund it. DJMP's PathwayAI and Fortinet pipeline fill exactly this gap — no federal permission required.</p>
+            <a href="https://www.govtech.com/network/whats-new-in-digital-equity-fed-framework-for-ai-literacy" target="_blank" rel="noopener" class="pillar-article-cta">Source: Government Technology →</a>
+          </div>
+        </div>
+        <button class="archive-older-toggle" onclick="toggleOlderArchive('archive-equity-older')">Older Intel — Week of March 30, 2026</button>
+        <div class="archive-older-drawer" id="archive-equity-older">
+          <div class="archive-week-label">Week of March 30, 2026</div>
+          <div class="pillar-cards">
+            <div class="pillar-article p3 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-gold">AI Equity &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>Trump Administration Canceled $2.75B in Digital Equity Act Funding. 20+ States Are Suing. Communities Are on Their Own.</h4>
+              <p>The National Skills Coalition reports the 2026 federal budget proposes collapsing WIOA Adult, Youth, and Dislocated Worker programs into a single block grant while canceling $2.75 billion in Digital Equity Act funding. PathwayAI is already doing the work this funding was meant to support.</p>
+              <a href="/pathwayai.html" class="pillar-article-cta">PathwayAI in Action →</a>
+            </div>
+            <div class="pillar-article p3 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-gold">OpenAI Foundation &middot; Older Archive</span>
+                <span class="pillar-article-date">March 24, 2026</span>
+              </div>
+              <h4>OpenAI Foundation: $1 Billion for Workforce Equity and Community-Led AI — Round 2 Expected</h4>
+              <p>OpenAI Foundation pledged $1 billion in grants targeting AI's impact on workforce, equity, and children's mental health. Round 2 of the People-First AI Fund is expected to open. DJMP's mission is exactly what these funders are looking for.</p>
+              <a href="/intel-hub.html" class="pillar-article-cta">Subscribe for Full Analysis →</a>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of March 24, 2026</div>
+
+      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of June 7, 2026</div>
       <div class="back-to-tabs"><button onclick="scrollToFeedTabs()">↑ Back to Feed Topics</button></div>
     </div>
   </div>
-
   <!-- CYBERSECURITY PANEL -->
   <div class="feed-panel" id="fpanel-cyber">
     <div class="feed-panel-inner">
-      <div class="feed-panel-label" style="color:var(--rust);">Pillar IV &middot; Cybersecurity &amp; Workforce</div>
-      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">4.8 Million Unfilled Cybersecurity Roles. The Workforce Must Grow 87%. DJMP's Pipeline Opens in April.</h2>
-      <div class="feed-panel-date">Week of March 24, 2026 &middot; Updated weekly</div>
+      <div class="feed-panel-label" style="color:var(--rust);">🔐 Grant Intelligence · Pillar 6 · Cybersecurity via CyberPii</div>
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;">$800M+ in AI Education and Workforce Grants Available in 2026.<br><em style="font-style:normal;color:var(--rust);">DJMP Grant Intelligence Tracks Every Deadline So You Don't Miss the Window.</em></h2>
+      <div class="feed-panel-date">Week of June 7, 2026 &middot; Updated weekly</div>
       <div class="pillar-cards">
+        <!-- CARD 1: NEW JUNE 1 — NSF AI-Ready America + grant landscape overview -->
         <div class="pillar-article p4 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-rust">Workforce Gap &middot; 2026</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag tag-rust">Grant Intel &middot; Active Deadline</span>
+            <span class="pillar-article-date">June 1, 2026 · LOI Due June 16</span>
           </div>
-          <h4>ISC2: 4.8 Million Unfilled Cybersecurity Roles. Skills Gaps Cost $5.22M Per Breach.</h4>
-          <p>The global cybersecurity workforce gap stands at 4.8 million &mdash; up 40% in two years. The workforce must grow by 87% to meet demand. Organizations with severe skills shortages incur $5.22 million in average breach costs. 90% of cybersecurity teams report missing expertise. The communities DJMP serves are not observers of this gap &mdash; they are the most prepared to fill it when given access.</p>
-          <a href="/programs.html" class="pillar-article-cta">Cybersecurity Program →</a>
+          <h4>NSF TechAccess: AI-Ready America — Up to $3M Per State Hub. Letters of Intent Due June 16, 2026. This Is a Real Deadline for Real Money.</h4>
+          <p>The National Science Foundation's TechAccess: AI-Ready America program offers up to $3 million per state hub ($1M per year for 3 years) to expand AI literacy, workforce training, and business adoption at the state and territory level. Letters of intent are due June 16, 2026 — two weeks from today. Full proposals are due July 16. The program is designed as operational coordination infrastructure, not academic research: eligible applicants include coalitions of nonprofits, community colleges, workforce boards, and local governments. Round 1 LOIs are due in days. Round 2 follows in December 2026. Round 3 in June 2027. DJMP Grant Intelligence subscribers received the full eligibility analysis, framing angles, and application architecture this week. Subscribe for the complete feed.</p>
+          <a href="https://grantedai.com/news/nsf-ai-ready-america-hubs-funding-round-one" target="_blank" rel="noopener" class="pillar-article-cta">Source: Granted AI · NSF →</a>
         </div>
+        <!-- CARD 2: NEW JUNE 1 — AI education grant landscape $800M+ -->
         <div class="pillar-article p4 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-rust">Fortinet &middot; DJMP</span>
-            <span class="pillar-article-date">Launching April 2026</span>
+            <span class="pillar-article-tag tag-rust">Grant Intel &middot; Landscape</span>
+            <span class="pillar-article-date">February 24, 2026</span>
           </div>
-          <h4>DJMP Is One of 863 Official Fortinet Academic Partners Worldwide &mdash; Opening April 2026</h4>
-          <p>Free, industry-grade cybersecurity training opening to Chicagoland high school students and adults in April 2026. Five certification levels &mdash; FCF through FCX &mdash; with free exam vouchers. Pathways to $80K+ starting salaries. Global Cyber Alliance confirms nonprofits are especially vulnerable in 2026 &mdash; DJMP's pipeline is the answer.</p>
-          <a href="/programs.html" class="pillar-article-cta">Cybersecurity Program →</a>
+          <h4>$800M+ in AI Education and Workforce Grants Available in 2026. Funders Are No Longer Asking Whether AI Belongs. They Are Funding Concrete Deployments.</h4>
+          <p>Analysis from Granted AI documents the shift: over $800 million in AI education and workforce grants are available in 2026 across federal and philanthropic sources. NSF anchors the federal side with National AI Research Institutes, NAIRR, and TechAccess hubs. FIPSE has allocated $169 million covering accreditation reform and short-term workforce programs. The Economic Development Administration added $25 million in workforce-specific AI funding. The OpenAI Foundation committed $1 billion in social impact grants. What makes 2026 different from 2023's ed-tech hype: funders are requiring implementation plans and outcome evidence, not research designs. Organizations with documented deployment track records — not just program descriptions — are positioned to win. DJMP's pathway from StaySafe (2017) through PathwayAI and Summer STEM gives DJMP exactly the deployment history these funders are reading for.</p>
+          <a href="https://grantedai.com/blog/ai-education-grants-k12-workforce" target="_blank" rel="noopener" class="pillar-article-cta">Source: Granted AI →</a>
         </div>
+        <!-- CARD 3: NEW JUNE 1 — AI security threats from Fortinet/Darktrace as CyberPii signal -->
         <div class="pillar-article p4 reveal">
           <div class="pillar-article-meta">
-            <span class="pillar-article-tag tag-rust">AI + Cyber &middot; 2026</span>
-            <span class="pillar-article-date">March 24, 2026</span>
+            <span class="pillar-article-tag tag-rust">Cybersecurity &middot; CyberPii Strand</span>
+            <span class="pillar-article-date">March 26, 2026 · Darktrace</span>
           </div>
-          <h4>AI Is Compressing Some Cyber Roles and Expanding Others. Organizations That Reskill Now Win.</h4>
-          <p>CyberScoop reports that AI is restructuring the cybersecurity workforce &mdash; automating repetitive threat detection while creating new roles in model evaluation, orchestration, and AI security. The competitive advantage belongs to organizations that reskill their communities now. DJMP's Fortinet + AI curriculum is built for exactly this transition.</p>
-          <a href="/newsroom.html" class="pillar-article-cta">Full Newsroom →</a>
+          <h4>92% of Security Professionals Are Concerned About AI Agents. Gartner Forecasts $240B in Cybersecurity Spending in 2026. The Skills Gap Is 4.8 Million Roles and Growing.</h4>
+          <p>Darktrace's State of AI Cybersecurity 2026 report finds 92% of security professionals are concerned about the security impact of AI agents across their organizations — with 44% citing sensitive data access as their top risk and nearly a third admitting they lack the observability to intervene once agents are deployed. Gartner forecasts global cybersecurity end-user spending will reach $240 billion in 2026, a 12.5% increase from 2025. Palo Alto Networks identifies data poisoning — invisibly corrupting AI model training data — as 2026's emerging frontier attack. The workforce gap remains at 4.8 million unfilled roles. CyberPii, DJMP's independent cybersecurity partner, carries the certification and compliance expertise these organizations need. The cybersecurity workforce pipeline DJMP runs through Fortinet is the entry point for the next generation of defenders.</p>
+          <a href="https://www.darktrace.com/blog/state-of-ai-cybersecurity-2026-92-of-security-professionals-concerned-about-the-impact-of-ai-agents" target="_blank" rel="noopener" class="pillar-article-cta">Source: Darktrace →</a>
         </div>
       </div>
-      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of March 24, 2026 &middot; <a href="/programs.html" style="color:rgba(232,160,32,0.5);border-bottom:1px solid rgba(232,160,32,0.2);">Cybersecurity Program →</a></div>
+
+      <!-- ARCHIVE ACCORDION -->
+      <button class="archive-toggle" onclick="toggleArchive('archive-cyber')">Previous Intel — Week of April 6, 2026</button>
+      <div class="archive-drawer" id="archive-cyber">
+        <div class="archive-week-label">Week of April 6, 2026</div>
+        <div class="pillar-cards">
+          <div class="pillar-article p4 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-rust">AI Security &middot; Archive</span>
+              <span class="pillar-article-date">April 3, 2026</span>
+            </div>
+            <h4>92% of Security Professionals Are Concerned About AI Agents Across Their Workforce. 44% Say They Lack Visibility to Control Them.</h4>
+            <p>New research finds 92% of security professionals concerned about AI agents in their organizations — 44% citing sensitive data access as top risk, 36% warning malicious prompts could compromise security. 77% of organizations run generative AI in their security stack, but only 37% have a formal AI policy. TCAF's "Secure by Architecture" means governance is built into the agent before deployment, not discovered as a gap after it operates.</p>
+            <a href="https://securitymea.com/2026/04/03/organizations-overlook-ai-risk-as-governance-fails-to-keep-up/" target="_blank" rel="noopener" class="pillar-article-cta">Source: Security MEA →</a>
+          </div>
+          <div class="pillar-article p4 reveal" style="opacity:0.75;">
+            <div class="pillar-article-meta">
+              <span class="pillar-article-tag tag-rust">Cybersecurity &middot; Archive</span>
+              <span class="pillar-article-date">March 30, 2026</span>
+            </div>
+            <h4>4.8 Million Unfilled Cybersecurity Roles. 70% of Organizations Say the Skills Gap Is Increasing Their Risk.</h4>
+            <p>Fortinet's 2024 Global Cybersecurity Skills Gap Report documents 4.8 million unfilled cybersecurity roles globally — with 70% of organizations reporting the shortage is actively increasing their security risk. DJMP's Fortinet credentialing pipeline — FCF through FCX, five certification levels, free exam vouchers — opens to Chicagoland high school students and adults in April 2026. Pathways to $80K+ starting salaries, delivered at no cost.</p>
+            <a href="/programs.html" class="pillar-article-cta">Cybersecurity Program →</a>
+          </div>
+        </div>
+        <button class="archive-older-toggle" onclick="toggleOlderArchive('archive-cyber-older')">Older Intel — Week of March 30, 2026</button>
+        <div class="archive-older-drawer" id="archive-cyber-older">
+          <div class="archive-week-label">Week of March 30, 2026</div>
+          <div class="pillar-cards">
+            <div class="pillar-article p4 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-rust">Workforce Gap &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>ISC2: 4.8 Million Unfilled Cybersecurity Roles. Skills Gaps Cost $5.22M Per Breach.</h4>
+              <p>The global cybersecurity workforce gap stands at 4.8 million — up 40% in two years. The workforce must grow by 87% to meet demand. The communities DJMP serves are not observers of this gap — they are the most prepared to fill it when given access.</p>
+              <a href="/programs.html" class="pillar-article-cta">Cybersecurity Program →</a>
+            </div>
+            <div class="pillar-article p4 reveal" style="opacity:0.5;">
+              <div class="pillar-article-meta">
+                <span class="pillar-article-tag tag-rust">AI + Cyber &middot; Older Archive</span>
+                <span class="pillar-article-date">March 30, 2026</span>
+              </div>
+              <h4>AI Is Compressing Some Cyber Roles and Expanding Others. Organizations That Reskill Now Win.</h4>
+              <p>AI is restructuring the cybersecurity workforce — automating repetitive threat detection while creating new roles in model evaluation, orchestration, and AI security. DJMP's Fortinet + AI curriculum is built for exactly this transition.</p>
+              <a href="/newsroom.html" class="pillar-article-cta">Full Newsroom →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="feed-update-stamp">Intelligence updated weekly &middot; Week of June 7, 2026 &middot; <a href="/programs.html" style="color:rgba(232,160,32,0.5);border-bottom:1px solid rgba(232,160,32,0.2);">Cybersecurity Program →</a></div>
       <div class="back-to-tabs"><button onclick="scrollToFeedTabs()">↑ Back to Feed Topics</button></div>
     </div>
   </div>
@@ -1399,6 +1831,26 @@ footer{background:#050810;border-top:1px solid rgba(255,255,255,0.05);padding:3r
 
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var VALID_CODE = 'DJMPGRANT2026';
+
+// ── ARCHIVE ACCORDION ──
+function toggleArchive(id) {
+  var drawer = document.getElementById(id);
+  if (!drawer) return;
+  var btn = drawer.previousElementSibling;
+  var isOpen = drawer.classList.contains('open');
+  drawer.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  if (!isOpen) { observeReveals(drawer); }
+}
+function toggleOlderArchive(id) {
+  var drawer = document.getElementById(id);
+  if (!drawer) return;
+  var btn = drawer.previousElementSibling;
+  var isOpen = drawer.classList.contains('open');
+  drawer.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  if (!isOpen) { observeReveals(drawer); }
+}
 
 // ── SEARCH ──
 function srchToggle() {
@@ -1546,8 +1998,8 @@ function checkCode() {
 // ── PILLAR SELECTOR ──
 var pillarData = {
   workforce: { label: 'Workforce Development · 7 Active Grants', msg: '7 active grants this week — DOL WIOA, LinkedIn Future of Work, Lumina Foundation, and 4 more. Full listings for subscribers.' },
-  governance: { label: 'AI Governance · 4 Active Grants', msg: '4 active grants this week — NSF AI Safety, NIST partnership grants, Ford Foundation AI Policy, and 1 more.' },
-  cyber: { label: 'Cybersecurity · 3 Active Grants', msg: '3 active grants this week — NSF CyberAICorps, Fortinet Foundation, CISA community grants.' },
+  governance: { label: 'AI Policy & Governance · 4 Active Grants', msg: '4 active grants this week — NSF AI Safety, NIST partnership grants, Ford Foundation AI Policy, and 1 more. Pillar scope: AI policy frameworks, regulatory compliance, model auditability, and governance partnerships.' },
+  cyber: { label: 'AI Security · 3 Active Grants', msg: '3 active grants this week — NSF CyberAICorps (IHE-led; informational), Fortinet Foundation, and CISA community AI-security grants. Pillar scope: AI security architecture, model governance, generative-AI guardrails.' },
   agentic: { label: 'Agentic AI · 5 Active Grants', msg: '5 active grants this week — Google.org, AWS Imagine, OpenAI Foundation, and 2 more. Multiple DJMP-eligible.' },
   stem: { label: 'STEM & Youth · 6 Active Grants', msg: '6 active grants this week — Amazon Future Engineer, NSF ITEST, Salesforce.org, and 3 more.' },
   custom: { label: 'Custom Pillar · Built Around Your Org', msg: 'Subscribe to unlock pillar-matched grant intelligence built on your organizational profile.' }
